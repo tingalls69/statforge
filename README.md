@@ -47,3 +47,7 @@ StatForge is not medical care. Stop exercise for sharp or unusual pain, chest di
 - Completing the Home Prologue unlocks character creation; the 2K row becomes an optional later calibration.
 - Form entries autosave locally while being typed and restore when reopened. The actual log is created only after the user taps the final save/submit button.
 - Existing v1.1 data remains compatible.
+
+## v1.2.1 hotfix
+
+If an empty Prologue session carried over from an earlier version, open **Workout** and tap **Choose a Different Prologue**. This clears only that empty active session and reveals the Home/Gym route selector.

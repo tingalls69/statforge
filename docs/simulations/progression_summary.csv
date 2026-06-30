@@ -1,4 +1,0 @@
-scenario,simulations,median_weekly_xp,p10_weekly_xp,p90_weekly_xp,median_final_xp,p10_final_xp,p90_final_xp,median_final_level,level2_probability,level3_probability,level4_probability,level5_probability
-maximal,10000,572.0,572.0,572.0,9252,9238,9264,5,1.0,1.0,1.0,1.0
-realistic,10000,237.0,180.0,283.0,3841,3631,4042,4,1.0,1.0,1.0,0.0
-bare_minimum,10000,22.0,3.0,63.0,544,427,678,2,0.997,0.001,0.0,0.0

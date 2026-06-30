@@ -1,3 +1,11 @@
+# Changelog
+
+## v1.2.1
+- Fixed a migration issue where an empty gym Prologue left active from v1.1 hid the new Home Prologue choice.
+- Added **Choose a Different Prologue** to an active baseline when no exercise sets or baseline sessions have been recorded.
+- Returning to the route choice preserves all unrelated logs, XP, meals, measurements, and settings.
+- Bumped the offline cache so iPhone Home Screen installs receive the patch.
+
 # StatForge v1.0
 
 Initial build:
