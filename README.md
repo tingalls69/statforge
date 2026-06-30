@@ -48,6 +48,6 @@ StatForge is not medical care. Stop exercise for sharp or unusual pain, chest di
 - Form entries autosave locally while being typed and restore when reopened. The actual log is created only after the user taps the final save/submit button.
 - Existing v1.1 data remains compatible.
 
-## v1.2.1 hotfix
+## v1.2.2 Prologue route fix
 
-If an empty Prologue session carried over from an earlier version, open **Workout** and tap **Choose a Different Prologue**. This clears only that empty active session and reveals the Home/Gym route selector.
+If an unfinished Prologue session carried over from an earlier version, open **Workout** and tap **Choose Home or Gym Prologue**. A duplicate recovery control is also available under **Settings → Prologue**. This clears only the unfinished active session and reveals the Home/Gym route selector.

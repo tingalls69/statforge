@@ -1,3 +1,9 @@
+## v1.2.2
+
+- Made the Prologue route-reset control visible for any unfinished first Prologue session, even if warm-up blocks or exercise results were already entered.
+- Added a second **Choose Home or Gym Prologue** control under Settings → Prologue as a guaranteed recovery path.
+- Resetting the route discards only the unfinished active Prologue session and preserves completed logs, XP, meals, measurements, rewards, and settings.
+
 # Changelog
 
 ## v1.2.1
