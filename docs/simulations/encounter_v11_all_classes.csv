@@ -1,0 +1,157 @@
+encounter,recommended,class,simulations,winRate
+Giant Rat,1,Barbarian,1500,1
+Giant Rat,1,Bard,1500,0.784
+Giant Rat,1,Cleric,1500,0.9713333333333334
+Giant Rat,1,Druid,1500,0.9886666666666667
+Giant Rat,1,Fighter,1500,0.9986666666666667
+Giant Rat,1,Monk,1500,0.9966666666666667
+Giant Rat,1,Paladin,1500,0.9966666666666667
+Giant Rat,1,Ranger,1500,0.9593333333333334
+Giant Rat,1,Rogue,1500,0.97
+Giant Rat,1,Sorcerer,1500,0.79
+Giant Rat,1,Warlock,1500,0.754
+Giant Rat,1,Wizard,1500,0.9093333333333333
+Goblin Minion,1,Barbarian,1500,1
+Goblin Minion,1,Bard,1500,0.802
+Goblin Minion,1,Cleric,1500,0.988
+Goblin Minion,1,Druid,1500,0.994
+Goblin Minion,1,Fighter,1500,0.998
+Goblin Minion,1,Monk,1500,0.9986666666666667
+Goblin Minion,1,Paladin,1500,0.998
+Goblin Minion,1,Ranger,1500,0.9793333333333333
+Goblin Minion,1,Rogue,1500,0.9833333333333333
+Goblin Minion,1,Sorcerer,1500,0.8473333333333334
+Goblin Minion,1,Warlock,1500,0.8273333333333334
+Goblin Minion,1,Wizard,1500,0.946
+Wolf,1,Barbarian,1500,1
+Wolf,1,Bard,1500,0.596
+Wolf,1,Cleric,1500,0.948
+Wolf,1,Druid,1500,0.9673333333333334
+Wolf,1,Fighter,1500,0.996
+Wolf,1,Monk,1500,0.9913333333333333
+Wolf,1,Paladin,1500,0.994
+Wolf,1,Ranger,1500,0.9633333333333334
+Wolf,1,Rogue,1500,0.9633333333333334
+Wolf,1,Sorcerer,1500,0.7266666666666667
+Wolf,1,Warlock,1500,0.6853333333333333
+Wolf,1,Wizard,1500,0.854
+Skeleton,2,Barbarian,1500,1
+Skeleton,2,Bard,1500,0.6993333333333334
+Skeleton,2,Cleric,1500,0.928
+Skeleton,2,Druid,1500,0.9473333333333334
+Skeleton,2,Fighter,1500,0.9953333333333333
+Skeleton,2,Monk,1500,0.9993333333333333
+Skeleton,2,Paladin,1500,0.998
+Skeleton,2,Ranger,1500,0.9653333333333334
+Skeleton,2,Rogue,1500,0.9746666666666667
+Skeleton,2,Sorcerer,1500,0.784
+Skeleton,2,Warlock,1500,0.7306666666666667
+Skeleton,2,Wizard,1500,0.8906666666666667
+Goblin Warrior,2,Barbarian,1500,1
+Goblin Warrior,2,Bard,1500,0.8926666666666667
+Goblin Warrior,2,Cleric,1500,0.9913333333333333
+Goblin Warrior,2,Druid,1500,0.9886666666666667
+Goblin Warrior,2,Fighter,1500,0.9993333333333333
+Goblin Warrior,2,Monk,1500,0.9993333333333333
+Goblin Warrior,2,Paladin,1500,0.9986666666666667
+Goblin Warrior,2,Ranger,1500,0.992
+Goblin Warrior,2,Rogue,1500,0.99
+Goblin Warrior,2,Sorcerer,1500,0.9286666666666666
+Goblin Warrior,2,Warlock,1500,0.8753333333333333
+Goblin Warrior,2,Wizard,1500,0.972
+Dire Wolf,5,Barbarian,1500,1
+Dire Wolf,5,Bard,1500,0.98
+Dire Wolf,5,Cleric,1500,0.998
+Dire Wolf,5,Druid,1500,0.9986666666666667
+Dire Wolf,5,Fighter,1500,1
+Dire Wolf,5,Monk,1500,1
+Dire Wolf,5,Paladin,1500,1
+Dire Wolf,5,Ranger,1500,1
+Dire Wolf,5,Rogue,1500,1
+Dire Wolf,5,Sorcerer,1500,0.994
+Dire Wolf,5,Warlock,1500,0.9813333333333333
+Dire Wolf,5,Wizard,1500,1
+Goblin Boss,5,Barbarian,1500,1
+Goblin Boss,5,Bard,1500,0.974
+Goblin Boss,5,Cleric,1500,0.998
+Goblin Boss,5,Druid,1500,0.974
+Goblin Boss,5,Fighter,1500,1
+Goblin Boss,5,Monk,1500,1
+Goblin Boss,5,Paladin,1500,1
+Goblin Boss,5,Ranger,1500,0.9993333333333333
+Goblin Boss,5,Rogue,1500,0.9933333333333333
+Goblin Boss,5,Sorcerer,1500,0.9573333333333334
+Goblin Boss,5,Warlock,1500,0.902
+Goblin Boss,5,Wizard,1500,0.9893333333333333
+Minotaur Skeleton,7,Barbarian,1500,1
+Minotaur Skeleton,7,Bard,1500,0.4066666666666667
+Minotaur Skeleton,7,Cleric,1500,0.856
+Minotaur Skeleton,7,Druid,1500,0.7906666666666666
+Minotaur Skeleton,7,Fighter,1500,0.9986666666666667
+Minotaur Skeleton,7,Monk,1500,1
+Minotaur Skeleton,7,Paladin,1500,1
+Minotaur Skeleton,7,Ranger,1500,0.992
+Minotaur Skeleton,7,Rogue,1500,0.992
+Minotaur Skeleton,7,Sorcerer,1500,0.786
+Minotaur Skeleton,7,Warlock,1500,0.6653333333333333
+Minotaur Skeleton,7,Wizard,1500,0.898
+Ogre,8,Barbarian,1500,1
+Ogre,8,Bard,1500,0.47333333333333333
+Ogre,8,Cleric,1500,0.9573333333333334
+Ogre,8,Druid,1500,0.9206666666666666
+Ogre,8,Fighter,1500,1
+Ogre,8,Monk,1500,0.9986666666666667
+Ogre,8,Paladin,1500,1
+Ogre,8,Ranger,1500,1
+Ogre,8,Rogue,1500,1
+Ogre,8,Sorcerer,1500,0.9226666666666666
+Ogre,8,Warlock,1500,0.838
+Ogre,8,Wizard,1500,0.9713333333333334
+Giant Scorpion,10,Barbarian,1500,1
+Giant Scorpion,10,Bard,1500,0.4646666666666667
+Giant Scorpion,10,Cleric,1500,0.9106666666666666
+Giant Scorpion,10,Druid,1500,0.648
+Giant Scorpion,10,Fighter,1500,1
+Giant Scorpion,10,Monk,1500,0.9926666666666667
+Giant Scorpion,10,Paladin,1500,1
+Giant Scorpion,10,Ranger,1500,0.9966666666666667
+Giant Scorpion,10,Rogue,1500,0.9966666666666667
+Giant Scorpion,10,Sorcerer,1500,0.7286666666666667
+Giant Scorpion,10,Warlock,1500,0.5766666666666667
+Giant Scorpion,10,Wizard,1500,0.8886666666666667
+Red Dragon Wyrmling,12,Barbarian,1500,0.9546666666666667
+Red Dragon Wyrmling,12,Bard,1500,0.6406666666666667
+Red Dragon Wyrmling,12,Cleric,1500,0.9653333333333334
+Red Dragon Wyrmling,12,Druid,1500,0.6933333333333334
+Red Dragon Wyrmling,12,Fighter,1500,0.9786666666666667
+Red Dragon Wyrmling,12,Monk,1500,0.9453333333333334
+Red Dragon Wyrmling,12,Paladin,1500,0.9973333333333333
+Red Dragon Wyrmling,12,Ranger,1500,0.9826666666666667
+Red Dragon Wyrmling,12,Rogue,1500,0.9933333333333333
+Red Dragon Wyrmling,12,Sorcerer,1500,0.6793333333333333
+Red Dragon Wyrmling,12,Warlock,1500,0.646
+Red Dragon Wyrmling,12,Wizard,1500,0.8606666666666667
+Troll,15,Barbarian,1500,0.956
+Troll,15,Bard,1500,0.474
+Troll,15,Cleric,1500,0.946
+Troll,15,Druid,1500,0.694
+Troll,15,Fighter,1500,0.9906666666666667
+Troll,15,Monk,1500,0.972
+Troll,15,Paladin,1500,1
+Troll,15,Ranger,1500,0.99
+Troll,15,Rogue,1500,0.9953333333333333
+Troll,15,Sorcerer,1500,0.846
+Troll,15,Warlock,1500,0.7006666666666667
+Troll,15,Wizard,1500,0.934
+Young Red Dragon,20,Barbarian,1500,0.9753333333333334
+Young Red Dragon,20,Bard,1500,0.488
+Young Red Dragon,20,Cleric,1500,0.9873333333333333
+Young Red Dragon,20,Druid,1500,0.6146666666666667
+Young Red Dragon,20,Fighter,1500,0.97
+Young Red Dragon,20,Monk,1500,0.81
+Young Red Dragon,20,Paladin,1500,0.9993333333333333
+Young Red Dragon,20,Ranger,1500,0.9806666666666667
+Young Red Dragon,20,Rogue,1500,0.9986666666666667
+Young Red Dragon,20,Sorcerer,1500,0.6213333333333333
+Young Red Dragon,20,Warlock,1500,0.6233333333333333
+Young Red Dragon,20,Wizard,1500,0.798
