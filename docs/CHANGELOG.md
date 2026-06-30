@@ -31,3 +31,14 @@ Planned future refinements after real-world testing:
 - Corrected Rogue Sneak Attack to apply each attack turn in the simplified encounter engine.
 - Added solo encounter wards and recalibrated recommended levels.
 - Added simulation findings and raw output tables to docs/simulations.
+
+## 1.2 — Draft autosave + Home Prologue
+
+- Added local draft autosave for meal, activity, measurement, recovery, readiness, set-entry, reward, private-content, profile, and character-creation forms.
+- Unsaved drafts restore when the same form is reopened and clear only after successful submission.
+- Added a choice between a three-session Home Prologue and the original Gym Prologue.
+- Home Prologue uses floor space, a wall, a sturdy chair, and a timer; no third-party app or wearable is required.
+- Completing all three home sessions unlocks character creation immediately.
+- Added an optional 2K Row Calibration that remains available after the Home Prologue and does not block character creation.
+- Added static form illustrations for chair stands, wall sits, single-leg balance, and marching in place.
+- Preserved v1.1 local progress through state migration.

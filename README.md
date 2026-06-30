@@ -4,7 +4,7 @@
 
 StatForge is a local-first, mobile-first progressive web app combining:
 
-- a three-session fitness baseline;
+- a choice of three-session home or gym fitness baselines;
 - adaptive Monday–Friday planned workouts;
 - set-by-set logging, rest timers, vibration alerts, and Wake Lock support;
 - meal-by-meal nutrition logging, saved meals, barcode scanning, and seven-day baseline suggestions;
@@ -13,7 +13,8 @@ StatForge is a local-first, mobile-first progressive web app combining:
 - a fixed, fully playable solo encounter ladder using free SRD monsters;
 - named real-life milestone rewards with spending caps;
 - local-only portraits, proof photos, and progress photos;
-- JSON backup/import and private rules-content import.
+- JSON backup/import and private rules-content import;
+- local draft autosave that restores unfinished form inputs.
 
 ## Start
 
@@ -38,3 +39,11 @@ StatForge is not medical care. Stop exercise for sharp or unusual pain, chest di
 - Weight-driven calorie changes require fourteen distinct morning weights and occur in 100-kcal steps no more than every 14 days.
 - The planned week contains 50 work sets, with three primary strength days, one assessment-conditioning day, and one recovery-conditioning day.
 - Encounter recommendations were recalibrated from Monte Carlo solo simulations. Higher tiers use a clearly labeled Solo Trial Ward while retaining displayed SRD monster AC and HP.
+
+## v1.2 additions
+
+- Choose a Home Prologue or Gym Prologue before beginning the baseline.
+- The Home Prologue requires only floor space, a wall, a sturdy chair, and a timer.
+- Completing the Home Prologue unlocks character creation; the 2K row becomes an optional later calibration.
+- Form entries autosave locally while being typed and restore when reopened. The actual log is created only after the user taps the final save/submit button.
+- Existing v1.1 data remains compatible.

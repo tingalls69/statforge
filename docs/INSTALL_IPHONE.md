@@ -11,9 +11,14 @@ A Home Screen web app must be opened from an HTTPS website; an unzipped local fi
 5. Open the generated `https://YOUR-NAME.github.io/statforge/` address in Safari.
 6. Tap **Share → Add to Home Screen → Add**.
 
-## Updating
+## Updating from Working Copy
 
-Replace files in the repository. StatForge's service worker updates its cache when the web app next loads. Your browser data remains local on the device unless site data is cleared.
+1. In Files, replace the old repository contents with the new StatForge folder contents, keeping `index.html` at the repository root.
+2. Open Working Copy, review the changed files, commit them, and push to GitHub.
+3. Wait for GitHub Pages to finish deploying.
+4. Force-close the Home Screen app and reopen it while online. The v1.2 service worker uses a new cache name. If the old version still appears, open the GitHub Pages address once in Safari, refresh it, then reopen the Home Screen icon.
+
+App updates do not erase workout logs, nutrition data, character progress, or drafts because those remain in browser storage on the same site. Clearing Safari website data can erase them, so export a save before major updates.
 
 ## Moving progress between devices
 

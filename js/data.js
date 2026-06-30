@@ -11,6 +11,11 @@ window.SF_DATA = (() => {
     side_plank:{name:'Side Plank',image:'assets/exercises/side_plank.svg',kind:'timed',unit:'seconds',muscles:['core'],rest:60,bodyweight:true},
     dead_bug:{name:'Dead Bug',image:'assets/exercises/dead_bug.svg',kind:'reps',unit:'reps/side',muscles:['core'],rest:45,bodyweight:true},
     bird_dog:{name:'Bird Dog',image:'assets/exercises/bird_dog.svg',kind:'reps',unit:'reps/side',muscles:['core','back'],rest:45,bodyweight:true},
+    chair_stand:{name:'30-Second Chair Stand',image:'assets/exercises/chair_stand.svg',kind:'reps',unit:'reps',muscles:['quads','glutes','core'],rest:120,bodyweight:true},
+    wall_sit:{name:'Wall Sit',image:'assets/exercises/wall_sit.svg',kind:'timed',unit:'seconds',muscles:['quads','glutes','core'],rest:120,bodyweight:true},
+    single_leg_balance:{name:'Single-Leg Balance',image:'assets/exercises/balance.svg',kind:'timed',unit:'seconds/side',muscles:['balance','ankles','core'],rest:45,bodyweight:true},
+    march_2m:{name:'2-Minute March in Place',image:'assets/exercises/march.svg',kind:'reps',unit:'right-knee raises',muscles:['cardio','legs','balance'],rest:180,bodyweight:true},
+    bodyweight_calf_raise:{name:'Standing Calf Raise',image:'assets/exercises/calf_raise.svg',kind:'reps',unit:'reps',muscles:['calves','balance'],rest:75,bodyweight:true},
     chest_press:{name:'Machine Chest Press',image:'assets/exercises/chest_press.svg',kind:'weighted',unit:'lb',muscles:['chest','triceps'],rest:120},
     seated_row:{name:'Seated Cable Row',image:'assets/exercises/seated_row.svg',kind:'weighted',unit:'lb',muscles:['back','biceps'],rest:120},
     lat_pulldown:{name:'Lat Pulldown',image:'assets/exercises/lat_pulldown.svg',kind:'weighted',unit:'lb',muscles:['back','biceps'],rest:105},
@@ -25,7 +30,7 @@ window.SF_DATA = (() => {
     pallof:{name:'Pallof Press',image:'assets/exercises/pallof.svg',kind:'weighted',unit:'lb / reps/side',muscles:['core'],rest:60}
   };
   const baseline=[
-    {id:'base1',title:'Prologue I — Upper Body & Core',subtitle:'Establish push capacity and safe machine-strength starting points.',minutes:60,items:[
+    {id:'base1',baseline:true,mode:'gym',title:'Prologue I — Upper Body & Core',subtitle:'Establish push capacity and safe machine-strength starting points.',minutes:60,items:[
       {type:'warmup',label:'Warm-up',minutes:8,steps:['4 min brisk walk','10 arm circles each direction','10 wall slides','8 incline push-ups']},
       {exercise:'pushup',sets:1,prescription:'Maximum clean reps in 2 minutes. Stop when form no longer meets the assessment standard.',test:'pushups_2m'},
       {type:'rest',label:'Full Recovery',minutes:4},
@@ -34,7 +39,7 @@ window.SF_DATA = (() => {
       {exercise:'plank',sets:2,seconds:45,protocol:'Stop a set when hips sag or lower-back ache changes from mild fatigue to pain.'},
       {type:'cooldown',label:'Cooldown',minutes:7,steps:['3 min easy walk','Doorway chest stretch','Gentle child’s pose only if comfortable','Slow breathing']}
     ]},
-    {id:'base2',title:'Prologue II — Lower Body & Movement',subtitle:'Measure lower-body machine strength, pulling strength, and trunk control.',minutes:60,items:[
+    {id:'base2',baseline:true,mode:'gym',title:'Prologue II — Lower Body & Movement',subtitle:'Measure lower-body machine strength, pulling strength, and trunk control.',minutes:60,items:[
       {type:'warmup',label:'Warm-up',minutes:9,steps:['5 min easy row','8 bodyweight box squats to a bench','8 step-ups each side','8 bird dogs each side']},
       {exercise:'leg_press',sets:3,reps:8,protocol:'Start light. Add one machine increment only after 8 controlled reps with the low back staying against the pad.'},
       {exercise:'leg_curl',sets:3,reps:10,protocol:'Use a controlled 2-second return. Add one increment only after all 10 reps.'},
@@ -43,7 +48,7 @@ window.SF_DATA = (() => {
       {exercise:'dead_bug',sets:2,reps:8,protocol:'8 controlled reps per side. Keep the lower back gently supported.'},
       {type:'cooldown',label:'Cooldown',minutes:7,steps:['3 min easy walk','Standing quad stretch','Hamstring stretch without rounding hard','Calf stretch']}
     ]},
-    {id:'base3',title:'Prologue III — Assessment Trial',subtitle:'Reproduce the exact test order and rest periods.',minutes:60,items:[
+    {id:'base3',baseline:true,mode:'gym',title:'Prologue III — Assessment Trial',subtitle:'Reproduce the exact test order and rest periods.',minutes:60,items:[
       {type:'warmup',label:'Warm-up',minutes:10,steps:['5 min progressive row','6 easy push-ups','20 sec plank','2 × 10 strong rowing strokes']},
       {exercise:'pushup',sets:1,prescription:'Maximum valid reps in 2 minutes.',test:'pushups_2m'},
       {type:'rest',label:'Required Rest',minutes:2},
@@ -53,24 +58,61 @@ window.SF_DATA = (() => {
       {type:'cooldown',label:'Cooldown',minutes:10,steps:['5 min very easy walk','Gentle hip-flexor stretch','Lat stretch','Slow breathing']}
     ]}
   ];
+  const homeBaseline=[
+    {id:'base-home1',baseline:true,mode:'home',title:'Home Prologue I — Push, Core & Balance',subtitle:'A no-gym baseline using only floor space, a wall, a sturdy chair, and a timer.',minutes:45,items:[
+      {type:'warmup',label:'Warm-up',minutes:8,steps:['4 min easy walk or march in place','10 arm circles each direction','8 wall push-ups','6 bird dogs per side']},
+      {exercise:'pushup',sets:1,prescription:'Maximum assessment-standard reps in 2 minutes. Stop when your elbows no longer reach 90 degrees or your body line breaks.',test:'pushups_2m'},
+      {type:'rest',label:'Full Recovery',minutes:4},
+      {exercise:'plank',sets:1,prescription:'Maximum clean forearm-plank hold. Stop when the back position cannot be restored immediately or the lower-back ache becomes pain.',test:'plank_max'},
+      {type:'rest',label:'Recovery',minutes:3},
+      {exercise:'single_leg_balance',sets:2,prescription:'One set per side. Stand near a wall or sturdy chair, lift one foot, and record clean seconds up to 60.',test:'balance'},
+      {exercise:'dead_bug',sets:2,reps:8,protocol:'8 controlled reps per side. Keep the lower back gently supported.'},
+      {type:'cooldown',label:'Cooldown',minutes:7,steps:['3 min easy walking','Doorway chest stretch','Gentle hip-flexor stretch','Slow breathing']}
+    ]},
+    {id:'base-home2',baseline:true,mode:'home',title:'Home Prologue II — Legs & Work Capacity',subtitle:'A broader lower-body and conditioning snapshot with household equipment only.',minutes:45,items:[
+      {type:'warmup',label:'Warm-up',minutes:8,steps:['4 min easy walk or march','8 controlled chair stands','10 ankle circles per side','6 bird dogs per side']},
+      {exercise:'chair_stand',sets:1,prescription:'Use a sturdy chair against a wall. Count full stands completed in 30 seconds without pushing off your thighs.',test:'chair_stand_30s'},
+      {type:'rest',label:'Recovery',minutes:3},
+      {exercise:'wall_sit',sets:1,prescription:'Hold a comfortable wall sit with feet planted and back supported. Record clean seconds; stop at 120 seconds or sooner if form fails.',test:'wall_sit_max'},
+      {type:'rest',label:'Recovery',minutes:3},
+      {exercise:'march_2m',sets:1,prescription:'March continuously for 2 minutes. Count each time the right knee reaches a consistent target height. This is a personal calibration, not a medical test.',test:'march_2m'},
+      {exercise:'bodyweight_calf_raise',sets:2,reps:15,protocol:'Use fingertip support for balance. Record clean reps; stop before bouncing or losing control.'},
+      {exercise:'bird_dog',sets:2,reps:8,protocol:'8 controlled reps per side.'},
+      {type:'cooldown',label:'Cooldown',minutes:7,steps:['3 min easy walking','Calf stretch','Gentle quad stretch','Slow breathing']}
+    ]},
+    {id:'base-home3',baseline:true,mode:'home',title:'Home Prologue III — Back-to-Back Trial',subtitle:'Recreate the assessment fatigue order at home, using a march test in place of the row.',minutes:45,items:[
+      {type:'warmup',label:'Warm-up',minutes:9,steps:['5 min progressive walk or march','6 easy push-ups','20 sec easy plank','20 controlled marching steps']},
+      {exercise:'pushup',sets:1,prescription:'Maximum valid reps in 2 minutes.',test:'pushups_2m'},
+      {type:'rest',label:'Required Rest',minutes:2},
+      {exercise:'plank',sets:1,prescription:'Maximum valid forearm-plank hold. Record seconds.',test:'plank_max'},
+      {type:'rest',label:'Required Rest',minutes:5},
+      {exercise:'march_2m',sets:1,prescription:'March continuously for 2 minutes and count right-knee raises. Keep the target height consistent with Session II.',test:'march_2m_trial'},
+      {type:'cooldown',label:'Cooldown',minutes:10,steps:['5 min very easy walking','Gentle hip-flexor stretch','Chest stretch','Slow breathing']}
+    ]}
+  ];
+  const rowCalibration={id:'row-calibration',title:'Optional Gym Calibration — 2K Row',subtitle:'Complete this whenever you next reach a Concept2 rower. It is not required for character creation.',minutes:30,items:[
+    {type:'warmup',label:'Warm-up',minutes:10,steps:['6 min easy row','2 × 10 strong strokes with 45 sec easy','Check that the damper is set and will remain unchanged']},
+    {exercise:'row_2k',sets:1,prescription:'2,000 meters without stopping. Record final time, average split, damper, and stroke rate if shown.',test:'row_2k'},
+    {type:'cooldown',label:'Cooldown',minutes:10,steps:['5 min very easy row or walk','Gentle hip-flexor stretch','Lat stretch','Slow breathing']}
+  ]};
   const templates={
-    monday:{title:'Upper Strength + Push-Up Skill',focus:'Strength',items:[
+    monday:{minutes:60,title:'Upper Strength + Push-Up Skill',focus:'Strength',items:[
       {type:'warmup',label:'Warm-up',minutes:7,steps:['4 min brisk walk','Wall slides × 10','Incline push-ups × 8']},
       {exercise:'chest_press',sets:3,reps:8},{exercise:'seated_row',sets:3,reps:10},{exercise:'shoulder_press',sets:2,reps:8},{exercise:'lat_pulldown',sets:2,reps:10},{exercise:'pushup',sets:2,reps:'submax',protocol:'Use about 60% of baseline 2-minute reps per set; stop well before failure.'},{type:'cooldown',label:'Cooldown',minutes:7,steps:['3 min easy walk','Chest and lat stretch','Slow breathing']}
     ]},
-    tuesday:{title:'Lower Strength + Aerobic Row',focus:'Strength / Cardio',items:[
+    tuesday:{minutes:60,title:'Lower Strength + Aerobic Row',focus:'Strength / Cardio',items:[
       {type:'warmup',label:'Warm-up',minutes:8,steps:['5 min easy row','Step-ups × 8/side','Bird dogs × 6/side']},
       {exercise:'leg_press',sets:3,reps:8},{exercise:'leg_curl',sets:3,reps:10},{exercise:'step_up',sets:2,reps:8},{exercise:'calf_raise',sets:2,reps:12},{exercise:'easy_row',sets:1,minutes:12,protocol:'Steady conversational pace; keep the low back comfortable.'},{type:'cooldown',label:'Cooldown',minutes:6,steps:['Easy walk','Quad, calf, and hamstring stretch']}
     ]},
-    wednesday:{title:'Recovery Conditioning + Movement Quality',focus:'Aerobic Base / Technique',items:[
+    wednesday:{minutes:60,title:'Recovery Conditioning + Movement Quality',focus:'Aerobic Base / Technique',items:[
       {type:'warmup',label:'Warm-up',minutes:7,steps:['4 min brisk walk','Arm circles','Bird dogs × 6/side']},
       {exercise:'easy_row',sets:1,minutes:18,protocol:'Easy-to-moderate pace. Finish able to speak in short sentences; stop if lower-back ache escalates.'},{exercise:'face_pull',sets:2,reps:12},{exercise:'incline_pushup',sets:1,reps:12,protocol:'Comfortable technique practice, not a max set.'},{exercise:'dead_bug',sets:2,reps:8},{type:'cooldown',label:'Cooldown',minutes:10,steps:['5 min easy walk','Hip-flexor stretch','Chest and lat stretch','Slow breathing']}
     ]},
-    thursday:{title:'Rowing Intervals + Test-Specific Endurance',focus:'Assessment Conditioning',items:[
+    thursday:{minutes:60,title:'Rowing Intervals + Test-Specific Endurance',focus:'Assessment Conditioning',items:[
       {type:'warmup',label:'Warm-up',minutes:10,steps:['7 min progressive row','3 × 10 strong strokes with 30 sec easy']},
       {exercise:'row_interval',sets:6,meters:250,protocol:'Controlled repeats near goal pace. Rest 90 seconds and record every split.'},{exercise:'pushup',sets:2,reps:'submax',protocol:'Clean assessment-standard reps; stop 2–3 reps before form failure.'},{exercise:'plank',sets:2,seconds:'adaptive',protocol:'Two clean holds totaling about the current test maximum.'},{type:'cooldown',label:'Cooldown',minutes:8,steps:['5 min easy row or walk','Hip flexor and chest stretch']}
     ]},
-    friday:{title:'Full-Body Strength + Assessment Touch',focus:'Mixed',items:[
+    friday:{minutes:60,title:'Full-Body Strength + Assessment Touch',focus:'Mixed',items:[
       {type:'warmup',label:'Warm-up',minutes:8,steps:['5 min easy row','Dynamic upper- and lower-body movement']},
       {exercise:'leg_press',sets:2,reps:10},{exercise:'chest_press',sets:2,reps:10},{exercise:'seated_row',sets:2,reps:10},{exercise:'leg_curl',sets:2,reps:10},{exercise:'lat_pulldown',sets:1,reps:10},{exercise:'farmer_carry',sets:2,seconds:40},{type:'cooldown',label:'Cooldown',minutes:7,steps:['Easy walk','Full-body gentle stretch','Slow breathing']}
     ]}
@@ -154,5 +196,5 @@ window.SF_DATA = (() => {
     {id:'waist39',title:'Reach a Verified 39-Inch Waist',type:'waist',target:39,tier:'Legendary',cap:150,reward:'A wardrobe upgrade',proof:true},
     {id:'waist38',title:'Reach a Verified 38-Inch Waist',type:'waist',target:38,tier:'Epic',cap:300,reward:'Choose an Epic reward before committing',proof:true}
   ];
-  return {xpThresholds,exercises,baseline,templates,activityLibrary,species,backgrounds,classes,encounters,milestones};
+  return {xpThresholds,exercises,baseline,homeBaseline,rowCalibration,templates,activityLibrary,species,backgrounds,classes,encounters,milestones};
 })();

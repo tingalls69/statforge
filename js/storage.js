@@ -1,8 +1,8 @@
 window.SFStore = (() => {
   const KEY='statforge_state_v2';
   const defaultState=()=>({
-    version:2,createdAt:new Date().toISOString(),
-    profile:{name:'',age:32,heightIn:73,startWeight:255,targetWaist:38.5,estimatedWaist:42.5,assessmentDate:'2026-10-30',programStartDate:null,baselineComplete:false,baselineUnlocked:true},
+    version:3,createdAt:new Date().toISOString(),
+    profile:{name:'',age:32,heightIn:73,startWeight:255,targetWaist:38.5,estimatedWaist:42.5,assessmentDate:'2026-10-30',programStartDate:null,baselineComplete:false,baselineUnlocked:true,baselineMode:null},
     xp:0,level:1,gold:0,tracks:{STR:0,DEX:0,CON:0,INT:0,WIS:0,CHA:0},character:null,
     baseline:{completed:[],records:{}},
     workout:{history:[],active:null,missedPriority:[],lastPlanDate:null},
@@ -12,13 +12,16 @@ window.SFStore = (() => {
     milestones:SF_DATA.milestones.map(m=>({...m,status:'active',completedAt:null,rewardClaimed:false})),
     reminders:{snoozed:{}},
     settings:{accent:'#25d9c7',vibration:true,keepAwake:true,units:'imperial',theme:'dark'},
-    legacyBoons:[],customContent:{classes:[],monsters:[],items:[],rules:[]}
+    legacyBoons:[],drafts:{},customContent:{classes:[],monsters:[],items:[],rules:[]}
   });
   let state;
   const clone=o=>JSON.parse(JSON.stringify(o));
   function mergeDefaults(saved){
     const d=defaultState(); if(!saved) return d;
-    return {...d,...saved,profile:{...d.profile,...saved.profile},tracks:{...d.tracks,...saved.tracks},baseline:{...d.baseline,...saved.baseline},workout:{...d.workout,...saved.workout},logs:{...d.logs,...saved.logs},nutrition:{...d.nutrition,...saved.nutrition},encounters:{...d.encounters,...saved.encounters,inventory:{...d.encounters.inventory,...(saved.encounters?.inventory||{})}},reminders:{...d.reminders,...saved.reminders},settings:{...d.settings,...saved.settings},legacyBoons:saved.legacyBoons||[],customContent:{...d.customContent,...saved.customContent}};
+    const merged={...d,...saved,profile:{...d.profile,...saved.profile},tracks:{...d.tracks,...saved.tracks},baseline:{...d.baseline,...saved.baseline},workout:{...d.workout,...saved.workout},logs:{...d.logs,...saved.logs},nutrition:{...d.nutrition,...saved.nutrition},encounters:{...d.encounters,...saved.encounters,inventory:{...d.encounters.inventory,...(saved.encounters?.inventory||{})}},reminders:{...d.reminders,...saved.reminders},settings:{...d.settings,...saved.settings},legacyBoons:saved.legacyBoons||[],drafts:saved.drafts||{},customContent:{...d.customContent,...saved.customContent}};
+    if(!merged.profile.baselineMode&&merged.baseline.completed?.length) merged.profile.baselineMode=merged.baseline.completed.some(id=>String(id).includes('home'))?'home':'gym';if(!merged.profile.baselineMode&&merged.workout.active?.plan?.baseline) merged.profile.baselineMode=merged.workout.active.plan.mode||'gym';
+    merged.version=3;
+    return merged;
   }
   function load(){try{state=mergeDefaults(JSON.parse(localStorage.getItem(KEY)));}catch(e){state=defaultState();} return state;}
   function save(){localStorage.setItem(KEY,JSON.stringify(state)); window.dispatchEvent(new CustomEvent('sf-state'));}
