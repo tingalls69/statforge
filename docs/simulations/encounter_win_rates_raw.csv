@@ -1,0 +1,781 @@
+class,encounter,recommended,level,winRate
+Fighter,Giant Rat,1,1,0.9883333333333333
+Fighter,Giant Rat,1,2,1.0
+Fighter,Giant Rat,1,3,1.0
+Fighter,Giant Rat,1,4,1.0
+Fighter,Giant Rat,1,5,1.0
+Fighter,Giant Rat,1,6,1.0
+Fighter,Giant Rat,1,7,1.0
+Fighter,Giant Rat,1,8,1.0
+Fighter,Giant Rat,1,9,1.0
+Fighter,Giant Rat,1,10,1.0
+Fighter,Giant Rat,1,11,1.0
+Fighter,Giant Rat,1,12,1.0
+Fighter,Giant Rat,1,13,1.0
+Fighter,Giant Rat,1,14,1.0
+Fighter,Giant Rat,1,15,1.0
+Fighter,Giant Rat,1,16,1.0
+Fighter,Giant Rat,1,17,1.0
+Fighter,Giant Rat,1,18,1.0
+Fighter,Giant Rat,1,19,1.0
+Fighter,Giant Rat,1,20,1.0
+Fighter,Goblin Minion,1,1,0.9983333333333333
+Fighter,Goblin Minion,1,2,1.0
+Fighter,Goblin Minion,1,3,1.0
+Fighter,Goblin Minion,1,4,1.0
+Fighter,Goblin Minion,1,5,1.0
+Fighter,Goblin Minion,1,6,1.0
+Fighter,Goblin Minion,1,7,1.0
+Fighter,Goblin Minion,1,8,1.0
+Fighter,Goblin Minion,1,9,1.0
+Fighter,Goblin Minion,1,10,1.0
+Fighter,Goblin Minion,1,11,1.0
+Fighter,Goblin Minion,1,12,1.0
+Fighter,Goblin Minion,1,13,1.0
+Fighter,Goblin Minion,1,14,1.0
+Fighter,Goblin Minion,1,15,1.0
+Fighter,Goblin Minion,1,16,1.0
+Fighter,Goblin Minion,1,17,1.0
+Fighter,Goblin Minion,1,18,1.0
+Fighter,Goblin Minion,1,19,1.0
+Fighter,Goblin Minion,1,20,1.0
+Fighter,Wolf,1,1,0.985
+Fighter,Wolf,1,2,1.0
+Fighter,Wolf,1,3,1.0
+Fighter,Wolf,1,4,1.0
+Fighter,Wolf,1,5,1.0
+Fighter,Wolf,1,6,1.0
+Fighter,Wolf,1,7,1.0
+Fighter,Wolf,1,8,1.0
+Fighter,Wolf,1,9,1.0
+Fighter,Wolf,1,10,1.0
+Fighter,Wolf,1,11,1.0
+Fighter,Wolf,1,12,1.0
+Fighter,Wolf,1,13,1.0
+Fighter,Wolf,1,14,1.0
+Fighter,Wolf,1,15,1.0
+Fighter,Wolf,1,16,1.0
+Fighter,Wolf,1,17,1.0
+Fighter,Wolf,1,18,1.0
+Fighter,Wolf,1,19,1.0
+Fighter,Wolf,1,20,1.0
+Fighter,Skeleton,2,1,0.945
+Fighter,Skeleton,2,2,0.9933333333333333
+Fighter,Skeleton,2,3,1.0
+Fighter,Skeleton,2,4,1.0
+Fighter,Skeleton,2,5,1.0
+Fighter,Skeleton,2,6,1.0
+Fighter,Skeleton,2,7,1.0
+Fighter,Skeleton,2,8,1.0
+Fighter,Skeleton,2,9,1.0
+Fighter,Skeleton,2,10,1.0
+Fighter,Skeleton,2,11,1.0
+Fighter,Skeleton,2,12,1.0
+Fighter,Skeleton,2,13,1.0
+Fighter,Skeleton,2,14,1.0
+Fighter,Skeleton,2,15,1.0
+Fighter,Skeleton,2,16,1.0
+Fighter,Skeleton,2,17,1.0
+Fighter,Skeleton,2,18,1.0
+Fighter,Skeleton,2,19,1.0
+Fighter,Skeleton,2,20,1.0
+Fighter,Goblin Warrior,2,1,0.9683333333333334
+Fighter,Goblin Warrior,2,2,0.9983333333333333
+Fighter,Goblin Warrior,2,3,1.0
+Fighter,Goblin Warrior,2,4,1.0
+Fighter,Goblin Warrior,2,5,1.0
+Fighter,Goblin Warrior,2,6,1.0
+Fighter,Goblin Warrior,2,7,1.0
+Fighter,Goblin Warrior,2,8,1.0
+Fighter,Goblin Warrior,2,9,1.0
+Fighter,Goblin Warrior,2,10,1.0
+Fighter,Goblin Warrior,2,11,1.0
+Fighter,Goblin Warrior,2,12,1.0
+Fighter,Goblin Warrior,2,13,1.0
+Fighter,Goblin Warrior,2,14,1.0
+Fighter,Goblin Warrior,2,15,1.0
+Fighter,Goblin Warrior,2,16,1.0
+Fighter,Goblin Warrior,2,17,1.0
+Fighter,Goblin Warrior,2,18,1.0
+Fighter,Goblin Warrior,2,19,1.0
+Fighter,Goblin Warrior,2,20,1.0
+Fighter,Dire Wolf,5,1,0.7266666666666667
+Fighter,Dire Wolf,5,2,0.865
+Fighter,Dire Wolf,5,3,0.9816666666666667
+Fighter,Dire Wolf,5,4,0.99
+Fighter,Dire Wolf,5,5,1.0
+Fighter,Dire Wolf,5,6,1.0
+Fighter,Dire Wolf,5,7,1.0
+Fighter,Dire Wolf,5,8,1.0
+Fighter,Dire Wolf,5,9,1.0
+Fighter,Dire Wolf,5,10,1.0
+Fighter,Dire Wolf,5,11,1.0
+Fighter,Dire Wolf,5,12,1.0
+Fighter,Dire Wolf,5,13,1.0
+Fighter,Dire Wolf,5,14,1.0
+Fighter,Dire Wolf,5,15,1.0
+Fighter,Dire Wolf,5,16,1.0
+Fighter,Dire Wolf,5,17,1.0
+Fighter,Dire Wolf,5,18,1.0
+Fighter,Dire Wolf,5,19,1.0
+Fighter,Dire Wolf,5,20,1.0
+Fighter,Goblin Boss,5,1,0.51
+Fighter,Goblin Boss,5,2,0.7216666666666667
+Fighter,Goblin Boss,5,3,0.9183333333333333
+Fighter,Goblin Boss,5,4,0.96
+Fighter,Goblin Boss,5,5,1.0
+Fighter,Goblin Boss,5,6,1.0
+Fighter,Goblin Boss,5,7,1.0
+Fighter,Goblin Boss,5,8,1.0
+Fighter,Goblin Boss,5,9,1.0
+Fighter,Goblin Boss,5,10,1.0
+Fighter,Goblin Boss,5,11,1.0
+Fighter,Goblin Boss,5,12,1.0
+Fighter,Goblin Boss,5,13,1.0
+Fighter,Goblin Boss,5,14,1.0
+Fighter,Goblin Boss,5,15,1.0
+Fighter,Goblin Boss,5,16,1.0
+Fighter,Goblin Boss,5,17,1.0
+Fighter,Goblin Boss,5,18,1.0
+Fighter,Goblin Boss,5,19,1.0
+Fighter,Goblin Boss,5,20,1.0
+Fighter,Minotaur Skeleton,7,1,0.19
+Fighter,Minotaur Skeleton,7,2,0.2633333333333333
+Fighter,Minotaur Skeleton,7,3,0.5116666666666667
+Fighter,Minotaur Skeleton,7,4,0.6516666666666666
+Fighter,Minotaur Skeleton,7,5,0.9733333333333334
+Fighter,Minotaur Skeleton,7,6,0.9933333333333333
+Fighter,Minotaur Skeleton,7,7,0.9983333333333333
+Fighter,Minotaur Skeleton,7,8,1.0
+Fighter,Minotaur Skeleton,7,9,1.0
+Fighter,Minotaur Skeleton,7,10,1.0
+Fighter,Minotaur Skeleton,7,11,1.0
+Fighter,Minotaur Skeleton,7,12,1.0
+Fighter,Minotaur Skeleton,7,13,1.0
+Fighter,Minotaur Skeleton,7,14,1.0
+Fighter,Minotaur Skeleton,7,15,1.0
+Fighter,Minotaur Skeleton,7,16,1.0
+Fighter,Minotaur Skeleton,7,17,1.0
+Fighter,Minotaur Skeleton,7,18,1.0
+Fighter,Minotaur Skeleton,7,19,1.0
+Fighter,Minotaur Skeleton,7,20,1.0
+Fighter,Ogre,8,1,0.13666666666666666
+Fighter,Ogre,8,2,0.21666666666666667
+Fighter,Ogre,8,3,0.4816666666666667
+Fighter,Ogre,8,4,0.615
+Fighter,Ogre,8,5,0.9933333333333333
+Fighter,Ogre,8,6,0.99
+Fighter,Ogre,8,7,0.9983333333333333
+Fighter,Ogre,8,8,1.0
+Fighter,Ogre,8,9,1.0
+Fighter,Ogre,8,10,1.0
+Fighter,Ogre,8,11,1.0
+Fighter,Ogre,8,12,1.0
+Fighter,Ogre,8,13,1.0
+Fighter,Ogre,8,14,1.0
+Fighter,Ogre,8,15,1.0
+Fighter,Ogre,8,16,1.0
+Fighter,Ogre,8,17,1.0
+Fighter,Ogre,8,18,1.0
+Fighter,Ogre,8,19,1.0
+Fighter,Ogre,8,20,1.0
+Fighter,Giant Scorpion,10,1,0.06
+Fighter,Giant Scorpion,10,2,0.09333333333333334
+Fighter,Giant Scorpion,10,3,0.2633333333333333
+Fighter,Giant Scorpion,10,4,0.32666666666666666
+Fighter,Giant Scorpion,10,5,0.93
+Fighter,Giant Scorpion,10,6,0.9633333333333334
+Fighter,Giant Scorpion,10,7,0.99
+Fighter,Giant Scorpion,10,8,0.9883333333333333
+Fighter,Giant Scorpion,10,9,1.0
+Fighter,Giant Scorpion,10,10,1.0
+Fighter,Giant Scorpion,10,11,1.0
+Fighter,Giant Scorpion,10,12,1.0
+Fighter,Giant Scorpion,10,13,1.0
+Fighter,Giant Scorpion,10,14,1.0
+Fighter,Giant Scorpion,10,15,1.0
+Fighter,Giant Scorpion,10,16,1.0
+Fighter,Giant Scorpion,10,17,1.0
+Fighter,Giant Scorpion,10,18,1.0
+Fighter,Giant Scorpion,10,19,1.0
+Fighter,Giant Scorpion,10,20,1.0
+Fighter,Red Dragon Wyrmling,12,1,0.0016666666666666668
+Fighter,Red Dragon Wyrmling,12,2,0.0016666666666666668
+Fighter,Red Dragon Wyrmling,12,3,0.021666666666666667
+Fighter,Red Dragon Wyrmling,12,4,0.03333333333333333
+Fighter,Red Dragon Wyrmling,12,5,0.6383333333333333
+Fighter,Red Dragon Wyrmling,12,6,0.6783333333333333
+Fighter,Red Dragon Wyrmling,12,7,0.7766666666666666
+Fighter,Red Dragon Wyrmling,12,8,0.8483333333333334
+Fighter,Red Dragon Wyrmling,12,9,0.9316666666666666
+Fighter,Red Dragon Wyrmling,12,10,0.9616666666666667
+Fighter,Red Dragon Wyrmling,12,11,0.9616666666666667
+Fighter,Red Dragon Wyrmling,12,12,0.98
+Fighter,Red Dragon Wyrmling,12,13,0.995
+Fighter,Red Dragon Wyrmling,12,14,0.9966666666666667
+Fighter,Red Dragon Wyrmling,12,15,1.0
+Fighter,Red Dragon Wyrmling,12,16,1.0
+Fighter,Red Dragon Wyrmling,12,17,1.0
+Fighter,Red Dragon Wyrmling,12,18,1.0
+Fighter,Red Dragon Wyrmling,12,19,1.0
+Fighter,Red Dragon Wyrmling,12,20,1.0
+Fighter,Troll,15,1,0.0
+Fighter,Troll,15,2,0.0
+Fighter,Troll,15,3,0.0
+Fighter,Troll,15,4,0.0
+Fighter,Troll,15,5,0.005
+Fighter,Troll,15,6,0.01
+Fighter,Troll,15,7,0.01
+Fighter,Troll,15,8,0.03166666666666667
+Fighter,Troll,15,9,0.04833333333333333
+Fighter,Troll,15,10,0.06333333333333334
+Fighter,Troll,15,11,0.12
+Fighter,Troll,15,12,0.6266666666666667
+Fighter,Troll,15,13,0.7566666666666667
+Fighter,Troll,15,14,0.82
+Fighter,Troll,15,15,0.87
+Fighter,Troll,15,16,0.9116666666666666
+Fighter,Troll,15,17,0.965
+Fighter,Troll,15,18,0.9766666666666667
+Fighter,Troll,15,19,0.9833333333333333
+Fighter,Troll,15,20,0.9916666666666667
+Fighter,Young Red Dragon,20,1,0.0
+Fighter,Young Red Dragon,20,2,0.0
+Fighter,Young Red Dragon,20,3,0.0
+Fighter,Young Red Dragon,20,4,0.0
+Fighter,Young Red Dragon,20,5,0.0
+Fighter,Young Red Dragon,20,6,0.0
+Fighter,Young Red Dragon,20,7,0.0
+Fighter,Young Red Dragon,20,8,0.0
+Fighter,Young Red Dragon,20,9,0.0
+Fighter,Young Red Dragon,20,10,0.0
+Fighter,Young Red Dragon,20,11,0.0
+Fighter,Young Red Dragon,20,12,0.0
+Fighter,Young Red Dragon,20,13,0.0
+Fighter,Young Red Dragon,20,14,0.0
+Fighter,Young Red Dragon,20,15,0.3566666666666667
+Fighter,Young Red Dragon,20,16,0.43833333333333335
+Fighter,Young Red Dragon,20,17,0.665
+Fighter,Young Red Dragon,20,18,0.74
+Fighter,Young Red Dragon,20,19,0.795
+Fighter,Young Red Dragon,20,20,0.8516666666666667
+Rogue,Giant Rat,1,1,0.9733333333333334
+Rogue,Giant Rat,1,2,0.9966666666666667
+Rogue,Giant Rat,1,3,1.0
+Rogue,Giant Rat,1,4,1.0
+Rogue,Giant Rat,1,5,1.0
+Rogue,Giant Rat,1,6,1.0
+Rogue,Giant Rat,1,7,1.0
+Rogue,Giant Rat,1,8,1.0
+Rogue,Giant Rat,1,9,1.0
+Rogue,Giant Rat,1,10,1.0
+Rogue,Giant Rat,1,11,1.0
+Rogue,Giant Rat,1,12,1.0
+Rogue,Giant Rat,1,13,1.0
+Rogue,Giant Rat,1,14,1.0
+Rogue,Giant Rat,1,15,1.0
+Rogue,Giant Rat,1,16,1.0
+Rogue,Giant Rat,1,17,1.0
+Rogue,Giant Rat,1,18,1.0
+Rogue,Giant Rat,1,19,1.0
+Rogue,Giant Rat,1,20,1.0
+Rogue,Goblin Minion,1,1,0.98
+Rogue,Goblin Minion,1,2,1.0
+Rogue,Goblin Minion,1,3,1.0
+Rogue,Goblin Minion,1,4,1.0
+Rogue,Goblin Minion,1,5,1.0
+Rogue,Goblin Minion,1,6,1.0
+Rogue,Goblin Minion,1,7,1.0
+Rogue,Goblin Minion,1,8,1.0
+Rogue,Goblin Minion,1,9,1.0
+Rogue,Goblin Minion,1,10,1.0
+Rogue,Goblin Minion,1,11,1.0
+Rogue,Goblin Minion,1,12,1.0
+Rogue,Goblin Minion,1,13,1.0
+Rogue,Goblin Minion,1,14,1.0
+Rogue,Goblin Minion,1,15,1.0
+Rogue,Goblin Minion,1,16,1.0
+Rogue,Goblin Minion,1,17,1.0
+Rogue,Goblin Minion,1,18,1.0
+Rogue,Goblin Minion,1,19,1.0
+Rogue,Goblin Minion,1,20,1.0
+Rogue,Wolf,1,1,0.96
+Rogue,Wolf,1,2,0.995
+Rogue,Wolf,1,3,1.0
+Rogue,Wolf,1,4,1.0
+Rogue,Wolf,1,5,1.0
+Rogue,Wolf,1,6,1.0
+Rogue,Wolf,1,7,1.0
+Rogue,Wolf,1,8,1.0
+Rogue,Wolf,1,9,1.0
+Rogue,Wolf,1,10,1.0
+Rogue,Wolf,1,11,1.0
+Rogue,Wolf,1,12,1.0
+Rogue,Wolf,1,13,1.0
+Rogue,Wolf,1,14,1.0
+Rogue,Wolf,1,15,1.0
+Rogue,Wolf,1,16,1.0
+Rogue,Wolf,1,17,1.0
+Rogue,Wolf,1,18,1.0
+Rogue,Wolf,1,19,1.0
+Rogue,Wolf,1,20,1.0
+Rogue,Skeleton,2,1,0.8833333333333333
+Rogue,Skeleton,2,2,0.965
+Rogue,Skeleton,2,3,1.0
+Rogue,Skeleton,2,4,1.0
+Rogue,Skeleton,2,5,1.0
+Rogue,Skeleton,2,6,1.0
+Rogue,Skeleton,2,7,1.0
+Rogue,Skeleton,2,8,1.0
+Rogue,Skeleton,2,9,1.0
+Rogue,Skeleton,2,10,1.0
+Rogue,Skeleton,2,11,1.0
+Rogue,Skeleton,2,12,1.0
+Rogue,Skeleton,2,13,1.0
+Rogue,Skeleton,2,14,1.0
+Rogue,Skeleton,2,15,1.0
+Rogue,Skeleton,2,16,1.0
+Rogue,Skeleton,2,17,1.0
+Rogue,Skeleton,2,18,1.0
+Rogue,Skeleton,2,19,1.0
+Rogue,Skeleton,2,20,1.0
+Rogue,Goblin Warrior,2,1,0.9183333333333333
+Rogue,Goblin Warrior,2,2,0.98
+Rogue,Goblin Warrior,2,3,1.0
+Rogue,Goblin Warrior,2,4,1.0
+Rogue,Goblin Warrior,2,5,1.0
+Rogue,Goblin Warrior,2,6,1.0
+Rogue,Goblin Warrior,2,7,1.0
+Rogue,Goblin Warrior,2,8,1.0
+Rogue,Goblin Warrior,2,9,1.0
+Rogue,Goblin Warrior,2,10,1.0
+Rogue,Goblin Warrior,2,11,1.0
+Rogue,Goblin Warrior,2,12,1.0
+Rogue,Goblin Warrior,2,13,1.0
+Rogue,Goblin Warrior,2,14,1.0
+Rogue,Goblin Warrior,2,15,1.0
+Rogue,Goblin Warrior,2,16,1.0
+Rogue,Goblin Warrior,2,17,1.0
+Rogue,Goblin Warrior,2,18,1.0
+Rogue,Goblin Warrior,2,19,1.0
+Rogue,Goblin Warrior,2,20,1.0
+Rogue,Dire Wolf,5,1,0.5833333333333334
+Rogue,Dire Wolf,5,2,0.7816666666666666
+Rogue,Dire Wolf,5,3,0.975
+Rogue,Dire Wolf,5,4,0.9983333333333333
+Rogue,Dire Wolf,5,5,1.0
+Rogue,Dire Wolf,5,6,0.9983333333333333
+Rogue,Dire Wolf,5,7,1.0
+Rogue,Dire Wolf,5,8,1.0
+Rogue,Dire Wolf,5,9,1.0
+Rogue,Dire Wolf,5,10,1.0
+Rogue,Dire Wolf,5,11,1.0
+Rogue,Dire Wolf,5,12,1.0
+Rogue,Dire Wolf,5,13,1.0
+Rogue,Dire Wolf,5,14,1.0
+Rogue,Dire Wolf,5,15,1.0
+Rogue,Dire Wolf,5,16,1.0
+Rogue,Dire Wolf,5,17,1.0
+Rogue,Dire Wolf,5,18,1.0
+Rogue,Dire Wolf,5,19,1.0
+Rogue,Dire Wolf,5,20,1.0
+Rogue,Goblin Boss,5,1,0.36
+Rogue,Goblin Boss,5,2,0.5783333333333334
+Rogue,Goblin Boss,5,3,0.88
+Rogue,Goblin Boss,5,4,0.94
+Rogue,Goblin Boss,5,5,0.99
+Rogue,Goblin Boss,5,6,0.9933333333333333
+Rogue,Goblin Boss,5,7,1.0
+Rogue,Goblin Boss,5,8,1.0
+Rogue,Goblin Boss,5,9,1.0
+Rogue,Goblin Boss,5,10,1.0
+Rogue,Goblin Boss,5,11,1.0
+Rogue,Goblin Boss,5,12,1.0
+Rogue,Goblin Boss,5,13,1.0
+Rogue,Goblin Boss,5,14,1.0
+Rogue,Goblin Boss,5,15,1.0
+Rogue,Goblin Boss,5,16,1.0
+Rogue,Goblin Boss,5,17,1.0
+Rogue,Goblin Boss,5,18,1.0
+Rogue,Goblin Boss,5,19,1.0
+Rogue,Goblin Boss,5,20,1.0
+Rogue,Minotaur Skeleton,7,1,0.10833333333333334
+Rogue,Minotaur Skeleton,7,2,0.15
+Rogue,Minotaur Skeleton,7,3,0.5866666666666667
+Rogue,Minotaur Skeleton,7,4,0.72
+Rogue,Minotaur Skeleton,7,5,0.9383333333333334
+Rogue,Minotaur Skeleton,7,6,0.9733333333333334
+Rogue,Minotaur Skeleton,7,7,0.9933333333333333
+Rogue,Minotaur Skeleton,7,8,0.9983333333333333
+Rogue,Minotaur Skeleton,7,9,1.0
+Rogue,Minotaur Skeleton,7,10,1.0
+Rogue,Minotaur Skeleton,7,11,1.0
+Rogue,Minotaur Skeleton,7,12,1.0
+Rogue,Minotaur Skeleton,7,13,1.0
+Rogue,Minotaur Skeleton,7,14,1.0
+Rogue,Minotaur Skeleton,7,15,1.0
+Rogue,Minotaur Skeleton,7,16,1.0
+Rogue,Minotaur Skeleton,7,17,1.0
+Rogue,Minotaur Skeleton,7,18,1.0
+Rogue,Minotaur Skeleton,7,19,1.0
+Rogue,Minotaur Skeleton,7,20,1.0
+Rogue,Ogre,8,1,0.043333333333333335
+Rogue,Ogre,8,2,0.11833333333333333
+Rogue,Ogre,8,3,0.5716666666666667
+Rogue,Ogre,8,4,0.7433333333333333
+Rogue,Ogre,8,5,0.9466666666666667
+Rogue,Ogre,8,6,0.9783333333333334
+Rogue,Ogre,8,7,1.0
+Rogue,Ogre,8,8,1.0
+Rogue,Ogre,8,9,1.0
+Rogue,Ogre,8,10,1.0
+Rogue,Ogre,8,11,1.0
+Rogue,Ogre,8,12,1.0
+Rogue,Ogre,8,13,1.0
+Rogue,Ogre,8,14,1.0
+Rogue,Ogre,8,15,1.0
+Rogue,Ogre,8,16,1.0
+Rogue,Ogre,8,17,1.0
+Rogue,Ogre,8,18,1.0
+Rogue,Ogre,8,19,1.0
+Rogue,Ogre,8,20,1.0
+Rogue,Giant Scorpion,10,1,0.025
+Rogue,Giant Scorpion,10,2,0.04666666666666667
+Rogue,Giant Scorpion,10,3,0.335
+Rogue,Giant Scorpion,10,4,0.44333333333333336
+Rogue,Giant Scorpion,10,5,0.785
+Rogue,Giant Scorpion,10,6,0.8133333333333334
+Rogue,Giant Scorpion,10,7,0.9416666666666667
+Rogue,Giant Scorpion,10,8,0.9466666666666667
+Rogue,Giant Scorpion,10,9,0.99
+Rogue,Giant Scorpion,10,10,0.9983333333333333
+Rogue,Giant Scorpion,10,11,0.9983333333333333
+Rogue,Giant Scorpion,10,12,1.0
+Rogue,Giant Scorpion,10,13,1.0
+Rogue,Giant Scorpion,10,14,1.0
+Rogue,Giant Scorpion,10,15,1.0
+Rogue,Giant Scorpion,10,16,1.0
+Rogue,Giant Scorpion,10,17,1.0
+Rogue,Giant Scorpion,10,18,1.0
+Rogue,Giant Scorpion,10,19,1.0
+Rogue,Giant Scorpion,10,20,1.0
+Rogue,Red Dragon Wyrmling,12,1,0.0033333333333333335
+Rogue,Red Dragon Wyrmling,12,2,0.0033333333333333335
+Rogue,Red Dragon Wyrmling,12,3,0.12
+Rogue,Red Dragon Wyrmling,12,4,0.16166666666666665
+Rogue,Red Dragon Wyrmling,12,5,0.5133333333333333
+Rogue,Red Dragon Wyrmling,12,6,0.53
+Rogue,Red Dragon Wyrmling,12,7,0.775
+Rogue,Red Dragon Wyrmling,12,8,0.8083333333333333
+Rogue,Red Dragon Wyrmling,12,9,0.9416666666666667
+Rogue,Red Dragon Wyrmling,12,10,0.955
+Rogue,Red Dragon Wyrmling,12,11,0.985
+Rogue,Red Dragon Wyrmling,12,12,0.99
+Rogue,Red Dragon Wyrmling,12,13,0.995
+Rogue,Red Dragon Wyrmling,12,14,0.9983333333333333
+Rogue,Red Dragon Wyrmling,12,15,1.0
+Rogue,Red Dragon Wyrmling,12,16,1.0
+Rogue,Red Dragon Wyrmling,12,17,1.0
+Rogue,Red Dragon Wyrmling,12,18,1.0
+Rogue,Red Dragon Wyrmling,12,19,1.0
+Rogue,Red Dragon Wyrmling,12,20,1.0
+Rogue,Troll,15,1,0.0
+Rogue,Troll,15,2,0.0
+Rogue,Troll,15,3,0.0
+Rogue,Troll,15,4,0.0
+Rogue,Troll,15,5,0.0
+Rogue,Troll,15,6,0.0
+Rogue,Troll,15,7,0.0
+Rogue,Troll,15,8,0.0
+Rogue,Troll,15,9,0.0
+Rogue,Troll,15,10,0.0
+Rogue,Troll,15,11,0.0
+Rogue,Troll,15,12,0.41
+Rogue,Troll,15,13,0.5766666666666667
+Rogue,Troll,15,14,0.7433333333333333
+Rogue,Troll,15,15,0.8583333333333333
+Rogue,Troll,15,16,0.8566666666666667
+Rogue,Troll,15,17,0.9466666666666667
+Rogue,Troll,15,18,0.97
+Rogue,Troll,15,19,0.985
+Rogue,Troll,15,20,0.985
+Rogue,Young Red Dragon,20,1,0.0
+Rogue,Young Red Dragon,20,2,0.0
+Rogue,Young Red Dragon,20,3,0.0
+Rogue,Young Red Dragon,20,4,0.0
+Rogue,Young Red Dragon,20,5,0.0
+Rogue,Young Red Dragon,20,6,0.0
+Rogue,Young Red Dragon,20,7,0.0
+Rogue,Young Red Dragon,20,8,0.0
+Rogue,Young Red Dragon,20,9,0.0
+Rogue,Young Red Dragon,20,10,0.0
+Rogue,Young Red Dragon,20,11,0.0033333333333333335
+Rogue,Young Red Dragon,20,12,0.008333333333333333
+Rogue,Young Red Dragon,20,13,0.085
+Rogue,Young Red Dragon,20,14,0.1
+Rogue,Young Red Dragon,20,15,0.9666666666666667
+Rogue,Young Red Dragon,20,16,0.9633333333333334
+Rogue,Young Red Dragon,20,17,0.995
+Rogue,Young Red Dragon,20,18,0.995
+Rogue,Young Red Dragon,20,19,0.9966666666666667
+Rogue,Young Red Dragon,20,20,1.0
+Wizard,Giant Rat,1,1,0.91
+Wizard,Giant Rat,1,2,0.995
+Wizard,Giant Rat,1,3,1.0
+Wizard,Giant Rat,1,4,1.0
+Wizard,Giant Rat,1,5,1.0
+Wizard,Giant Rat,1,6,1.0
+Wizard,Giant Rat,1,7,1.0
+Wizard,Giant Rat,1,8,1.0
+Wizard,Giant Rat,1,9,1.0
+Wizard,Giant Rat,1,10,1.0
+Wizard,Giant Rat,1,11,1.0
+Wizard,Giant Rat,1,12,1.0
+Wizard,Giant Rat,1,13,1.0
+Wizard,Giant Rat,1,14,1.0
+Wizard,Giant Rat,1,15,1.0
+Wizard,Giant Rat,1,16,1.0
+Wizard,Giant Rat,1,17,1.0
+Wizard,Giant Rat,1,18,1.0
+Wizard,Giant Rat,1,19,1.0
+Wizard,Giant Rat,1,20,1.0
+Wizard,Goblin Minion,1,1,0.9333333333333333
+Wizard,Goblin Minion,1,2,0.9966666666666667
+Wizard,Goblin Minion,1,3,1.0
+Wizard,Goblin Minion,1,4,1.0
+Wizard,Goblin Minion,1,5,1.0
+Wizard,Goblin Minion,1,6,1.0
+Wizard,Goblin Minion,1,7,1.0
+Wizard,Goblin Minion,1,8,1.0
+Wizard,Goblin Minion,1,9,1.0
+Wizard,Goblin Minion,1,10,1.0
+Wizard,Goblin Minion,1,11,1.0
+Wizard,Goblin Minion,1,12,1.0
+Wizard,Goblin Minion,1,13,1.0
+Wizard,Goblin Minion,1,14,1.0
+Wizard,Goblin Minion,1,15,1.0
+Wizard,Goblin Minion,1,16,1.0
+Wizard,Goblin Minion,1,17,1.0
+Wizard,Goblin Minion,1,18,1.0
+Wizard,Goblin Minion,1,19,1.0
+Wizard,Goblin Minion,1,20,1.0
+Wizard,Wolf,1,1,0.8483333333333334
+Wizard,Wolf,1,2,0.9833333333333333
+Wizard,Wolf,1,3,0.9983333333333333
+Wizard,Wolf,1,4,1.0
+Wizard,Wolf,1,5,1.0
+Wizard,Wolf,1,6,1.0
+Wizard,Wolf,1,7,1.0
+Wizard,Wolf,1,8,1.0
+Wizard,Wolf,1,9,1.0
+Wizard,Wolf,1,10,1.0
+Wizard,Wolf,1,11,1.0
+Wizard,Wolf,1,12,1.0
+Wizard,Wolf,1,13,1.0
+Wizard,Wolf,1,14,1.0
+Wizard,Wolf,1,15,1.0
+Wizard,Wolf,1,16,1.0
+Wizard,Wolf,1,17,1.0
+Wizard,Wolf,1,18,1.0
+Wizard,Wolf,1,19,1.0
+Wizard,Wolf,1,20,1.0
+Wizard,Skeleton,2,1,0.6116666666666667
+Wizard,Skeleton,2,2,0.8433333333333334
+Wizard,Skeleton,2,3,0.955
+Wizard,Skeleton,2,4,0.9816666666666667
+Wizard,Skeleton,2,5,0.9983333333333333
+Wizard,Skeleton,2,6,1.0
+Wizard,Skeleton,2,7,1.0
+Wizard,Skeleton,2,8,1.0
+Wizard,Skeleton,2,9,1.0
+Wizard,Skeleton,2,10,1.0
+Wizard,Skeleton,2,11,1.0
+Wizard,Skeleton,2,12,1.0
+Wizard,Skeleton,2,13,1.0
+Wizard,Skeleton,2,14,1.0
+Wizard,Skeleton,2,15,1.0
+Wizard,Skeleton,2,16,1.0
+Wizard,Skeleton,2,17,1.0
+Wizard,Skeleton,2,18,1.0
+Wizard,Skeleton,2,19,1.0
+Wizard,Skeleton,2,20,1.0
+Wizard,Goblin Warrior,2,1,0.7466666666666667
+Wizard,Goblin Warrior,2,2,0.9383333333333334
+Wizard,Goblin Warrior,2,3,0.9733333333333334
+Wizard,Goblin Warrior,2,4,0.995
+Wizard,Goblin Warrior,2,5,1.0
+Wizard,Goblin Warrior,2,6,1.0
+Wizard,Goblin Warrior,2,7,1.0
+Wizard,Goblin Warrior,2,8,1.0
+Wizard,Goblin Warrior,2,9,1.0
+Wizard,Goblin Warrior,2,10,1.0
+Wizard,Goblin Warrior,2,11,1.0
+Wizard,Goblin Warrior,2,12,1.0
+Wizard,Goblin Warrior,2,13,1.0
+Wizard,Goblin Warrior,2,14,1.0
+Wizard,Goblin Warrior,2,15,1.0
+Wizard,Goblin Warrior,2,16,1.0
+Wizard,Goblin Warrior,2,17,1.0
+Wizard,Goblin Warrior,2,18,1.0
+Wizard,Goblin Warrior,2,19,1.0
+Wizard,Goblin Warrior,2,20,1.0
+Wizard,Dire Wolf,5,1,0.18833333333333332
+Wizard,Dire Wolf,5,2,0.39166666666666666
+Wizard,Dire Wolf,5,3,0.65
+Wizard,Dire Wolf,5,4,0.77
+Wizard,Dire Wolf,5,5,0.995
+Wizard,Dire Wolf,5,6,1.0
+Wizard,Dire Wolf,5,7,1.0
+Wizard,Dire Wolf,5,8,1.0
+Wizard,Dire Wolf,5,9,1.0
+Wizard,Dire Wolf,5,10,1.0
+Wizard,Dire Wolf,5,11,1.0
+Wizard,Dire Wolf,5,12,1.0
+Wizard,Dire Wolf,5,13,1.0
+Wizard,Dire Wolf,5,14,1.0
+Wizard,Dire Wolf,5,15,1.0
+Wizard,Dire Wolf,5,16,1.0
+Wizard,Dire Wolf,5,17,1.0
+Wizard,Dire Wolf,5,18,1.0
+Wizard,Dire Wolf,5,19,1.0
+Wizard,Dire Wolf,5,20,1.0
+Wizard,Goblin Boss,5,1,0.06833333333333333
+Wizard,Goblin Boss,5,2,0.195
+Wizard,Goblin Boss,5,3,0.38333333333333336
+Wizard,Goblin Boss,5,4,0.4766666666666667
+Wizard,Goblin Boss,5,5,0.9533333333333334
+Wizard,Goblin Boss,5,6,0.9783333333333334
+Wizard,Goblin Boss,5,7,0.9866666666666667
+Wizard,Goblin Boss,5,8,0.9933333333333333
+Wizard,Goblin Boss,5,9,0.9983333333333333
+Wizard,Goblin Boss,5,10,1.0
+Wizard,Goblin Boss,5,11,1.0
+Wizard,Goblin Boss,5,12,1.0
+Wizard,Goblin Boss,5,13,1.0
+Wizard,Goblin Boss,5,14,1.0
+Wizard,Goblin Boss,5,15,1.0
+Wizard,Goblin Boss,5,16,1.0
+Wizard,Goblin Boss,5,17,1.0
+Wizard,Goblin Boss,5,18,1.0
+Wizard,Goblin Boss,5,19,1.0
+Wizard,Goblin Boss,5,20,1.0
+Wizard,Minotaur Skeleton,7,1,0.005
+Wizard,Minotaur Skeleton,7,2,0.016666666666666666
+Wizard,Minotaur Skeleton,7,3,0.028333333333333332
+Wizard,Minotaur Skeleton,7,4,0.055
+Wizard,Minotaur Skeleton,7,5,0.6966666666666667
+Wizard,Minotaur Skeleton,7,6,0.7866666666666666
+Wizard,Minotaur Skeleton,7,7,0.8816666666666667
+Wizard,Minotaur Skeleton,7,8,0.9083333333333333
+Wizard,Minotaur Skeleton,7,9,0.9766666666666667
+Wizard,Minotaur Skeleton,7,10,0.9833333333333333
+Wizard,Minotaur Skeleton,7,11,0.9983333333333333
+Wizard,Minotaur Skeleton,7,12,1.0
+Wizard,Minotaur Skeleton,7,13,1.0
+Wizard,Minotaur Skeleton,7,14,1.0
+Wizard,Minotaur Skeleton,7,15,1.0
+Wizard,Minotaur Skeleton,7,16,1.0
+Wizard,Minotaur Skeleton,7,17,1.0
+Wizard,Minotaur Skeleton,7,18,1.0
+Wizard,Minotaur Skeleton,7,19,1.0
+Wizard,Minotaur Skeleton,7,20,1.0
+Wizard,Ogre,8,1,0.0
+Wizard,Ogre,8,2,0.0016666666666666668
+Wizard,Ogre,8,3,0.006666666666666667
+Wizard,Ogre,8,4,0.02
+Wizard,Ogre,8,5,0.5916666666666667
+Wizard,Ogre,8,6,0.74
+Wizard,Ogre,8,7,0.8316666666666667
+Wizard,Ogre,8,8,0.8916666666666667
+Wizard,Ogre,8,9,0.96
+Wizard,Ogre,8,10,0.9833333333333333
+Wizard,Ogre,8,11,1.0
+Wizard,Ogre,8,12,1.0
+Wizard,Ogre,8,13,1.0
+Wizard,Ogre,8,14,1.0
+Wizard,Ogre,8,15,1.0
+Wizard,Ogre,8,16,1.0
+Wizard,Ogre,8,17,1.0
+Wizard,Ogre,8,18,1.0
+Wizard,Ogre,8,19,1.0
+Wizard,Ogre,8,20,1.0
+Wizard,Giant Scorpion,10,1,0.0
+Wizard,Giant Scorpion,10,2,0.0
+Wizard,Giant Scorpion,10,3,0.0
+Wizard,Giant Scorpion,10,4,0.0
+Wizard,Giant Scorpion,10,5,0.245
+Wizard,Giant Scorpion,10,6,0.3416666666666667
+Wizard,Giant Scorpion,10,7,0.4083333333333333
+Wizard,Giant Scorpion,10,8,0.4716666666666667
+Wizard,Giant Scorpion,10,9,0.6966666666666667
+Wizard,Giant Scorpion,10,10,0.87
+Wizard,Giant Scorpion,10,11,0.9883333333333333
+Wizard,Giant Scorpion,10,12,0.99
+Wizard,Giant Scorpion,10,13,1.0
+Wizard,Giant Scorpion,10,14,1.0
+Wizard,Giant Scorpion,10,15,1.0
+Wizard,Giant Scorpion,10,16,1.0
+Wizard,Giant Scorpion,10,17,1.0
+Wizard,Giant Scorpion,10,18,1.0
+Wizard,Giant Scorpion,10,19,1.0
+Wizard,Giant Scorpion,10,20,1.0
+Wizard,Red Dragon Wyrmling,12,1,0.0
+Wizard,Red Dragon Wyrmling,12,2,0.0
+Wizard,Red Dragon Wyrmling,12,3,0.0
+Wizard,Red Dragon Wyrmling,12,4,0.0
+Wizard,Red Dragon Wyrmling,12,5,0.041666666666666664
+Wizard,Red Dragon Wyrmling,12,6,0.075
+Wizard,Red Dragon Wyrmling,12,7,0.105
+Wizard,Red Dragon Wyrmling,12,8,0.105
+Wizard,Red Dragon Wyrmling,12,9,0.225
+Wizard,Red Dragon Wyrmling,12,10,0.275
+Wizard,Red Dragon Wyrmling,12,11,0.7066666666666667
+Wizard,Red Dragon Wyrmling,12,12,0.7933333333333333
+Wizard,Red Dragon Wyrmling,12,13,0.9
+Wizard,Red Dragon Wyrmling,12,14,0.8966666666666666
+Wizard,Red Dragon Wyrmling,12,15,1.0
+Wizard,Red Dragon Wyrmling,12,16,1.0
+Wizard,Red Dragon Wyrmling,12,17,1.0
+Wizard,Red Dragon Wyrmling,12,18,1.0
+Wizard,Red Dragon Wyrmling,12,19,1.0
+Wizard,Red Dragon Wyrmling,12,20,1.0
+Wizard,Troll,15,1,0.0
+Wizard,Troll,15,2,0.0
+Wizard,Troll,15,3,0.0
+Wizard,Troll,15,4,0.0
+Wizard,Troll,15,5,0.0
+Wizard,Troll,15,6,0.0
+Wizard,Troll,15,7,0.0
+Wizard,Troll,15,8,0.0
+Wizard,Troll,15,9,0.0
+Wizard,Troll,15,10,0.0
+Wizard,Troll,15,11,0.005
+Wizard,Troll,15,12,0.18833333333333332
+Wizard,Troll,15,13,0.2916666666666667
+Wizard,Troll,15,14,0.3616666666666667
+Wizard,Troll,15,15,0.48
+Wizard,Troll,15,16,0.5216666666666666
+Wizard,Troll,15,17,0.8033333333333333
+Wizard,Troll,15,18,0.8733333333333333
+Wizard,Troll,15,19,0.905
+Wizard,Troll,15,20,0.955
+Wizard,Young Red Dragon,20,1,0.0
+Wizard,Young Red Dragon,20,2,0.0
+Wizard,Young Red Dragon,20,3,0.0
+Wizard,Young Red Dragon,20,4,0.0
+Wizard,Young Red Dragon,20,5,0.0
+Wizard,Young Red Dragon,20,6,0.0
+Wizard,Young Red Dragon,20,7,0.0
+Wizard,Young Red Dragon,20,8,0.0
+Wizard,Young Red Dragon,20,9,0.0
+Wizard,Young Red Dragon,20,10,0.0
+Wizard,Young Red Dragon,20,11,0.0
+Wizard,Young Red Dragon,20,12,0.0
+Wizard,Young Red Dragon,20,13,0.0
+Wizard,Young Red Dragon,20,14,0.0
+Wizard,Young Red Dragon,20,15,0.058333333333333334
+Wizard,Young Red Dragon,20,16,0.085
+Wizard,Young Red Dragon,20,17,0.585
+Wizard,Young Red Dragon,20,18,0.6283333333333333
+Wizard,Young Red Dragon,20,19,0.655
+Wizard,Young Red Dragon,20,20,0.7083333333333334

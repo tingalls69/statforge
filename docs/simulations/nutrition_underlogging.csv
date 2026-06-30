@@ -1,0 +1,4 @@
+scenario,true_daily_kcal,old_engine_median_target,old_engine_p10,old_engine_p90,median_error
+maximal,2200,2000,1850,2150,-200
+realistic,2200,1550,1250,1850,-650
+bare_minimum,2200,1000,800,1400,-1200
