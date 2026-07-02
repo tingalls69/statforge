@@ -48,4 +48,6 @@
     addAvoidancePicker();
   });
   observer.observe(document.getElementById('app'), { childList: true, subtree: true });
+  addReturningUserImport();
+  addAvoidancePicker();
 })();
