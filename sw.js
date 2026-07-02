@@ -1,10 +1,10 @@
-const CACHE = 'ascendry-alpha-v0.1.2';
+const CACHE = 'ascendry-alpha-v0.1.3';
 const ASSETS = [
-  './', './index.html', './css/styles.css', './css/alpha.css', './css/alpha-workout.css',
-  './js/data.js', './js/storage.js', './js/combat.js', './js/alpha-exercises.js',
-  './js/alpha-onboarding-tools.js', './js/alpha-generator.js', './js/alpha-workout-core.js',
-  './js/alpha-runner.js', './js/alpha-upgrade.js', './js/alpha.js', './js/app.js',
-  './manifest.webmanifest', './assets/icons/icon-192.png', './assets/icons/icon-512.png',
+  './', './index.html?v=0.1.3', './css/styles.css?v=0.1.3', './css/alpha.css?v=0.1.3', './css/alpha-workout.css?v=0.1.3',
+  './js/data.js?v=0.1.3', './js/storage.js?v=0.1.3', './js/combat.js?v=0.1.3', './js/alpha-exercises.js?v=0.1.3',
+  './js/alpha-onboarding-tools.js?v=0.1.3', './js/alpha-generator.js?v=0.1.3', './js/alpha-workout-core.js?v=0.1.3',
+  './js/alpha-runner.js?v=0.1.3', './js/alpha-upgrade.js?v=0.1.3', './js/alpha.js?v=0.1.3', './js/app.js',
+  './manifest.webmanifest?v=0.1.3', './assets/icons/icon-192.png', './assets/icons/icon-512.png',
   './assets/icons/logo.svg', './vendor/zxing-library.min.js', './vendor/zxing-browser.min.js',
   './assets/exercises/pushup.svg', './assets/exercises/plank.svg', './assets/exercises/rower.svg',
   './assets/exercises/chest_press.svg', './assets/exercises/seated_row.svg', './assets/exercises/lat_pulldown.svg',
@@ -38,6 +38,6 @@ self.addEventListener('fetch', event => {
       const clone = response.clone();
       caches.open(CACHE).then(cache => cache.put(event.request, clone));
       return response;
-    }).catch(() => caches.match('./index.html')))
+    }).catch(() => caches.match('./index.html?v=0.1.3') || caches.match('./index.html')))
   );
 });
