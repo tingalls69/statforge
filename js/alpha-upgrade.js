@@ -1,4 +1,41 @@
 (() => {
+  const workoutModules = [
+    'js/alpha-exercises.js',
+    'js/alpha-onboarding-tools.js',
+    'js/alpha-generator.js',
+    'js/alpha-workout-core.js',
+    'js/alpha-runner.js'
+  ];
+
+  function loadStyle(href) {
+    if (document.querySelector(`link[href="${href}"]`)) return;
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = href;
+    document.head.append(link);
+  }
+
+  function loadScript(src) {
+    if (document.querySelector(`script[src="${src}"]`)) return Promise.resolve();
+    return new Promise((resolve, reject) => {
+      const script = document.createElement('script');
+      script.src = src;
+      script.async = false;
+      script.onload = resolve;
+      script.onerror = () => reject(new Error(`Could not load ${src}`));
+      document.head.append(script);
+    });
+  }
+
+  async function loadWorkoutPatch() {
+    loadStyle('css/alpha-workout.css');
+    for (const src of workoutModules) await loadScript(src);
+  }
+
+  loadWorkoutPatch().catch(error => console.error('Workout patch failed to load.', error));
+})();
+
+(() => {
   const localDate = () => {
     const now = new Date();
     return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
@@ -83,6 +120,7 @@
   }
 
   document.addEventListener('click', event => {
+    if (window.SF_ALPHA_WORKOUT) return;
     const target = event.target.closest?.('#finish-full, [data-route="questline"]');
     if (!target || !currentMinimumEntry()) return;
     event.preventDefault();
