@@ -1,7 +1,7 @@
 {
-  "name": "StatForge \u2014 Forge Your Character in Real Life",
-  "short_name": "StatForge",
-  "description": "A local-first lifestyle progression RPG, workout planner, nutrition logger, and 5.5e encounter ladder.",
+  "name": "Ascendry — Forge Your Character in Real Life",
+  "short_name": "Ascendry",
+  "description": "A private-alpha, local-first life progression RPG.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
