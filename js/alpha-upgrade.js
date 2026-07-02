@@ -1,10 +1,10 @@
 (() => {
   const workoutModules = [
-    'js/alpha-exercises.js',
-    'js/alpha-onboarding-tools.js',
-    'js/alpha-generator.js',
-    'js/alpha-workout-core.js',
-    'js/alpha-runner.js'
+    'js/alpha-exercises.js?v=0.1.3',
+    'js/alpha-onboarding-tools.js?v=0.1.3',
+    'js/alpha-generator.js?v=0.1.3',
+    'js/alpha-workout-core.js?v=0.1.3',
+    'js/alpha-runner.js?v=0.1.3'
   ];
 
   function loadStyle(href) {
@@ -28,7 +28,7 @@
   }
 
   async function loadWorkoutPatch() {
-    loadStyle('css/alpha-workout.css');
+    loadStyle('css/alpha-workout.css?v=0.1.3');
     for (const src of workoutModules) await loadScript(src);
   }
 
