@@ -1,22 +1,305 @@
 (() => {
-  'use strict';
-  const G=window.SFGame,E=G.engine, esc=v=>String(v??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
-  let active=false,timer=null,observer=null;
-  const app=()=>document.getElementById('app'),state=()=>window.SFStore.get();
-  function shell(body){active=true;app().className='alpha-shell game-alpha-shell';app().innerHTML=`<header class="alpha-topbar"><div class="topbar-row"><div class="alpha-brand"><img src="assets/icons/logo.svg" alt=""><div><strong>Ascendry</strong><span>Combat Trial</span></div></div><button class="btn ghost compact" data-game-exit>Exit</button></div></header><main class="alpha-main game-main">${body}</main><nav class="alpha-nav game-nav"><button data-game-board class="active"><b>⚔</b><span>Adventure</span></button><button data-game-exit><b>⌂</b><span>Life</span></button><button data-game-history><b>≡</b><span>Records</span></button><button data-game-exit><b>◆</b><span>Hero</span></button></nav>`;bindCommon()}
-  function bindCommon(){document.querySelectorAll('[data-game-exit]').forEach(b=>b.onclick=()=>location.reload());document.querySelectorAll('[data-game-board]').forEach(b=>b.onclick=board);document.querySelectorAll('[data-game-history]').forEach(b=>b.onclick=()=>board(true))}
-  function statGrid(c,l){let s=E.stats(c,l);return `<div class="game-stat-grid">${G.STATS.map(k=>`<div><span>${G.STAT_LABELS[k]}</span><strong>${s.mods[k]>=0?'+':''}${s.mods[k]}</strong></div>`).join('')}<div><span>HP</span><strong>${s.hp}</strong></div><div><span>AC</span><strong>${s.ac}</strong></div></div>`}
-  function prep(level,c){if(c!=='Wizard'||level<5)return'';let p=state().gameCombat.wizardPrep||{field:[],cantrip:'rayOfFrost'};return `<section class="card game-prep"><div class="game-section-head"><div><span class="badge">FIELD PREPARATION</span><h3>Choose two flexible spells</h3></div><span class="tiny">${p.field.length}/2 selected</span></div><div class="game-prep-grid">${Object.entries(G.WIZARD_PREP).map(([id,x])=>`<button class="game-prep-card ${p.field.includes(id)?'selected':''}" data-prep="${id}"><strong>${x.label}</strong><span>${x.description}</span></button>`).join('')}</div><div class="field"><label>Tactical cantrip</label><select data-cantrip><option value="rayOfFrost" ${p.cantrip==='rayOfFrost'?'selected':''}>Ray of Frost</option><option value="acidSplash" ${p.cantrip==='acidSplash'?'selected':''}>Acid Splash</option></select></div><div class="source-note">Enemy previews show broad tags, not hidden statistics. Memorize Spell swaps one Field spell after a future Short Rest system is added.</div></section>`}
-  function history(){let h=state().gameCombat.history||[];return `<div class="game-history">${h.length?h.slice(0,10).map(x=>`<div class="history-row"><div class="grow"><strong>${esc(x.encounterName)}</strong><small>${esc(x.className)} · Level ${x.level} · ${new Date(x.completedAt).toLocaleDateString()}</small></div><span class="badge ${x.result==='victory'?'good':'warn'}">${x.result.toUpperCase()}</span><div class="points">${x.rounds}</div></div>`).join(''):'<div class="empty-alpha"><strong>No combat records yet</strong>Your trial results will appear here.</div>'}</div>`}
-  function board(showHistory=false){clearTimeout(timer);E.ensure();let g=state().gameCombat,c=g.selectedClass,l=+g.trialLevel,enc=G.ENCOUNTERS[l];shell(`<h1 class="page-title">${showHistory?'Combat Records':'Adventure Board'}</h1><p class="page-sub">${showHistory?'Your recent alpha trial battles.':'Test the locked combat rules without spending rewards or expedition resources.'}</p>${showHistory?history():`<section class="card game-note"><strong>Alpha trial loadouts</strong><span>Choose any preset below. This does not permanently change your saved hero class.</span></section><div class="game-level-switch"><button data-level="1" class="${l===1?'selected':''}">Level 1</button><button data-level="5" class="${l===5?'selected':''}">Level 5</button></div><div class="game-class-grid">${G.CLASS_ORDER.map(n=>{let x=G.CLASSES[n];return`<button data-class="${n}" class="game-class-card ${c===n?'selected':''}"><b>${x.icon}</b><strong>${n}</strong><span>${x.build}</span><small>${x.role}</small></button>`}).join('')}</div><section class="card"><div class="game-section-head"><div><span class="badge">${c.toUpperCase()}</span><h2>${G.CLASSES[c].build}</h2></div><span class="badge">LEVEL ${l}</span></div>${statGrid(c,l)}</section>${prep(l,c)}<div class="section-title">Trial encounters</div><div class="game-encounters">${enc.map(x=>`<section class="card game-encounter"><div class="game-section-head"><div><span class="badge ${x.difficulty==='Hard'?'warn':''}">${x.difficulty}</span><h3>${x.name}</h3></div></div><p>${x.summary}</p><div class="game-tags">${x.tags.map(t=>`<span>${t}</span>`).join('')}</div><button class="btn full" data-start="${x.id}">Begin Combat</button></section>`).join('')}</div><div class="section-title">Recent trials</div>${history()}`}`);if(showHistory)return;document.querySelectorAll('[data-level]').forEach(b=>b.onclick=()=>{E.patch({trialLevel:+b.dataset.level});board()});document.querySelectorAll('[data-class]').forEach(b=>b.onclick=()=>{E.patch({selectedClass:b.dataset.class});board()});document.querySelectorAll('[data-prep]').forEach(b=>b.onclick=()=>{let p=state().gameCombat.wizardPrep,arr=[...p.field],id=b.dataset.prep;if(arr.includes(id))arr=arr.filter(x=>x!==id);else if(arr.length<2)arr.push(id);else arr=[arr[1],id];E.patch({wizardPrep:{...p,field:arr}});board()});document.querySelector('[data-cantrip]')?.addEventListener('change',e=>{let p=state().gameCombat.wizardPrep;E.patch({wizardPrep:{...p,cantrip:e.target.value}})});document.querySelectorAll('[data-start]').forEach(b=>b.onclick=()=>{let p=state().gameCombat.wizardPrep;if(c==='Wizard'&&l===5&&p.field.length!==2)return toast('Choose exactly two Field Preparation spells.','warn');let x=enc.find(y=>y.id===b.dataset.start);E.start(x,c,l,p);combatScreen();if(E.get().turn==='enemy')scheduleEnemy()})}
-  function enemies(){let b=E.get();return b.enemies.map(x=>{let hp=Math.max(0,Math.round(x.hp/x.maxHp*100)),cond=[x.restrained?'Restrained':'',x.slowed?'Slowed':''].filter(Boolean);return`<button data-enemy="${x.id}" class="game-enemy ${b.selected===x.id?'selected':''} ${x.hp<=0?'defeated':''}" ${x.hp<=0?'disabled':''}><div class="game-enemy-top"><strong>${x.name}</strong><span class="zone z${x.zone}">${E.zone(x.zone)}</span></div><div class="game-hp"><span style="width:${hp}%"></span></div><small>${x.hp}/${x.maxHp} HP · AC ${x.ac}${cond.length?' · '+cond.join(', '):''}</small></button>`}).join('')}
-  function logs(){let l=E.get().log.slice(-14).reverse();return l.map(x=>`<div class="game-log ${x.kind}">${esc(x.text)}</div>`).join('')}
-  function resourceLine(){let b=E.get(),r=b.resources,parts=[`Mobility ${r.mobility}/2`];if(b.className==='Wizard'||b.className==='Ranger'||b.className==='Paladin')parts.push(`Slots ${r.spellSlots[1]}/${r.spellSlots[2]}/${r.spellSlots[3]}`);if(b.className==='Fighter')parts.push(`Second Wind ${r.secondWind}`,`Action Surge ${r.actionSurge}`);if(b.className==='Paladin')parts.push(`Lay on Hands ${r.layOnHands}`);return parts.join(' · ')}
-  function result(){let b=E.get();shell(`<section class="card hero-card game-result ${b.result}"><span class="badge ${b.result==='victory'?'good':'warn'}">${b.result.toUpperCase()}</span><h1>${b.result==='victory'?'Trial Cleared':'You Fell'}</h1><p>${b.encounterName} · ${b.className} ${b.build} · Level ${b.level}</p><div class="game-result-grid"><div><strong>${b.round}</strong><span>rounds</span></div><div><strong>${b.playerHp}/${b.playerMaxHp}</strong><span>HP remaining</span></div></div><button class="btn full" data-retry>Retry Encounter</button><button class="btn secondary full" data-game-board>Back to Adventure Board</button><div class="source-note">Combat trials currently grant no XP, gold, or stat growth.</div></section>`);document.querySelector('[data-retry]').onclick=()=>{let x=G.ENCOUNTERS[b.level].find(y=>y.id===b.encounterId);E.start(x,b.className,b.level,b.wizardPrep);combatScreen();if(E.get().turn==='enemy')scheduleEnemy()};bindCommon()}
-  function combatScreen(){let b=E.get();if(b.finished)return result();let yourTurn=b.turn==='player';shell(`<div class="game-battle-head"><div><span class="badge">ROUND ${b.round}</span><h1>${b.encounterName}</h1><p>${b.className} · ${b.build} · Level ${b.level}</p></div><span class="turn-chip ${yourTurn?'player':'enemy'}">${yourTurn?'YOUR TURN':'ENEMY TURN'}</span></div><section class="card game-player"><div class="game-section-head"><div><strong>Your Hero</strong><span>${resourceLine()}</span></div><b>${b.playerHp}/${b.playerMaxHp} HP</b></div><div class="game-hp large"><span style="width:${Math.max(0,b.playerHp/b.playerMaxHp*100)}%"></span></div></section><div class="game-zone-row"><span>CLOSE</span><span>MEDIUM</span><span>LONG</span></div><div class="game-enemy-list">${enemies()}</div>${yourTurn?`<div class="section-title">Bonus Action / Features</div><div class="game-action-grid bonus">${E.bonuses().map(x=>`<button data-bonus="${x.id}" ${x.disabled?'disabled':''}><strong>${x.label}</strong><span>${x.sub}</span></button>`).join('')}</div><div class="section-title">Action${b.turnState.actions>1?` · ${b.turnState.actions} remaining`:''}</div><div class="game-action-grid">${E.actions().map(x=>`<button data-action="${x.id}" ${x.disabled?'disabled':''}><strong>${x.label}</strong><span>${x.sub}</span></button>`).join('')}</div>`:'<section class="card game-thinking">Enemies are resolving their turns…</section>'}<details class="card game-log-panel" open><summary>Visible combat log</summary><div class="game-log-list">${logs()}</div></details>`);document.querySelectorAll('[data-enemy]').forEach(x=>x.onclick=()=>{E.select(x.dataset.enemy);combatScreen()});document.querySelectorAll('[data-bonus]').forEach(x=>x.onclick=()=>{if(E.bonus(x.dataset.bonus))combatScreen()});document.querySelectorAll('[data-action]').forEach(x=>x.onclick=()=>{E.act(x.dataset.action);combatScreen();if(E.get().turn==='enemy')scheduleEnemy()})}
-  function scheduleEnemy(){clearTimeout(timer);timer=setTimeout(()=>{E.enemyTurn();combatScreen()},550)}
-  function toast(m,t='good'){let s=document.getElementById('toast-stack'),d=document.createElement('div');d.className=`toast ${t}`;d.textContent=m;s?.append(d);setTimeout(()=>d.remove(),2800)}
-  function decorate(){if(active||!state().onboarding?.completed)return;let nav=document.querySelector('.alpha-nav');if(nav&&!nav.querySelector('[data-alpha-adventure]')){let b=document.createElement('button');b.dataset.alphaAdventure='';b.innerHTML='<b>⚔</b><span>Adventure</span>';nav.append(b)}let main=document.querySelector('.alpha-main');if(main&&!main.querySelector('.game-home-card')&&main.querySelector('.page-title')){let sec=document.createElement('section');sec.className='card hero-card game-home-card';sec.innerHTML='<div><span class="badge">PLAYABLE COMBAT ALPHA</span><h2>Adventure Board</h2><p>Take your growing hero into Close, Medium, and Long-range d20 encounters.</p></div><button class="btn" data-alpha-adventure>Enter Adventure</button>';let first=main.querySelector('.section-title');first?main.insertBefore(sec,first):main.append(sec)}}
-  function install(){if(!window.SFStore||!G?.engine)return setTimeout(install,100);E.ensure();document.addEventListener('click',e=>{let t=e.target.closest?.('[data-alpha-adventure]');if(!t)return;e.preventDefault();e.stopImmediatePropagation();board()},true);observer=new MutationObserver(decorate);observer.observe(document.body,{childList:true,subtree:true});decorate();window.SF_ALPHA_COMBAT={open:board,version:G.VERSION}}
-  install();
+'use strict';
+const G = window.SFGame;
+const E = G.engine;
+const esc = value => String(value ?? '').replace(/[&<>'"]/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[char]));
+let active = false;
+let timer = null;
+let observer = null;
+let menuState = null;
+const app = () => document.getElementById('app');
+const state = () => window.SFStore.get();
+const localDate = () => new Date().toISOString().slice(0, 10);
+function shell(body) {
+active = true;
+app().className = 'alpha-shell game-alpha-shell';
+app().innerHTML = `<header class="alpha-topbar"><div class="topbar-row"><div class="alpha-brand"><img src="assets/icons/logo.svg" alt=""><div><strong>Ascendry</strong><span>Combat Trial</span></div></div><button class="btn ghost compact" data-game-exit>Exit</button></div></header><main class="alpha-main game-main">${body}</main><nav class="alpha-nav game-nav"><button data-game-board class="active"><b>⚔</b><span>Adventure</span></button><button data-game-exit><b>⌂</b><span>Life</span></button><button data-game-history><b>≡</b><span>Records</span></button><button data-game-exit><b>◆</b><span>Hero</span></button></nav>`;
+bindCommon();
+}
+function bindCommon() {
+document.querySelectorAll('[data-game-exit]').forEach(button => button.onclick = () => location.reload());
+document.querySelectorAll('[data-game-board]').forEach(button => button.onclick = () => board());
+document.querySelectorAll('[data-game-history]').forEach(button => button.onclick = () => board(true));
+}
+function statGrid(className, buildName, level) {
+const result = E.stats(className, buildName, level);
+return `<div class="game-stat-grid">${G.STATS.map(key => `<div><span>${G.STAT_LABELS[key]}</span><strong>${result.mods[key] >= 0 ? '+' : ''}${result.mods[key]}</strong></div>`).join('')}<div><span>HP</span><strong>${result.hp}</strong></div><div><span>AC</span><strong>${result.ac}</strong></div></div>`;
+}
+function buildPreview(className, buildName, level, includeSaveButton = true) {
+const cfg = G.getBuild(className, buildName);
+return `<section class="card game-build-preview"><div class="game-section-head"><div><span class="badge">${esc(className.toUpperCase())}</span><h2>${esc(buildName)}</h2><span>${esc(cfg.role)}</span></div><span class="badge">LEVEL ${level}</span></div><div class="game-build-meta"><span><b>Difficulty</b>${esc(cfg.difficulty)}</span><span><b>Range</b>${esc(cfg.range)}</span><span><b>Weapon</b>${esc(cfg.weapon)}</span><span><b>Signature</b>${esc(cfg.signature)}</span></div><p>${esc(cfg.summary)}</p>${statGrid(className, buildName, level)}${includeSaveButton ? '<button class="btn secondary full" data-save-hero style="margin-top:12px">Set as My Hero Build</button>' : ''}</section>`;
+}
+function wizardPreparation(level, className, buildName) {
+if (className !== 'Wizard' || level < 5) return '';
+const config = G.WIZARD_PREP[buildName];
+const current = state().gameCombat.wizardPrep?.[buildName] || { field: [], cantrip: config.cantrips[0] };
+return `<section class="card game-prep"><div class="game-section-head"><div><span class="badge">FIELD PREPARATION</span><h3>Choose two flexible spells</h3></div><span class="tiny">${current.field.length}/2 selected</span></div><div class="game-prep-grid">${Object.entries(config.options).map(([id, spell]) => `<button class="game-prep-card ${current.field.includes(id) ? 'selected' : ''}" data-prep="${id}"><strong>${esc(spell.label)}</strong><span>${esc(spell.description)}</span></button>`).join('')}</div><div class="field"><label>Tactical cantrip</label><select data-cantrip>${config.cantrips.map(id => `<option value="${id}" ${current.cantrip === id ? 'selected' : ''}>${esc(cantripLabel(id))}</option>`).join('')}</select></div><div class="source-note">Preparation happens before combat. Passive Counterspell does not add another combat button.</div></section>`;
+}
+function cantripLabel(id) {
+return ({ rayOfFrost: 'Ray of Frost', acidSplash: 'Acid Splash', chillTouch: 'Chill Touch', fireBolt: 'Fire Bolt' })[id] || id;
+}
+function historyHtml() {
+const history = state().gameCombat.history || [];
+return `<div class="game-history">${history.length ? history.slice(0, 15).map(entry => `<div class="history-row"><div class="grow"><strong>${esc(entry.encounterName)}</strong><small>${esc(entry.className)} · ${esc(entry.build)} · Level ${entry.level} · ${new Date(entry.completedAt).toLocaleDateString()}</small></div><span class="badge ${entry.result === 'victory' ? 'good' : 'warn'}">${entry.result.toUpperCase()}</span><div class="points">${entry.rounds}</div></div>`).join('') : '<div class="empty-alpha"><strong>No combat records yet</strong>Your trial results will appear here.</div>'}</div>`;
+}
+function board(showHistory = false) {
+clearTimeout(timer);
+menuState = null;
+E.ensure();
+const combat = state().gameCombat;
+const className = combat.selectedClass;
+const buildName = combat.selectedBuild;
+const level = Number(combat.trialLevel);
+const encounters = G.ENCOUNTERS[level];
+shell(`<h1 class="page-title">${showHistory ? 'Combat Records' : 'Adventure Board'}</h1><p class="page-sub">${showHistory ? 'Your recent alpha trial battles.' : 'All fifteen curated builds are playable in fully rested Level 1 and Level 5 trials.'}</p>${showHistory ? historyHtml() : `<section class="card game-note"><strong>Build Alpha 0.3.0</strong><span>Choose a class, one of its three builds, and one of six broad combat tests. Trials grant no permanent rewards.</span></section><div class="game-level-switch"><button data-level="1" class="${level === 1 ? 'selected' : ''}">Level 1</button><button data-level="5" class="${level === 5 ? 'selected' : ''}">Level 5</button></div><section class="card game-build-select"><div class="form-grid"><div class="field"><label>Class</label><select data-game-class>${G.CLASS_ORDER.map(name => `<option value="${name}" ${className === name ? 'selected' : ''}>${name}</option>`).join('')}</select></div><div class="field"><label>Build</label><select data-game-build>${G.CLASSES[className].builds.map(name => `<option value="${name}" ${buildName === name ? 'selected' : ''}>${name}</option>`).join('')}</select></div></div></section>${buildPreview(className, buildName, level)}${wizardPreparation(level, className, buildName)}<div class="section-title">Trial encounters</div><div class="game-encounters">${encounters.map(encounter => `<section class="card game-encounter"><div class="game-section-head"><div><span class="badge ${encounter.difficulty === 'Hard' ? 'warn' : ''}">${encounter.difficulty}</span><h3>${esc(encounter.name)}</h3></div></div><p>${esc(encounter.summary)}</p><div class="game-tags">${encounter.tags.map(tag => `<span>${esc(tag)}</span>`).join('')}</div><button class="btn full" data-start="${encounter.id}">Begin Combat</button></section>`).join('')}</div><div class="section-title">Recent trials</div>${historyHtml()}`}`);
+if (showHistory) return;
+document.querySelectorAll('[data-level]').forEach(button => button.onclick = () => { E.patch({ trialLevel: Number(button.dataset.level) }); board(); });
+document.querySelector('[data-game-class]').onchange = event => {
+const nextClass = event.target.value;
+E.patch({ selectedClass: nextClass, selectedBuild: G.DEFAULT_BUILD[nextClass] });
+board();
+};
+document.querySelector('[data-game-build]').onchange = event => { E.patch({ selectedBuild: event.target.value }); board(); };
+document.querySelector('[data-save-hero]')?.addEventListener('click', () => {
+window.SFStore.update(save => {
+if (!save.character) return save;
+save.character.class = className;
+save.character.build = buildName;
+save.character.featurePackage = buildName;
+return save;
+});
+toast(`${className} — ${buildName} saved as your hero.`, 'good');
+});
+document.querySelectorAll('[data-prep]').forEach(button => button.onclick = () => {
+const all = state().gameCombat.wizardPrep || {};
+const current = all[buildName] || { field: [], cantrip: G.WIZARD_PREP[buildName].cantrips[0] };
+let field = [...current.field];
+const id = button.dataset.prep;
+if (field.includes(id)) field = field.filter(value => value !== id);
+else if (field.length < 2) field.push(id);
+else field = [field[1], id];
+E.patch({ wizardPrep: { ...all, [buildName]: { ...current, field } } });
+board();
+});
+document.querySelector('[data-cantrip]')?.addEventListener('change', event => {
+const all = state().gameCombat.wizardPrep || {};
+const current = all[buildName] || { field: [], cantrip: event.target.value };
+E.patch({ wizardPrep: { ...all, [buildName]: { ...current, cantrip: event.target.value } } });
+});
+document.querySelectorAll('[data-start]').forEach(button => button.onclick = () => {
+const preparation = state().gameCombat.wizardPrep?.[buildName];
+if (className === 'Wizard' && level === 5 && preparation?.field?.length !== 2) return toast('Choose exactly two Field Preparation spells.', 'warn');
+const encounter = encounters.find(item => item.id === button.dataset.start);
+E.start(encounter, className, buildName, level, preparation);
+combatScreen();
+if (E.get().turn === 'enemy') scheduleEnemy();
+});
+}
+function enemiesHtml() {
+const battle = E.get();
+return battle.enemies.map(enemy => {
+const percent = Math.max(0, Math.round(enemy.hp / enemy.maxHp * 100));
+const conditions = [enemy.restrained ? 'Restrained' : '', enemy.slowed ? 'Slowed' : '', enemy.sap ? 'Sapped' : '', enemy.poisoned ? 'Poisoned' : '', enemy.exposed ? 'Exposed' : '', enemy.hamstrung ? 'Hamstrung' : '', enemy.command ? `Command: ${enemy.command}` : ''].filter(Boolean);
+return `<button data-enemy="${enemy.id}" class="game-enemy ${battle.selected === enemy.id ? 'selected' : ''} ${enemy.hp <= 0 ? 'defeated' : ''}" ${enemy.hp <= 0 ? 'disabled' : ''}><div class="game-enemy-top"><strong>${esc(enemy.name)}</strong><span class="zone z${enemy.zone}">${E.zone(enemy.zone)}</span></div><div class="game-hp"><span style="width:${percent}%"></span></div><small>${enemy.hp}/${enemy.maxHp} HP · AC ${enemy.ac}${conditions.length ? ` · ${conditions.join(', ')}` : ''}</small></button>`;
+}).join('');
+}
+function logsHtml() {
+return E.get().log.slice(-18).reverse().map(entry => `<div class="game-log ${entry.kind}">${esc(entry.text)}</div>`).join('');
+}
+function resourceLine() {
+const battle = E.get();
+const resources = battle.resources;
+const parts = [`Mobility ${resources.mobility}/2`];
+if (battle.ward) parts.push(`Ward ${battle.ward}`);
+if (battle.tempHp) parts.push(`Temp HP ${battle.tempHp}`);
+if (['Wizard', 'Ranger', 'Paladin'].includes(battle.className)) parts.push(`Slots ${resources.spellSlots[1]}/${resources.spellSlots[2]}/${resources.spellSlots[3]}`);
+if (battle.className === 'Fighter') parts.push(`Second Wind ${resources.secondWind}`, `Action Surge ${resources.actionSurge}`);
+if (battle.className === 'Paladin') parts.push(`Lay on Hands ${resources.layOnHands}`);
+if (battle.build === 'Relic Runner') parts.push(`Kit F${resources.items.fire} A${resources.items.acid} S${resources.items.smoke} H${resources.items.heal}`);
+if (battle.effects.concentration) parts.push(`Concentration: ${battle.effects.concentration}`);
+return parts.join(' · ');
+}
+function resultScreen() {
+const battle = E.get();
+shell(`<section class="card hero-card game-result ${battle.result}"><span class="badge ${battle.result === 'victory' ? 'good' : 'warn'}">${battle.result.toUpperCase()}</span><h1>${battle.result === 'victory' ? 'Trial Cleared' : 'You Fell'}</h1><p>${esc(battle.encounterName)} · ${esc(battle.className)} ${esc(battle.build)} · Level ${battle.level}</p><div class="game-result-grid"><div><strong>${battle.round}</strong><span>rounds</span></div><div><strong>${battle.playerHp}/${battle.playerMaxHp}</strong><span>HP remaining</span></div></div><button class="btn full" data-retry>Retry Encounter</button><button class="btn secondary full" data-game-board>Back to Adventure Board</button><div class="source-note">Combat trials currently grant no XP, gold, items, or stat growth.</div></section>`);
+document.querySelector('[data-retry]').onclick = () => {
+const encounter = G.ENCOUNTERS[battle.level].find(item => item.id === battle.encounterId);
+E.start(encounter, battle.className, battle.build, battle.level, battle.wizardPrep);
+combatScreen();
+if (E.get().turn === 'enemy') scheduleEnemy();
+};
+bindCommon();
+}
+function actionButton(item, kind) {
+const menu = Array.isArray(item.options);
+const attribute = menu ? `data-open-menu="${kind}:${item.id}"` : kind === 'bonus' ? `data-bonus="${item.id}"` : `data-action="${item.id}"`;
+return `<button ${attribute} ${item.disabled ? 'disabled' : ''}><strong>${esc(item.label)}</strong><span>${esc(item.sub)}</span>${menu ? '<i>Choose</i>' : ''}</button>`;
+}
+function menuHtml() {
+if (!menuState) return '';
+return `<section class="card game-choice-menu"><div class="game-section-head"><div><span class="badge">CHOOSE</span><h3>${esc(menuState.item.label)}</h3></div><button class="btn ghost compact" data-close-menu>Close</button></div><div class="game-choice-grid">${menuState.item.options.map(option => `<button data-menu-choice="${option.id}" ${option.disabled ? 'disabled' : ''}><strong>${esc(option.label)}</strong><span>${esc(option.sub)}</span></button>`).join('')}</div></section>`;
+}
+function combatScreen() {
+const battle = E.get();
+if (battle.finished) return resultScreen();
+const playerTurn = battle.turn === 'player';
+const actions = playerTurn ? E.actions() : [];
+const bonuses = playerTurn ? E.bonuses() : [];
+shell(`<div class="game-battle-head"><div><span class="badge">ROUND ${battle.round}</span><h1>${esc(battle.encounterName)}</h1><p>${esc(battle.className)} · ${esc(battle.build)} · Level ${battle.level}</p></div><span class="turn-chip ${playerTurn ? 'player' : 'enemy'}">${playerTurn ? 'YOUR TURN' : 'ENEMY TURN'}</span></div><section class="card game-player"><div class="game-section-head"><div><strong>Your Hero</strong><span>${esc(resourceLine())}</span></div><b>${battle.playerHp}/${battle.playerMaxHp} HP</b></div><div class="game-hp large"><span style="width:${Math.max(0, battle.playerHp / battle.playerMaxHp * 100)}%"></span></div></section><div class="game-zone-row"><span>CLOSE</span><span>MEDIUM</span><span>LONG</span></div><div class="game-enemy-list">${enemiesHtml()}</div>${playerTurn ? `<div class="section-title">Bonus Action / Features</div><div class="game-action-grid bonus">${bonuses.map(item => actionButton(item, 'bonus')).join('')}</div><div class="section-title">Action${battle.turnState.actions > 1 ? ` · ${battle.turnState.actions} remaining` : ''}</div><div class="game-action-grid">${actions.map(item => actionButton(item, 'action')).join('')}</div>${menuHtml()}` : '<section class="card game-thinking">Enemies are resolving their turns…</section>'}<details class="card game-log-panel" open><summary>Visible combat log</summary><div class="game-log-list">${logsHtml()}</div></details>`);
+document.querySelectorAll('[data-enemy]').forEach(button => button.onclick = () => { E.select(button.dataset.enemy); menuState = null; combatScreen(); });
+document.querySelectorAll('[data-open-menu]').forEach(button => button.onclick = () => {
+const [kind, id] = button.dataset.openMenu.split(':');
+const source = kind === 'bonus' ? E.bonuses() : E.actions();
+const item = source.find(entry => entry.id === id);
+if (item) { menuState = { kind, item }; combatScreen(); }
+});
+document.querySelector('[data-close-menu]')?.addEventListener('click', () => { menuState = null; combatScreen(); });
+document.querySelectorAll('[data-menu-choice]').forEach(button => button.onclick = () => {
+const succeeded = menuState.kind === 'bonus' ? E.bonus(button.dataset.menuChoice) : E.act(button.dataset.menuChoice);
+if (!succeeded) return;
+menuState = null;
+combatScreen();
+if (E.get().turn === 'enemy') scheduleEnemy();
+});
+document.querySelectorAll('[data-bonus]').forEach(button => button.onclick = () => { if (E.bonus(button.dataset.bonus)) combatScreen(); });
+document.querySelectorAll('[data-action]').forEach(button => button.onclick = () => {
+if (!E.act(button.dataset.action)) return;
+menuState = null;
+combatScreen();
+if (E.get().turn === 'enemy') scheduleEnemy();
+});
+}
+function scheduleEnemy() {
+clearTimeout(timer);
+timer = setTimeout(() => { E.enemyTurn(); menuState = null; combatScreen(); }, 600);
+}
+function toast(message, type = 'good') {
+const stack = document.getElementById('toast-stack');
+const element = document.createElement('div');
+element.className = `toast ${type}`;
+element.textContent = message;
+stack?.append(element);
+setTimeout(() => element.remove(), 3000);
+}
+function abilityPreset(className) {
+return {
+Fighter: { STR: 16, DEX: 12, CON: 15, INT: 10, WIS: 13, CHA: 8 },
+Rogue: { STR: 8, DEX: 16, CON: 14, INT: 13, WIS: 12, CHA: 10 },
+Wizard: { STR: 8, DEX: 14, CON: 13, INT: 16, WIS: 12, CHA: 10 },
+Ranger: { STR: 10, DEX: 16, CON: 14, INT: 8, WIS: 15, CHA: 12 },
+Paladin: { STR: 15, DEX: 10, CON: 14, INT: 8, WIS: 12, CHA: 16 }
+}[className];
+}
+function onboardingSelection() {
+const save = state();
+const selectedClass = E.normalizeClass(save.onboarding.selectedGameClass || save.onboarding.selectedClass);
+const selectedBuild = E.normalizeBuild(selectedClass, save.onboarding.selectedBuild || save.onboarding.selectedPackage);
+return { selectedClass, selectedBuild };
+}
+function persistOnboardingChoice(className, buildName) {
+window.SFStore.update(save => {
+save.onboarding.selectedGameClass = className;
+save.onboarding.selectedBuild = buildName;
+save.onboarding.selectedPackage = buildName;
+save.onboarding.selectedClass = className === 'Paladin' ? 'Cleric' : className;
+return save;
+});
+}
+function creatorScreen(review = false) {
+const main = document.querySelector('.alpha-main');
+if (!main || state().onboarding.completed) return;
+const progress = main.querySelector('.alpha-progress')?.outerHTML || '<div class="alpha-progress"></div>';
+const { selectedClass, selectedBuild } = onboardingSelection();
+const cfg = G.getBuild(selectedClass, selectedBuild);
+main.dataset.gameCreator = 'true';
+if (review) {
+main.innerHTML = `${progress}<div class="alpha-kicker">Ready to Begin</div><h1 class="alpha-title">Your Hero Is Ready</h1>${buildPreview(selectedClass, selectedBuild, 1, false)}<section class="card"><div class="list-title">${esc(state().onboarding.buildMode || 'Balanced Class Preset')}</div><div class="list-sub">${esc(selectedClass)} · ${esc(selectedBuild)} · ${esc(cfg.signature)}</div></section><div class="alpha-actions"><button class="btn secondary" data-creator-edit>Back</button><button class="btn" data-creator-finish>Begin My Primary Questline</button></div>`;
+document.querySelector('[data-creator-edit]').onclick = () => creatorScreen(false);
+document.querySelector('[data-creator-finish]').onclick = completeCustomOnboarding;
+return;
+}
+main.innerHTML = `${progress}<div class="alpha-kicker">Adventure Identity</div><h1 class="alpha-title">Choose Your Class and Build</h1><p class="alpha-sub">Each class has three complete curated builds. Your real-life stats power whichever identity you choose.</p><section class="card game-build-select"><div class="form-grid"><div class="field"><label>Class</label><select data-creator-class>${G.CLASS_ORDER.map(name => `<option value="${name}" ${selectedClass === name ? 'selected' : ''}>${name}</option>`).join('')}</select></div><div class="field"><label>Build</label><select data-creator-build>${G.CLASSES[selectedClass].builds.map(name => `<option value="${name}" ${selectedBuild === name ? 'selected' : ''}>${name}</option>`).join('')}</select></div></div></section>${buildPreview(selectedClass, selectedBuild, 1, false)}<div class="alpha-actions"><button class="btn secondary" data-creator-back>Back</button><button class="btn" data-creator-confirm>Confirm Build</button></div>`;
+document.querySelector('[data-creator-class]').onchange = event => {
+const nextClass = event.target.value;
+persistOnboardingChoice(nextClass, G.DEFAULT_BUILD[nextClass]);
+creatorScreen(false);
+};
+document.querySelector('[data-creator-build]').onchange = event => { persistOnboardingChoice(selectedClass, event.target.value); creatorScreen(false); };
+document.querySelector('[data-creator-back]').onclick = () => {
+window.SFStore.update(save => { save.onboarding.step = 'plan-preview'; return save; });
+location.reload();
+};
+document.querySelector('[data-creator-confirm]').onclick = () => creatorScreen(true);
+}
+function completeCustomOnboarding() {
+const { selectedClass, selectedBuild } = onboardingSelection();
+const draft = state().onboarding.characterDraft;
+window.SFStore.update(save => {
+save.onboarding.completed = true;
+save.onboarding.step = 'complete';
+save.profile.name = draft.name;
+save.profile.baselineComplete = true;
+save.profile.programStartDate = localDate();
+if (save.primaryQuestline) save.primaryQuestline.status = 'active';
+save.character = {
+name: draft.name,
+species: 'Human',
+class: selectedClass,
+build: selectedBuild,
+featurePackage: selectedBuild,
+background: selectedClass === 'Wizard' ? 'Sage' : selectedClass === 'Rogue' ? 'Criminal' : selectedClass === 'Paladin' ? 'Acolyte' : selectedClass === 'Ranger' ? 'Outlander' : 'Soldier',
+originFeat: selectedClass === 'Wizard' ? 'Tough' : 'Skilled',
+abilities: abilityPreset(selectedClass),
+bonusHp: 0,
+tough: selectedClass === 'Wizard',
+epicBoon: false,
+visual: { ...draft },
+createdAt: new Date().toISOString()
+};
+save.gameCombat = save.gameCombat || {};
+save.gameCombat.selectedClass = selectedClass;
+save.gameCombat.selectedBuild = selectedBuild;
+return save;
+});
+location.reload();
+}
+function decorate() {
+E.ensure();
+if (!state().onboarding.completed) {
+if (state().onboarding.step === 'class' && (document.getElementById('confirm-class') || !document.querySelector('[data-game-creator]'))) creatorScreen(false);
+return;
+}
+if (active) return;
+const nav = document.querySelector('.alpha-nav');
+if (nav && !nav.querySelector('[data-alpha-adventure]')) {
+const button = document.createElement('button');
+button.dataset.alphaAdventure = '';
+button.innerHTML = '<b>⚔</b><span>Adventure</span>';
+nav.append(button);
+}
+const main = document.querySelector('.alpha-main');
+if (main && !main.querySelector('.game-home-card') && main.querySelector('.page-title')) {
+const section = document.createElement('section');
+section.className = 'card hero-card game-home-card';
+section.innerHTML = '<div><span class="badge">15-BUILD COMBAT ALPHA</span><h2>Adventure Board</h2><p>Test your chosen hero—or any other build—across six three-zone encounters.</p></div><button class="btn" data-alpha-adventure>Enter Adventure</button>';
+const first = main.querySelector('.section-title');
+first ? main.insertBefore(section, first) : main.append(section);
+}
+}
+function install() {
+if (!window.SFStore || !G?.engine) return setTimeout(install, 100);
+E.ensure();
+document.addEventListener('click', event => {
+const target = event.target.closest?.('[data-alpha-adventure]');
+if (!target) return;
+event.preventDefault();
+event.stopImmediatePropagation();
+board();
+}, true);
+observer = new MutationObserver(decorate);
+observer.observe(document.body, { childList: true, subtree: true });
+decorate();
+window.SF_ALPHA_COMBAT = { open: board, version: G.VERSION };
+}
+install();
 })();
