@@ -1,7 +1,7 @@
-const CACHE = 'ascendry-alpha-v0.1.0';
+const CACHE = 'ascendry-alpha-v0.1.1';
 const ASSETS = [
   './', './index.html', './css/styles.css', './css/alpha.css',
-  './js/data.js', './js/storage.js', './js/combat.js', './js/alpha.js', './js/app.js',
+  './js/data.js', './js/storage.js', './js/combat.js', './js/alpha-upgrade.js', './js/alpha.js', './js/app.js',
   './manifest.webmanifest', './assets/icons/icon-192.png', './assets/icons/icon-512.png',
   './assets/icons/logo.svg', './vendor/zxing-library.min.js', './vendor/zxing-browser.min.js',
   './assets/exercises/pushup.svg', './assets/exercises/plank.svg', './assets/exercises/rower.svg',
