@@ -1,10 +1,13 @@
 (() => {
+  'use strict';
+  const version = globalThis.SF_VERSION || '0.4.0';
+  const v = `?v=${encodeURIComponent(version)}`;
   const workoutModules = [
-    'js/alpha-exercises.js?v=0.1.3',
-    'js/alpha-onboarding-tools.js?v=0.1.3',
-    'js/alpha-generator.js?v=0.1.3',
-    'js/alpha-workout-core.js?v=0.1.3',
-    'js/alpha-runner.js?v=0.1.3'
+    `js/alpha-exercises.js${v}`,
+    `js/alpha-onboarding-tools.js${v}`,
+    `js/alpha-generator.js${v}`,
+    `js/alpha-workout-core.js${v}`,
+    `js/alpha-runner.js${v}`
   ];
 
   function loadStyle(href) {
@@ -28,7 +31,7 @@
   }
 
   async function loadWorkoutPatch() {
-    loadStyle('css/alpha-workout.css?v=0.1.3');
+    loadStyle(`css/alpha-workout.css${v}`);
     for (const src of workoutModules) await loadScript(src);
   }
 
@@ -36,6 +39,7 @@
 })();
 
 (() => {
+  'use strict';
   const localDate = () => {
     const now = new Date();
     return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
@@ -45,11 +49,7 @@
     const state = window.SFStore?.get();
     const questlineId = state?.primaryQuestline?.id;
     if (!questlineId) return null;
-    return state.questHistory.find(entry =>
-      entry.questlineId === questlineId &&
-      entry.date === localDate() &&
-      entry.status === 'minimum'
-    ) || null;
+    return state.questHistory.find(entry => entry.questlineId === questlineId && entry.date === localDate() && entry.status === 'minimum') || null;
   }
 
   function sessionFor(entry) {
@@ -121,7 +121,7 @@
 
   document.addEventListener('click', event => {
     if (window.SF_ALPHA_WORKOUT) return;
-    const target = event.target.closest?.('#finish-full, [data-route="questline"]');
+    const target = event.target.closest?.('#finish-full, [data-route="questline"], [data-public-route="questline"]');
     if (!target || !currentMinimumEntry()) return;
     event.preventDefault();
     event.stopImmediatePropagation();
