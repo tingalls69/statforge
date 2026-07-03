@@ -39,10 +39,29 @@
 .turn-chip{border-radius:99px;padding:8px 10px;font-size:10px;font-weight:950;white-space:nowrap}
 .turn-chip.player{background:color-mix(in srgb,var(--accent) 18%,transparent);color:var(--accent)}
 .turn-chip.enemy{background:rgba(255,120,100,.14);color:#ff9b88}
-.game-player{position:sticky;top:calc(env(safe-area-inset-top) + 8px);z-index:3;backdrop-filter:blur(12px)}
+.game-player{position:sticky;top:calc(env(safe-area-inset-top) + 8px);z-index:3;backdrop-filter:blur(12px);padding:13px 14px}
+.game-health-row{display:grid;grid-template-columns:1fr auto;gap:16px;align-items:end}
+.game-health-row>div{display:flex;flex-direction:column;gap:2px}
+.game-health-row>div:last-child{text-align:right}
+.game-health-row span{font-size:9px;color:var(--muted);font-weight:900;letter-spacing:.06em}
+.game-health-row strong{font-size:20px;line-height:1.1}
 .game-hp{height:7px;border-radius:99px;background:#182631;overflow:hidden;margin:7px 0}
-.game-hp.large{height:10px}
+.game-hp.large{height:10px;margin-bottom:0}
 .game-hp span{display:block;height:100%;background:linear-gradient(90deg,var(--accent),#65f0d1)}
+.game-status-board{display:grid;gap:12px;margin:12px 0 16px}
+.game-status-section{display:grid;gap:8px}
+.game-status-heading{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;padding:0 2px}
+.game-status-heading strong{font-size:13px}
+.game-status-heading span{font-size:10px;color:var(--muted);text-align:right}
+.game-status-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.game-status-card{border:1px solid var(--line);border-radius:13px;padding:11px;background:var(--panel);min-width:0}
+.game-status-card.effect{border-left:3px solid var(--accent);background:color-mix(in srgb,var(--accent) 6%,var(--panel))}
+.game-status-card.resource{border-left:3px solid #7ebeff}
+.game-status-card strong,.game-status-card b,.game-status-card span,.game-status-card small{display:block}
+.game-status-card strong{font-size:12px;margin-bottom:4px}
+.game-status-card b{font-size:15px;line-height:1.2;margin-bottom:4px}
+.game-status-card span{font-size:12px;line-height:1.5;color:var(--text);margin-bottom:5px}
+.game-status-card small{font-size:10px;line-height:1.4;color:var(--muted)}
 .game-zone-row{display:grid;grid-template-columns:repeat(3,1fr);text-align:center;font-size:9px;font-weight:900;color:var(--muted);margin:12px 0 5px}
 .game-enemy-list{display:grid;gap:8px}
 .game-enemy{padding:12px;text-align:left;width:100%}
@@ -50,6 +69,9 @@
 .game-enemy.defeated{opacity:.45}
 .game-enemy-top{display:flex;justify-content:space-between;align-items:center}
 .game-enemy small{color:var(--muted);line-height:1.4}
+.game-condition-list{display:grid;gap:5px;margin-top:9px}
+.game-condition-list span{display:block;border:1px solid var(--line);border-radius:9px;padding:7px 8px;background:var(--panel-2);font-size:10px;line-height:1.35;color:var(--muted)}
+.game-condition-list b{display:block;color:var(--text);font-size:10px;margin-bottom:2px}
 .zone{font-size:9px;font-weight:900;border-radius:99px;padding:5px 8px}
 .zone.z0{background:rgba(255,115,91,.15);color:#ff9b88}
 .zone.z1{background:rgba(255,196,92,.14);color:#ffd27b}
@@ -93,10 +115,14 @@
   .game-encounters{grid-template-columns:repeat(3,1fr)}
   .game-action-grid{grid-template-columns:repeat(4,1fr)}
   .game-build-meta{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .game-status-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
 }
 @media(max-width:420px){
   .game-stat-grid{grid-template-columns:repeat(3,1fr)}
   .game-home-card{align-items:flex-start;flex-direction:column}
   .game-home-card .btn{width:100%}
   .game-choice-grid{grid-template-columns:1fr}
+  .game-status-grid{grid-template-columns:1fr}
+  .game-status-heading{align-items:flex-start;flex-direction:column;gap:2px}
+  .game-status-heading span{text-align:left}
 }
