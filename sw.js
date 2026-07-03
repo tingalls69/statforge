@@ -1,11 +1,11 @@
-const CACHE = 'ascendry-alpha-v0.3.0';
+const CACHE = 'ascendry-alpha-v0.3.1';
 const ASSETS = [
-  './', './index.html?v=0.3.0', './css/styles.css?v=0.3.0', './css/alpha.css?v=0.3.0', './css/alpha-workout.css?v=0.1.3', './css/alpha-game.css?v=0.3.0',
-  './js/data.js?v=0.3.0', './js/storage.js?v=0.3.0', './js/combat.js?v=0.3.0', './js/alpha-exercises.js?v=0.1.3',
+  './', './index.html?v=0.3.1', './css/styles.css?v=0.3.1', './css/alpha.css?v=0.3.1', './css/alpha-workout.css?v=0.1.3', './css/alpha-game.css?v=0.3.1',
+  './js/data.js?v=0.3.1', './js/storage.js?v=0.3.1', './js/combat.js?v=0.3.1', './js/alpha-exercises.js?v=0.1.3',
   './js/alpha-onboarding-tools.js?v=0.1.3', './js/alpha-generator.js?v=0.1.3', './js/alpha-workout-core.js?v=0.1.3',
-  './js/alpha-runner.js?v=0.1.3', './js/alpha-upgrade.js?v=0.3.0', './js/alpha.js?v=0.3.0', './js/alpha-game-data.js?v=0.3.0',
-  './js/alpha-game-engine.js?v=0.3.0', './js/alpha-game-ui.js?v=0.3.0', './js/app.js',
-  './manifest.webmanifest?v=0.3.0', './assets/icons/icon-192.png', './assets/icons/icon-512.png',
+  './js/alpha-runner.js?v=0.1.3', './js/alpha-upgrade.js?v=0.3.1', './js/alpha.js?v=0.3.1', './js/alpha-game-data.js?v=0.3.1',
+  './js/alpha-game-engine.js?v=0.3.1', './js/alpha-game-ui.js?v=0.3.1', './js/app.js',
+  './manifest.webmanifest?v=0.3.1', './assets/icons/icon-192.png', './assets/icons/icon-512.png',
   './assets/icons/logo.svg', './vendor/zxing-library.min.js', './vendor/zxing-browser.min.js',
   './assets/exercises/pushup.svg', './assets/exercises/plank.svg', './assets/exercises/rower.svg',
   './assets/exercises/chest_press.svg', './assets/exercises/seated_row.svg', './assets/exercises/lat_pulldown.svg',
@@ -39,6 +39,6 @@ self.addEventListener('fetch', event => {
       const clone = response.clone();
       caches.open(CACHE).then(cache => cache.put(event.request, clone));
       return response;
-    }).catch(() => caches.match('./index.html?v=0.3.0') || caches.match('./index.html')))
+    }).catch(() => caches.match('./index.html?v=0.3.1') || caches.match('./index.html')))
   );
 });
