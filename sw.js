@@ -1,12 +1,16 @@
-const CACHE = 'ascendry-alpha-v0.3.1';
+importScripts('./js/version.js');
+
+const VERSION = globalThis.SF_VERSION || '0.4.0';
+const CACHE = `ascendry-alpha-v${VERSION}`;
+const v = `?v=${encodeURIComponent(VERSION)}`;
 const ASSETS = [
-  './', './index.html?v=0.3.1', './css/styles.css?v=0.3.1', './css/alpha.css?v=0.3.1', './css/alpha-workout.css?v=0.1.3', './css/alpha-game.css?v=0.3.1',
-  './js/data.js?v=0.3.1', './js/storage.js?v=0.3.1', './js/combat.js?v=0.3.1', './js/alpha-exercises.js?v=0.1.3',
-  './js/alpha-onboarding-tools.js?v=0.1.3', './js/alpha-generator.js?v=0.1.3', './js/alpha-workout-core.js?v=0.1.3',
-  './js/alpha-runner.js?v=0.1.3', './js/alpha-upgrade.js?v=0.3.1', './js/alpha.js?v=0.3.1', './js/alpha-game-data.js?v=0.3.1',
-  './js/alpha-game-engine.js?v=0.3.1', './js/alpha-game-ui.js?v=0.3.1', './js/app.js',
-  './manifest.webmanifest?v=0.3.1', './assets/icons/icon-192.png', './assets/icons/icon-512.png',
-  './assets/icons/logo.svg', './vendor/zxing-library.min.js', './vendor/zxing-browser.min.js',
+  './', './index.html', `./index.html${v}`,
+  `./css/styles.css${v}`, `./css/alpha.css${v}`, `./css/alpha-game.css${v}`, `./css/alpha-public-polish.css${v}`, `./css/alpha-workout.css${v}`,
+  `./js/version.js${v}`, `./js/data.js${v}`, `./js/storage.js${v}`, `./js/combat.js${v}`, `./js/alpha-upgrade.js${v}`, `./js/alpha.js${v}`,
+  `./js/alpha-exercises.js${v}`, `./js/alpha-onboarding-tools.js${v}`, `./js/alpha-generator.js${v}`, `./js/alpha-workout-core.js${v}`, `./js/alpha-runner.js${v}`,
+  `./js/alpha-game-data.js${v}`, `./js/alpha-game-engine.js${v}`, `./js/alpha-game-ui.js${v}`, `./js/alpha-public-polish.js${v}`,
+  './manifest.webmanifest', `./manifest.webmanifest${v}`, './assets/icons/icon-192.png', './assets/icons/icon-512.png', './assets/icons/logo.svg',
+  './vendor/zxing-library.min.js', './vendor/zxing-browser.min.js',
   './assets/exercises/pushup.svg', './assets/exercises/plank.svg', './assets/exercises/rower.svg',
   './assets/exercises/chest_press.svg', './assets/exercises/seated_row.svg', './assets/exercises/lat_pulldown.svg',
   './assets/exercises/leg_press.svg', './assets/exercises/leg_curl.svg', './assets/exercises/leg_extension.svg',
@@ -21,24 +25,46 @@ const ASSETS = [
   './assets/enemies/giant-scorpion.svg', './assets/enemies/red-dragon-wyrmling.svg', './assets/enemies/troll.svg',
   './assets/enemies/young-red-dragon.svg'
 ];
+
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(ASSETS)).then(() => self.skipWaiting()));
 });
+
 self.addEventListener('activate', event => {
-  event.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(key => key !== CACHE).map(key => caches.delete(key)))).then(() => self.clients.claim()));
+  event.waitUntil(
+    caches.keys()
+      .then(keys => Promise.all(keys.filter(key => key !== CACHE).map(key => caches.delete(key))))
+      .then(() => self.clients.claim())
+  );
 });
+
 self.addEventListener('fetch', event => {
   if (event.request.method !== 'GET') return;
   const url = new URL(event.request.url);
+
   if (url.hostname.includes('openfoodfacts.org')) {
     event.respondWith(fetch(event.request).catch(() => new Response(JSON.stringify({ status: 0 }), { headers: { 'Content-Type': 'application/json' } })));
     return;
   }
+
+  if (event.request.mode === 'navigate') {
+    event.respondWith(
+      fetch(event.request)
+        .then(response => {
+          const clone = response.clone();
+          caches.open(CACHE).then(cache => cache.put('./index.html', clone));
+          return response;
+        })
+        .catch(() => caches.match('./index.html').then(cached => cached || caches.match(`./index.html${v}`)))
+    );
+    return;
+  }
+
   event.respondWith(
     caches.match(event.request).then(cached => cached || fetch(event.request).then(response => {
       const clone = response.clone();
       caches.open(CACHE).then(cache => cache.put(event.request, clone));
       return response;
-    }).catch(() => caches.match('./index.html?v=0.3.1') || caches.match('./index.html')))
+    }))
   );
 });
