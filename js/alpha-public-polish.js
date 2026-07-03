@@ -16,9 +16,18 @@
     if (!globalThis.SFStore) return;
     const saved = SFStore.get();
     const obsolete = ['gold', 'rewardBank', 'personalRewardBank', 'personalRewards', 'rewardBalance'];
-    if (!obsolete.some(key => Object.prototype.hasOwnProperty.call(saved, key))) return;
+    const hasObsoleteBalance = obsolete.some(key => Object.prototype.hasOwnProperty.call(saved, key));
+    const hasMonetaryMilestones = Array.isArray(saved.milestones) && saved.milestones.some(item => item && ('cap' in item || 'dollarAmount' in item || 'cashValue' in item));
+    if (!hasObsoleteBalance && !hasMonetaryMilestones) return;
     SFStore.update(state => {
       obsolete.forEach(key => delete state[key]);
+      if (Array.isArray(state.milestones)) {
+        state.milestones = state.milestones.map(item => {
+          if (!item || typeof item !== 'object') return item;
+          const { cap, dollarAmount, cashValue, ...rest } = item;
+          return rest;
+        });
+      }
       return state;
     });
   }
