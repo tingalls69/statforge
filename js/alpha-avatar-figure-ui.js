@@ -4,7 +4,7 @@
   let timer = null;
   let started = false;
   let cachedBodyKey = '';
-  let cachedBodyUri = '';
+  let cachedBodySvg = '';
   let cachedHeadKey = '';
   let cachedHeadUri = '';
 
@@ -16,13 +16,13 @@
     return Boolean(config() && figure() && engine() && globalThis.SFStore);
   }
 
-  function bodyUri() {
+  function bodySvg() {
     const key = `${figure().figureKey()}|${figure().currentVisual().name || ''}`;
-    if (key !== cachedBodyKey || !cachedBodyUri) {
+    if (key !== cachedBodyKey || !cachedBodySvg) {
       cachedBodyKey = key;
-      cachedBodyUri = figure().renderDataUri();
+      cachedBodySvg = figure().renderSvg();
     }
-    return cachedBodyUri;
+    return cachedBodySvg;
   }
 
   function headUri() {
@@ -43,10 +43,10 @@
   function ensureFigureState() {
     const save = globalThis.SFStore.get();
     const draft = save.onboarding?.characterDraft;
-    if (!draft || draft.figure?.version === 2) return;
+    if (!draft || draft.figure?.version === 3) return;
     globalThis.SFStore.update(next => {
-      next.onboarding.characterDraft.figure = { version: 2, showClassGear: true };
-      if (next.character?.visual) next.character.visual.figure = { version: 2, showClassGear: true };
+      next.onboarding.characterDraft.figure = { version: 3, showClassGear: true };
+      if (next.character?.visual) next.character.visual.figure = { version: 3, showClassGear: true };
       return next;
     });
   }
@@ -76,9 +76,8 @@
     stage = document.createElement('div');
     stage.className = 'figure-stage';
 
-    const body = document.createElement('img');
-    body.className = 'figure-body-layer';
-    body.alt = '';
+    const body = document.createElement('div');
+    body.className = 'figure-body-inline';
     body.setAttribute('aria-hidden', 'true');
 
     const fallback = document.createElement('div');
@@ -89,15 +88,6 @@
     const head = document.createElement('img');
     head.className = 'figure-head-layer';
     head.alt = `${figure().currentVisual().name || 'Character'} face`;
-
-    body.addEventListener('load', () => {
-      box.classList.add('figure-body-ready');
-      box.classList.remove('figure-body-error');
-    });
-    body.addEventListener('error', () => {
-      box.classList.remove('figure-body-ready');
-      box.classList.add('figure-body-error');
-    });
     head.addEventListener('load', () => {
       box.classList.add('figure-head-ready');
       box.classList.remove('figure-head-error');
@@ -114,24 +104,25 @@
 
   function patchBox(box) {
     if (!box) return;
-    box.classList.add('full-figure-frame');
+    box.classList.add('full-figure-frame', 'figure-body-ready');
     box.classList.toggle('figure-crop-bust', box.matches('.home-lorelei-avatar'));
     box.classList.toggle('figure-combat-full', box.matches('.combat-lorelei-avatar'));
     box.classList.toggle('figure-result-full', box.matches('.combat-result-lorelei'));
 
     const stage = stageFor(box);
-    const body = stage.querySelector('.figure-body-layer');
+    const body = stage.querySelector('.figure-body-inline');
     const head = stage.querySelector('.figure-head-layer');
     const fallback = stage.querySelector('.figure-head-fallback');
     const visual = figure().currentVisual();
     fallback.textContent = visual.glasses && visual.glasses !== 'None' ? '🤓' : visual.presentation === 'Feminine' ? '👩' : '🧑';
 
-    const nextBody = bodyUri();
-    const nextHead = headUri();
-    if (body.getAttribute('src') !== nextBody) {
-      box.classList.remove('figure-body-ready', 'figure-body-error');
-      body.src = nextBody;
+    const nextBody = bodySvg();
+    if (body.dataset.figureKey !== cachedBodyKey) {
+      body.dataset.figureKey = cachedBodyKey;
+      body.innerHTML = nextBody;
     }
+
+    const nextHead = headUri();
     if (head.getAttribute('src') !== nextHead) {
       box.classList.remove('figure-head-ready', 'figure-head-error');
       head.src = nextHead;
@@ -152,7 +143,7 @@
 
   function schedule() {
     clearTimeout(timer);
-    timer = setTimeout(patch, 70);
+    timer = setTimeout(patch, 50);
   }
 
   function start() {
