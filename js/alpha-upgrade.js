@@ -1,6 +1,6 @@
 (() => {
   'use strict';
-  const version = globalThis.SF_VERSION || '0.4.2';
+  const version = globalThis.SF_VERSION || '0.4.3';
   const v = `?v=${encodeURIComponent(version)}`;
   const workoutModules = [
     `js/alpha-exercises.js${v}`,
@@ -34,6 +34,7 @@
   async function loadWorkoutPatch() {
     loadStyle(`css/alpha-workout.css${v}`);
     loadStyle(`css/alpha-workout-fantasy.css${v}`);
+    loadStyle(`css/alpha-quest-compact.css${v}`);
     for (const src of workoutModules) await loadScript(src);
   }
 
