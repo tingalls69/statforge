@@ -461,10 +461,13 @@
     });
 
     document.querySelectorAll('.minimum-body').forEach(body => {
-      const updated = body.innerHTML
-        .replace(/essential movements/g, 'essential actions')
-        .replace('Complete the first', 'Complete the listed');
-      if (updated !== body.innerHTML) body.innerHTML = updated;
+      [...body.childNodes].forEach(node => {
+        if (node.nodeType !== Node.TEXT_NODE) return;
+        const updated = node.nodeValue
+          .replace(/Complete the first \d+ essential movements\./, 'Complete the low-energy action below.')
+          .replace(/essential movements/g, 'essential actions');
+        if (updated !== node.nodeValue) node.nodeValue = updated;
+      });
     });
   }
 
