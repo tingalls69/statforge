@@ -1,6 +1,6 @@
 .alpha-nav:has([data-alpha-adventure]){grid-template-columns:repeat(6,1fr)}
 .game-alpha-shell{min-height:100dvh}
-.game-main{padding-bottom:110px}
+.game-main{padding-bottom:24px}
 .game-home-card{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:14px 0}
 .game-home-card h2{margin:8px 0 5px}
 .game-home-card p{margin:0;color:var(--muted)}
@@ -116,6 +116,9 @@
   .game-action-grid{grid-template-columns:repeat(4,1fr)}
   .game-build-meta{grid-template-columns:repeat(4,minmax(0,1fr))}
   .game-status-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media(max-width:680px){
+  .game-player{position:relative;top:auto;z-index:1;backdrop-filter:none}
 }
 @media(max-width:420px){
   .game-stat-grid{grid-template-columns:repeat(3,1fr)}
