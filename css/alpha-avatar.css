@@ -61,6 +61,37 @@
 .home-lorelei-avatar .lorelei-avatar-fallback{font-size:26px}
 .home-lorelei-avatar::after{inset:4px}
 .lorelei-avatar-frame.is-compact .lorelei-avatar-image{inset:2px 2px 0;width:calc(100% - 4px);height:calc(100% - 2px)}
+
+.combat-lorelei-shell{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-bottom:14px;
+  padding-bottom:13px;
+  border-bottom:1px solid var(--line);
+}
+.combat-lorelei-avatar{
+  width:72px;
+  height:72px;
+  flex:0 0 72px;
+  border:1px solid rgba(196,157,75,.48);
+  border-radius:21px;
+  box-shadow:0 12px 30px rgba(0,0,0,.28);
+}
+.combat-lorelei-copy{display:flex;min-width:0;flex-direction:column}
+.combat-lorelei-copy span{font-size:8px;font-weight:900;letter-spacing:.14em;color:var(--accent2)}
+.combat-lorelei-copy strong{overflow:hidden;margin-top:3px;font-size:18px;text-overflow:ellipsis;white-space:nowrap}
+.combat-lorelei-copy small{margin-top:3px;color:var(--muted);font-size:10px}
+.combat-result-lorelei{
+  width:96px;
+  height:96px;
+  margin:0 auto 14px;
+  border:1px solid rgba(196,157,75,.5);
+  border-radius:28px;
+  box-shadow:0 15px 34px rgba(0,0,0,.3);
+}
+.combat-lorelei-avatar .lorelei-avatar-fallback,.combat-result-lorelei .lorelei-avatar-fallback{font-size:32px}
+
 @media(max-width:420px){
   .home-lorelei-avatar{width:50px;height:50px;flex-basis:50px;border-radius:15px}
   .home-lorelei-shell{gap:9px}
