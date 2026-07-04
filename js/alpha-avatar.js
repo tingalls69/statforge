@@ -16,6 +16,15 @@
     return '🧑';
   }
 
+  function opaqueSeed(value) {
+    let hash = 2166136261;
+    for (let index = 0; index < value.length; index += 1) {
+      hash ^= value.charCodeAt(index);
+      hash = Math.imul(hash, 16777619);
+    }
+    return `asc-${(hash >>> 0).toString(16).padStart(8, '0')}`;
+  }
+
   function seedFor(draft) {
     const parts = [
       'ascendry-lorelei-preview-v1',
@@ -30,7 +39,7 @@
       draft?.outfit || 'Traveler',
       draft?.outfitColor || 'Teal'
     ];
-    return parts.join('|');
+    return opaqueSeed(parts.join('|'));
   }
 
   function avatarUrl(draft) {
