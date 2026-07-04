@@ -1,1 +1,1 @@
-globalThis.SF_VERSION = '0.5.4';
+globalThis.SF_VERSION = '0.5.5';
