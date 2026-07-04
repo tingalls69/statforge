@@ -32,6 +32,14 @@
   let started = false;
   let timer = null;
   let writing = false;
+  const debug = globalThis.SF_AVATAR_DEBUG = {
+    engineMode: null,
+    lastRenderError: null,
+    bodyRendered: false,
+    headRendered: false,
+    selectedTab: activeTab,
+    selectedOptions: {}
+  };
 
   const cfg = () => globalThis.SFLoreleiConfig;
   const engine = () => globalThis.SFLoreleiEngine;
@@ -51,7 +59,7 @@
     const options = { ...cfg().options(visual) };
     delete options.backgroundColor;
     options.seed = 'ascendry-canonical-head';
-    options.scale = 96;
+    options.scale = .96;
     options.translateY = 2;
     return engine().renderDataUri(options);
   }
@@ -132,6 +140,49 @@
     activateHead(box.querySelector('.asc-figure'));
   }
 
+  function figureMarkup(visual, compact = false) {
+    return `<div class="asc-figure ${compact ? 'compact' : ''}"><div class="asc-figure-body">${bodySvg(visual)}</div><div class="asc-head-fallback" aria-hidden="true"></div></div>`;
+  }
+
+  function activateHead(root, src, alt) {
+    if (!root || !src) return;
+    const img = document.createElement('img');
+    img.className = 'asc-figure-head';
+    img.alt = alt;
+    const ready = () => root.classList.add('head-ready');
+    const failed = () => root.classList.remove('head-ready');
+    img.addEventListener('load', ready, { once: true });
+    img.addEventListener('error', failed, { once: true });
+    img.src = src;
+    root.append(img);
+    if (img.complete && img.naturalWidth > 0) ready();
+  }
+
+  function renderLoreleiHead(root, visual) {
+    debug.engineMode = engine()?.mode || null;
+    debug.headRendered = false;
+    try {
+      const src = loreleiHead(visual);
+      activateHead(root, src, `${visual.name || 'Character'} face`);
+      debug.headRendered = Boolean(src);
+    } catch (error) {
+      debug.lastRenderError = String(error?.message || error);
+      root?.classList.remove('head-ready');
+      console.warn('Ascendry Lorelei head render failed; body remains visible.', error);
+    }
+  }
+
+  function renderFigure(box, visual = draft(), compact = false) {
+    if (!box) return;
+    const key = JSON.stringify({ visual, identity: identity(), compact });
+    if (box.dataset.ascFigureKey === key) return;
+    box.dataset.ascFigureKey = key;
+    box.classList.add('asc-figure-frame');
+    box.innerHTML = figureMarkup(visual, compact);
+    debug.bodyRendered = Boolean(box.querySelector('.asc-figure-body svg'));
+    renderLoreleiHead(box.querySelector('.asc-figure'), visual);
+  }
+
   function valuesFor(key) { return cfg().values(key); }
   function cycle(values, current, direction) {
     if (!values.length) return current;
@@ -207,6 +258,81 @@
     if (custom) custom.oninput = () => cfg().updateProfile('customPronouns', custom.value);
   }
 
+  function updateStepperNode(node) {
+    const key = node?.dataset.stepKey;
+    if (!key) return;
+    const visual = creatorDraft();
+    const values = node.dataset.stepMode === 'avatar' ? valuesFor(key) : PROFILE[key];
+    const value = node.dataset.stepMode === 'avatar' ? cfg().lorelei(visual.lorelei)[key] : visual[key];
+    const index = Math.max(0, values.indexOf(value));
+    const strong = node.querySelector('strong');
+    const small = node.querySelector('small');
+    if (strong) strong.textContent = node.dataset.stepMode === 'avatar' ? cfg().optionLabel(key, value, index) : value;
+    if (small) small.textContent = `${index + 1} of ${values.length}`;
+  }
+
+  function bindControls(card) {
+    if (!card.dataset.ascDelegated) {
+      card.dataset.ascDelegated = 'true';
+      card.addEventListener('click', event => {
+        const tab = event.target.closest('[data-tab-v3]');
+        if (tab && card.contains(tab)) {
+          activeTab = tab.dataset.tabV3;
+          patchCreator(true);
+          return;
+        }
+
+        const arrow = event.target.closest('[data-dir]');
+        const node = arrow?.closest('.asc-stepper');
+        if (arrow && node && card.contains(node)) {
+          const key = node.dataset.stepKey;
+          const direction = Number(arrow.dataset.dir);
+          const visual = creatorDraft();
+          if (node.dataset.stepMode === 'avatar') {
+            const current = cfg().lorelei(visual.lorelei)[key];
+            cfg().updateAvatar(key, cycle(valuesFor(key), current, direction));
+          } else {
+            cfg().updateProfile(key, cycle(PROFILE[key], visual[key], direction));
+          }
+          updateStepperNode(node);
+          patchCreator(false);
+          patchAllFigures();
+          return;
+        }
+
+        const toggleButton = event.target.closest('[data-toggle-key]');
+        if (toggleButton && card.contains(toggleButton)) {
+          const key = toggleButton.dataset.toggleKey;
+          cfg().updateAvatar(key, !cfg().lorelei(creatorDraft().lorelei)[key]);
+          patchCreator(true);
+          patchAllFigures();
+          return;
+        }
+
+        const colorButton = event.target.closest('[data-color-key]');
+        if (colorButton && card.contains(colorButton)) {
+          cfg().updateAvatar(colorButton.dataset.colorKey, colorButton.dataset.colorValue);
+          patchCreator(true);
+          patchAllFigures();
+        }
+      });
+    }
+
+    const name = card.querySelector('[data-name]');
+    if (name) {
+      name.onfocus = () => { writing = true; };
+      name.onblur = () => { writing = false; patchCreator(true); };
+      name.oninput = () => {
+        cfg().updateProfile('name', name.value);
+        document.querySelectorAll('.avatar-name').forEach(node => { node.textContent = name.value || 'Unnamed Hero'; });
+        const reveal = document.getElementById('reveal-stats');
+        if (reveal) reveal.disabled = !name.value.trim();
+      };
+    }
+    const custom = card.querySelector('[data-custom-pronouns]');
+    if (custom) custom.oninput = () => cfg().updateProfile('customPronouns', custom.value);
+  }
+
   function patchCreator(force = false) {
     const kicker = document.querySelector('.alpha-main > .alpha-kicker');
     if (kicker?.textContent.trim() !== 'Character Creation') return;
@@ -215,6 +341,15 @@
     const card = layout?.querySelector('section.card:not(.avatar-preview)');
     if (!layout || !preview || !card) return;
     const visual = creatorDraft();
+    debug.selectedTab = activeTab;
+    debug.selectedOptions = {
+      height: visual.height,
+      bodyShape: visual.bodyShape,
+      pose: visual.pose,
+      outfit: visual.outfit,
+      background: visual.background,
+      lorelei: cfg().lorelei(visual.lorelei)
+    };
     layout.classList.add('asc-creator-layout');
     preview.classList.add('asc-creator-preview');
     const previewKey = JSON.stringify({ visual, identity: identity() });
