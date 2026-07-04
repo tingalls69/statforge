@@ -1,13 +1,13 @@
-// Ascendry public alpha cache manifest — Phase 5 cycle 0.5.0
+// Ascendry public alpha cache manifest — Lorelei preview 0.5.1
 importScripts('./js/version.js');
 
-const VERSION = globalThis.SF_VERSION || '0.5.0';
+const VERSION = globalThis.SF_VERSION || '0.5.1';
 const CACHE = `ascendry-alpha-v${VERSION}`;
 const v = `?v=${encodeURIComponent(VERSION)}`;
 const ASSETS = [
   './', './index.html', `./index.html${v}`,
-  `./css/styles.css${v}`, `./css/alpha.css${v}`, `./css/alpha-game.css${v}`, `./css/alpha-public-polish.css${v}`, `./css/alpha-quest-compact.css${v}`, `./css/alpha-workout.css${v}`, `./css/alpha-workout-fantasy.css${v}`,
-  `./js/version.js${v}`, `./js/data.js${v}`, `./js/storage.js${v}`, `./js/alpha-accent.js${v}`, `./js/combat.js${v}`, `./js/alpha-upgrade.js${v}`, `./js/alpha-life-quests.js${v}`, `./js/alpha.js${v}`,
+  `./css/styles.css${v}`, `./css/alpha.css${v}`, `./css/alpha-avatar.css${v}`, `./css/alpha-game.css${v}`, `./css/alpha-public-polish.css${v}`, `./css/alpha-quest-compact.css${v}`, `./css/alpha-workout.css${v}`, `./css/alpha-workout-fantasy.css${v}`,
+  `./js/version.js${v}`, `./js/data.js${v}`, `./js/storage.js${v}`, `./js/alpha-accent.js${v}`, `./js/combat.js${v}`, `./js/alpha-upgrade.js${v}`, `./js/alpha-life-quests.js${v}`, `./js/alpha.js${v}`, `./js/alpha-avatar.js${v}`,
   `./js/alpha-exercises.js${v}`, `./js/alpha-onboarding-tools.js${v}`, `./js/alpha-generator.js${v}`, `./js/alpha-workout-core.js${v}`, `./js/alpha-runner.js${v}`, `./js/alpha-workout-interactions.js${v}`,
   `./js/alpha-game-data.js${v}`, `./js/alpha-game-engine.js${v}`, `./js/alpha-game-ui.js${v}`, `./js/alpha-public-polish.js${v}`,
   './manifest.webmanifest', `./manifest.webmanifest${v}`, './assets/icons/icon-192.png', './assets/icons/icon-512.png', './assets/icons/logo.svg',
