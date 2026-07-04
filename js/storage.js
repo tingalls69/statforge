@@ -5,7 +5,7 @@ window.SFStore = (() => {
   const SCHEMA_VERSION = 5;
   const STAT_KEYS = ['strength', 'vitality', 'discipline', 'focus', 'insight'];
   const OBSOLETE_ROOT_KEYS = [
-    'profile', 'gold', 'tracks', 'baseline', 'workouts', 'logs', 'nutrition', 'encounters',
+    'gold', 'tracks', 'baseline', 'workouts', 'logs', 'nutrition', 'encounters',
     'milestones', 'reminders', 'legacyBoons', 'drafts', 'customContent', 'rewardBank',
     'personalRewardBank', 'personalRewards', 'rewardBalance', 'measurements', 'activityLog'
   ];
@@ -17,6 +17,11 @@ window.SFStore = (() => {
   const defaultState = () => ({
     version: SCHEMA_VERSION,
     createdAt: new Date().toISOString(),
+    profile: {
+      name: '',
+      baselineComplete: false,
+      programStartDate: null
+    },
     onboarding: {
       completed: false,
       step: 'welcome',
