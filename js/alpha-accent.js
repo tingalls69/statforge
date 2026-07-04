@@ -1,13 +1,14 @@
 (() => {
   'use strict';
 
-  const PRIMARY = '#75866b';
-  const SECONDARY = '#aebb9a';
+  const PRIMARY = '#4f7a5b';
+  const SECONDARY = '#91b79a';
   const LEGACY_ACCENTS = new Set([
     '#25d9c7',
     '#4f9f95',
     '#39d0bf',
-    '#34c7b5'
+    '#34c7b5',
+    '#75866b'
   ]);
 
   function applyPalette() {
