@@ -4,10 +4,21 @@
   const CORE_URL = 'https://esm.sh/@dicebear/core@10.2.0?bundle&target=es2020';
   const DEFINITION_URL = 'https://cdn.hopjs.net/npm/@dicebear/styles@10.2.0/dist/lorelei.min.json';
   const API_URL = 'https://api.dicebear.com/10.x/lorelei/svg';
-  const counts = { headVariant: 4, eyesVariant: 24, eyebrowsVariant: 13, noseVariant: 6, hairVariant: 48, beardVariant: 2, glassesVariant: 5, earringsVariant: 3 };
-  const fallbackDescriptor = Object.fromEntries(Object.entries(counts).map(([key, count]) => [key, {
-    values: Array.from({ length: count }, (_, index) => `variant${String(index + 1).padStart(2, '0')}`)
-  }]));
+  const counts = {
+    headVariant: 4,
+    eyesVariant: 24,
+    eyebrowsVariant: 13,
+    noseVariant: 6,
+    hairVariant: 48,
+    beardVariant: 2,
+    glassesVariant: 5,
+    earringsVariant: 3
+  };
+  const fallbackDescriptor = Object.fromEntries(
+    Object.entries(counts).map(([key, count]) => [key, {
+      values: Array.from({ length: count }, (_, index) => `variant${String(index + 1).padStart(2, '0')}`)
+    }])
+  );
   fallbackDescriptor.mouthVariant = {
     values: [
       ...Array.from({ length: 18 }, (_, index) => `happy${String(index + 1).padStart(2, '0')}`),
@@ -15,9 +26,9 @@
     ]
   };
 
-  function apiAvatarUrl(options) {
+  function apiAvatarUrl(options = {}) {
     const query = new URLSearchParams();
-    Object.entries(options || {}).forEach(([key, value]) => {
+    Object.entries(options).forEach(([key, value]) => {
       if (value === undefined || value === null || value === '') return;
       query.set(key, typeof value === 'string' && value.startsWith('#') ? value.slice(1) : String(value));
     });
@@ -36,13 +47,20 @@
         fetch(DEFINITION_URL, { mode: 'cors' })
       ]);
       if (!response.ok) throw new Error(`Lorelei definition request failed: ${response.status}`);
+
       const style = new core.Style(await response.json());
       publish({
         version: '10.2.0',
-        mode: 'browser',
+        mode: 'browser-safe',
         descriptor: new core.OptionsDescriptor(style).toJSON(),
         renderDataUri(options) {
-          return new core.Avatar(style, options).toDataUri();
+          try {
+            const rendered = new core.Avatar(style, options).toDataUri();
+            if (typeof rendered === 'string' && rendered.length > 20) return rendered;
+          } catch (error) {
+            console.warn('Lorelei local render failed; using direct SVG endpoint.', error);
+          }
+          return apiAvatarUrl(options);
         }
       });
     } catch (error) {
