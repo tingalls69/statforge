@@ -1,11 +1,12 @@
+// Ascendry public alpha cache manifest — UI cycle 0.4.1
 importScripts('./js/version.js');
 
-const VERSION = globalThis.SF_VERSION || '0.4.0';
+const VERSION = globalThis.SF_VERSION || '0.4.1';
 const CACHE = `ascendry-alpha-v${VERSION}`;
 const v = `?v=${encodeURIComponent(VERSION)}`;
 const ASSETS = [
   './', './index.html', `./index.html${v}`,
-  `./css/styles.css${v}`, `./css/alpha.css${v}`, `./css/alpha-game.css${v}`, `./css/alpha-public-polish.css${v}`, `./css/alpha-workout.css${v}`,
+  `./css/styles.css${v}`, `./css/alpha.css${v}`, `./css/alpha-game.css${v}`, `./css/alpha-public-polish.css${v}`, `./css/alpha-workout.css${v}`, `./css/alpha-workout-fantasy.css${v}`,
   `./js/version.js${v}`, `./js/data.js${v}`, `./js/storage.js${v}`, `./js/combat.js${v}`, `./js/alpha-upgrade.js${v}`, `./js/alpha.js${v}`,
   `./js/alpha-exercises.js${v}`, `./js/alpha-onboarding-tools.js${v}`, `./js/alpha-generator.js${v}`, `./js/alpha-workout-core.js${v}`, `./js/alpha-runner.js${v}`,
   `./js/alpha-game-data.js${v}`, `./js/alpha-game-engine.js${v}`, `./js/alpha-game-ui.js${v}`, `./js/alpha-public-polish.js${v}`,
