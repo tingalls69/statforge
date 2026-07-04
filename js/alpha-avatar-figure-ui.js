@@ -3,12 +3,23 @@
 
   let timer = null;
   let started = false;
+  let cachedFigureKey = '';
+  let cachedFigureUri = '';
   const poses = ['Neutral', 'Confident', 'Relaxed'];
   const config = () => globalThis.SFLoreleiConfig;
   const figure = () => globalThis.SFAvatarFigure;
 
   function ready() {
     return Boolean(config() && figure() && globalThis.SFStore);
+  }
+
+  function expectedFigure() {
+    const key = `${figure().figureKey()}|${figure().currentVisual().name || ''}`;
+    if (key !== cachedFigureKey || !cachedFigureUri) {
+      cachedFigureKey = key;
+      cachedFigureUri = figure().renderDataUri();
+    }
+    return cachedFigureUri;
   }
 
   function ensureFigureState() {
@@ -79,13 +90,14 @@
   function patchImage(image) {
     const box = image.closest('.avatar-orb,.home-lorelei-avatar,.combat-lorelei-avatar,.combat-result-lorelei');
     if (!box) return;
-    const key = figure().figureKey();
-    if (image.dataset.figureKey === key && image.src.startsWith('data:image/svg+xml')) return;
+    const key = `${figure().figureKey()}|${figure().currentVisual().name || ''}`;
+    const expected = expectedFigure();
+    if (image.dataset.figureKey === key && image.getAttribute('src') === expected) return;
     image.dataset.figureKey = key;
     image.classList.add('full-figure-image');
     box.classList.add('full-figure-frame');
     if (box.matches('.home-lorelei-avatar,.combat-lorelei-avatar,.combat-result-lorelei')) box.classList.add('figure-crop-bust');
-    image.src = figure().renderDataUri();
+    image.src = expected;
   }
 
   function patchImages() {
