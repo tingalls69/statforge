@@ -2,7 +2,7 @@ window.SFStore = (() => {
   'use strict';
 
   const KEY = 'statforge_state_v2';
-  const SCHEMA_VERSION = 5;
+  const SCHEMA_VERSION = 6;
   const STAT_KEYS = ['strength', 'vitality', 'discipline', 'focus', 'insight'];
   const OBSOLETE_ROOT_KEYS = [
     'gold', 'tracks', 'baseline', 'workouts', 'logs', 'nutrition', 'encounters',
@@ -105,10 +105,24 @@ window.SFStore = (() => {
     return output;
   }
 
+  function cleanVisual(visual) {
+    if (!visual || typeof visual !== 'object') return visual;
+    delete visual.figure;
+    if (visual.lorelei && typeof visual.lorelei === 'object') delete visual.lorelei.backgroundColor;
+    return visual;
+  }
+
   function mergeDefaults(saved) {
     const merged = saved ? deepMerge(defaultState(), saved) : defaultState();
     OBSOLETE_ROOT_KEYS.forEach(key => delete merged[key]);
     merged.version = SCHEMA_VERSION;
+    merged.profile = {
+      name: String(merged.profile?.name || ''),
+      baselineComplete: Boolean(merged.profile?.baselineComplete),
+      programStartDate: merged.profile?.programStartDate || null
+    };
+    cleanVisual(merged.onboarding?.characterDraft);
+    cleanVisual(merged.character?.visual);
 
     STAT_KEYS.forEach(key => {
       const current = merged.rlaStats[key];
