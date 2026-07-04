@@ -3,70 +3,52 @@
 
   let timer = null;
   let started = false;
-  let cachedFigureKey = '';
-  let cachedFigureUri = '';
-  const poses = ['Neutral', 'Confident', 'Relaxed'];
+  let cachedBodyKey = '';
+  let cachedBodyUri = '';
+  let cachedHeadKey = '';
+  let cachedHeadUri = '';
+
   const config = () => globalThis.SFLoreleiConfig;
   const figure = () => globalThis.SFAvatarFigure;
+  const engine = () => globalThis.SFLoreleiEngine;
 
   function ready() {
-    return Boolean(config() && figure() && globalThis.SFStore);
+    return Boolean(config() && figure() && engine() && globalThis.SFStore);
   }
 
-  function expectedFigure() {
+  function bodyUri() {
     const key = `${figure().figureKey()}|${figure().currentVisual().name || ''}`;
-    if (key !== cachedFigureKey || !cachedFigureUri) {
-      cachedFigureKey = key;
-      cachedFigureUri = figure().renderDataUri();
+    if (key !== cachedBodyKey || !cachedBodyUri) {
+      cachedBodyKey = key;
+      cachedBodyUri = figure().renderDataUri();
     }
-    return cachedFigureUri;
+    return cachedBodyUri;
+  }
+
+  function headUri() {
+    const visual = figure().currentVisual();
+    const avatarOptions = { ...config().options(visual) };
+    delete avatarOptions.backgroundColor;
+    avatarOptions.seed = 'ascendry-layered-head';
+    avatarOptions.scale = 96;
+    avatarOptions.translateY = 2;
+    const key = JSON.stringify(avatarOptions);
+    if (key !== cachedHeadKey || !cachedHeadUri) {
+      cachedHeadKey = key;
+      cachedHeadUri = engine().renderDataUri(avatarOptions);
+    }
+    return cachedHeadUri;
   }
 
   function ensureFigureState() {
     const save = globalThis.SFStore.get();
     const draft = save.onboarding?.characterDraft;
-    if (!draft || draft.figure?.version === 1) return;
+    if (!draft || draft.figure?.version === 2) return;
     globalThis.SFStore.update(next => {
-      next.onboarding.characterDraft.figure = { version: 1, showClassGear: true };
-      if (next.character?.visual) next.character.visual.figure = { version: 1, showClassGear: true };
+      next.onboarding.characterDraft.figure = { version: 2, showClassGear: true };
+      if (next.character?.visual) next.character.visual.figure = { version: 2, showClassGear: true };
       return next;
     });
-  }
-
-  function isCharacterCreator() {
-    return document.querySelector('.alpha-main > .alpha-kicker')?.textContent.trim() === 'Character Creation';
-  }
-
-  function activeCreatorTab() {
-    return document.querySelector('.lorelei-tabs button.active')?.textContent.trim() || '';
-  }
-
-  function injectPoseControl() {
-    if (!isCharacterCreator() || activeCreatorTab() !== 'Identity') return;
-    const panel = document.querySelector('.lorelei-creator-panel');
-    if (!panel || panel.querySelector('[data-figure-pose]')) return;
-    const visual = config().state().onboarding.characterDraft;
-    const section = document.createElement('section');
-    section.className = 'figure-creator-section';
-    section.innerHTML = `<div class="figure-section-head"><strong>Pose</strong><span>Changes the full-body stance.</span></div><div class="figure-pose-grid">${poses.map(pose => `<button type="button" data-figure-pose="${pose}" class="${visual.pose === pose ? 'selected' : ''}"><i aria-hidden="true" class="pose-${pose.toLowerCase()}"></i><strong>${pose}</strong></button>`).join('')}</div>`;
-    panel.append(section);
-    section.querySelectorAll('[data-figure-pose]').forEach(button => {
-      button.onclick = () => {
-        config().updateProfile('pose', button.dataset.figurePose);
-        schedule();
-      };
-    });
-  }
-
-  function injectFantasySummary() {
-    if (!isCharacterCreator() || activeCreatorTab() !== 'Fantasy') return;
-    const panel = document.querySelector('.lorelei-creator-panel');
-    if (!panel || panel.querySelector('.figure-gear-summary')) return;
-    const identity = figure().currentIdentity();
-    const card = document.createElement('section');
-    card.className = 'figure-gear-summary';
-    card.innerHTML = `<span>ADVENTURE GEAR PREVIEW</span><strong>${config().esc(identity.className)} · ${config().esc(identity.build)}</strong><small>Your selected class and build automatically add their weapon, shield, focus, quiver, or field gear to the figure.</small>`;
-    panel.append(card);
   }
 
   function updatePreviewCopy() {
@@ -87,35 +69,53 @@
     });
   }
 
-  function patchImage(image) {
-    const box = image.closest('.avatar-orb,.home-lorelei-avatar,.combat-lorelei-avatar,.combat-result-lorelei');
-    if (!box) return;
-    const key = `${figure().figureKey()}|${figure().currentVisual().name || ''}`;
-    const expected = expectedFigure();
-    if (image.dataset.figureKey === key && image.getAttribute('src') === expected) return;
-    image.dataset.figureKey = key;
-    image.classList.add('full-figure-image');
-    box.classList.add('full-figure-frame');
-    if (box.matches('.home-lorelei-avatar,.combat-lorelei-avatar,.combat-result-lorelei')) box.classList.add('figure-crop-bust');
-    image.src = expected;
+  function stageFor(box) {
+    let stage = box.querySelector('.figure-stage');
+    if (stage) return stage;
+    stage = document.createElement('div');
+    stage.className = 'figure-stage';
+    const body = document.createElement('img');
+    body.className = 'figure-body-layer';
+    body.alt = '';
+    body.setAttribute('aria-hidden', 'true');
+    const head = document.createElement('img');
+    head.className = 'figure-head-layer';
+    head.alt = `${figure().currentVisual().name || 'Character'} face`;
+    stage.append(body, head);
+    box.append(stage);
+    return stage;
   }
 
-  function patchImages() {
-    document.querySelectorAll('img[data-lorelei-avatar]').forEach(patchImage);
+  function patchBox(box) {
+    if (!box) return;
+    box.classList.add('full-figure-frame');
+    box.classList.toggle('figure-crop-bust', box.matches('.home-lorelei-avatar'));
+    box.classList.toggle('figure-combat-full', box.matches('.combat-lorelei-avatar'));
+    box.classList.toggle('figure-result-full', box.matches('.combat-result-lorelei'));
+    const stage = stageFor(box);
+    const body = stage.querySelector('.figure-body-layer');
+    const head = stage.querySelector('.figure-head-layer');
+    const nextBody = bodyUri();
+    const nextHead = headUri();
+    if (body.getAttribute('src') !== nextBody) body.src = nextBody;
+    if (head.getAttribute('src') !== nextHead) head.src = nextHead;
+    head.alt = `${figure().currentVisual().name || 'Character'} face`;
+  }
+
+  function patchFigures() {
+    document.querySelectorAll('.avatar-orb,.home-lorelei-avatar,.combat-lorelei-avatar,.combat-result-lorelei').forEach(patchBox);
   }
 
   function patch() {
     if (!ready()) return;
     ensureFigureState();
-    injectPoseControl();
-    injectFantasySummary();
     updatePreviewCopy();
-    patchImages();
+    patchFigures();
   }
 
   function schedule() {
     clearTimeout(timer);
-    timer = setTimeout(patch, 85);
+    timer = setTimeout(patch, 70);
   }
 
   function start() {
