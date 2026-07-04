@@ -1,4 +1,1 @@
-(() => {
-  'use strict';
-  globalThis.SF_VERSION = '0.5.1';
-})();
+window.SF_VERSION = '0.5.2';
