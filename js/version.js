@@ -1,1 +1,1 @@
-window.SF_VERSION = '0.5.2';
+globalThis.SF_VERSION = '0.5.2';
