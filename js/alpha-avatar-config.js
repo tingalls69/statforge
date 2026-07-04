@@ -48,7 +48,6 @@
       glassesColor: selected.glassesColor,
       earringsColor: selected.earringsColor,
       hairAccessoriesColor: selected.earringsColor,
-      backgroundColor: selected.backgroundColor,
       scale: .94,
       translateY: 2
     };
