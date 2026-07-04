@@ -129,10 +129,51 @@
     patchPortrait(portrait, true);
   }
 
+  function createCombatIdentity(shell, battle) {
+    const portrait = document.createElement('div');
+    portrait.className = 'combat-lorelei-avatar';
+
+    const copy = document.createElement('div');
+    copy.className = 'combat-lorelei-copy';
+    const label = document.createElement('span');
+    label.textContent = 'YOUR HERO';
+    const name = document.createElement('strong');
+    name.textContent = currentDraft()?.name || 'Unnamed Hero';
+    const build = document.createElement('small');
+    build.textContent = battle ? `${battle.className} · ${battle.build}` : 'Ascendry hero';
+    copy.append(label, name, build);
+    shell.append(portrait, copy);
+    return portrait;
+  }
+
+  function patchCombatPortrait() {
+    const battle = window.SFGame?.engine?.get?.();
+    const player = document.querySelector('.game-player');
+    if (player) {
+      let portrait = player.querySelector('.combat-lorelei-avatar');
+      if (!portrait) {
+        const shell = document.createElement('div');
+        shell.className = 'combat-lorelei-shell';
+        portrait = createCombatIdentity(shell, battle);
+        player.prepend(shell);
+      }
+      patchPortrait(portrait, true);
+    }
+
+    const result = document.querySelector('.game-result');
+    if (result && !result.querySelector('.combat-result-lorelei')) {
+      const portrait = document.createElement('div');
+      portrait.className = 'combat-result-lorelei';
+      result.prepend(portrait);
+      patchPortrait(portrait, true);
+    }
+  }
+
   function patch() {
     patchTimer = null;
     patchExistingOrbs();
     patchHomeProgress();
+    patchCombatPortrait();
   }
 
   function schedulePatch() {
