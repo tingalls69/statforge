@@ -2,10 +2,10 @@
 html,body{background-color:var(--fantasy-ink)}
 body{background:linear-gradient(180deg,#0a0f15 0%,#0c131a 42%,#080d12 100%)}
 .page-title,.alpha-title,.quest-title,.modal-title,.game-battle-head h1,.game-result h1,.workout-runner-head h2{font-family:Georgia,"Times New Roman",serif;letter-spacing:.01em;text-wrap:balance;color:#f0e8d8}
-.alpha-topbar,.topbar{border-bottom:1px solid #2b3540;background:rgba(9,14,20,.97);box-shadow:0 4px 16px rgba(0,0,0,.22)}
-.alpha-topbar::after,.topbar::after{content:"";position:absolute;left:16px;right:16px;bottom:-1px;height:1px;background:linear-gradient(90deg,transparent,var(--fantasy-gold),transparent);opacity:.5}
-.alpha-brand img,.brand img{padding:5px;border:1px solid #38434f;border-radius:10px;background:#111922}
-.alpha-brand strong,.brand-title{font-family:Georgia,"Times New Roman",serif;color:#f0e8d8;letter-spacing:.025em}
+.alpha-topbar{border-bottom:1px solid #2b3540;background:rgba(9,14,20,.97);box-shadow:0 4px 16px rgba(0,0,0,.22)}
+.alpha-topbar::after{content:"";position:absolute;left:16px;right:16px;bottom:-1px;height:1px;background:linear-gradient(90deg,transparent,var(--fantasy-gold),transparent);opacity:.5}
+.alpha-brand img{padding:5px;border:1px solid #38434f;border-radius:10px;background:#111922}
+.alpha-brand strong{font-family:Georgia,"Times New Roman",serif;color:#f0e8d8;letter-spacing:.025em}
 .app-version-badge{display:inline-flex;align-items:center;width:max-content;margin-top:3px;padding:2px 7px;border:1px solid #4a4435;border-radius:999px;background:#18170f;color:var(--fantasy-gold-bright);font-size:9px;font-weight:800;letter-spacing:.055em;line-height:1.4;text-transform:uppercase}
 .level-chip{border-color:#4a4435;background:#111922;color:var(--fantasy-gold-bright);box-shadow:none}
 .card{border-color:var(--fantasy-line);border-radius:12px;background:var(--fantasy-panel);box-shadow:0 8px 22px rgba(0,0,0,.24)}
