@@ -4,6 +4,11 @@ window.SFStore = (() => {
   const KEY = 'statforge_state_v2';
   const SCHEMA_VERSION = 5;
   const STAT_KEYS = ['strength', 'vitality', 'discipline', 'focus', 'insight'];
+  const OBSOLETE_ROOT_KEYS = [
+    'profile', 'gold', 'tracks', 'baseline', 'workouts', 'logs', 'nutrition', 'encounters',
+    'milestones', 'reminders', 'legacyBoons', 'drafts', 'customContent', 'rewardBank',
+    'personalRewardBank', 'personalRewards', 'rewardBalance', 'measurements', 'activityLog'
+  ];
 
   const defaultRlaStats = () => Object.fromEntries(
     STAT_KEYS.map(key => [key, { score: 5, growth: 0, source: 'default' }])
@@ -83,7 +88,6 @@ window.SFStore = (() => {
   });
 
   let state;
-  const clone = value => JSON.parse(JSON.stringify(value));
 
   function deepMerge(base, saved) {
     if (Array.isArray(base)) return Array.isArray(saved) ? saved : base;
@@ -98,6 +102,7 @@ window.SFStore = (() => {
 
   function mergeDefaults(saved) {
     const merged = saved ? deepMerge(defaultState(), saved) : defaultState();
+    OBSOLETE_ROOT_KEYS.forEach(key => delete merged[key]);
     merged.version = SCHEMA_VERSION;
 
     STAT_KEYS.forEach(key => {
@@ -218,7 +223,6 @@ window.SFStore = (() => {
     exportSave,
     importSave,
     defaultState,
-    STAT_KEYS,
-    clone
+    STAT_KEYS
   };
 })();
