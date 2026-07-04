@@ -1,7 +1,7 @@
-// Ascendry public alpha cache manifest — UI cycle 0.4.4
+// Ascendry public alpha cache manifest — UI cycle 0.4.5
 importScripts('./js/version.js');
 
-const VERSION = globalThis.SF_VERSION || '0.4.4';
+const VERSION = globalThis.SF_VERSION || '0.4.5';
 const CACHE = `ascendry-alpha-v${VERSION}`;
 const v = `?v=${encodeURIComponent(VERSION)}`;
 const ASSETS = [
