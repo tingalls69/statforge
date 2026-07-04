@@ -1,7 +1,7 @@
 (() => {
   'use strict';
 
-  const VERSION = globalThis.SF_VERSION || '0.4.0';
+  const VERSION = globalThis.SF_VERSION || '0.4.1';
   const ROUTES = [
     ['home', '⌂', 'Home'],
     ['questline', '◫', 'Quest'],
@@ -51,10 +51,10 @@
     return sessionStorage.getItem('sf-pending-route');
   }
 
-  function applyPendingRoute() {
+  function applyPendingRoute(nav) {
     const route = pendingRoute();
     if (!route || route === 'adventure') return false;
-    const original = document.querySelector(`.alpha-nav [data-route="${route}"]`);
+    const original = nav.querySelector(`[data-route="${route}"]`);
     if (!original) return false;
     sessionStorage.removeItem('sf-pending-route');
     original.click();
@@ -83,15 +83,25 @@
   }
 
   function unifyNavigation() {
-    const nav = document.querySelector('.alpha-nav');
-    if (!nav) return;
-    if (applyPendingRoute()) return;
+    const navs = [...document.querySelectorAll('.alpha-nav')];
+    if (!navs.length) return;
+    const nav = navs[navs.length - 1];
+    navs.slice(0, -1).forEach(extra => extra.remove());
+
+    if (applyPendingRoute(nav)) return;
+
+    nav.querySelectorAll('[data-alpha-adventure]:not([data-public-route="adventure"])').forEach(extra => extra.remove());
     const current = inferRoute(nav);
     const signature = `unified-${current}-${VERSION}`;
-    if (nav.dataset.publicNav === signature) return;
+    const hasCorrectButtons = nav.querySelectorAll('[data-public-route]').length === ROUTES.length;
+    if (nav.dataset.publicNav === signature && hasCorrectButtons) return;
+
     nav.dataset.publicNav = signature;
-    nav.classList.add('public-alpha-nav');
-    nav.innerHTML = ROUTES.map(([key, icon, label]) => `<button type="button" data-public-route="${key}" class="${current === key ? 'active' : ''}"><b>${icon}</b><span>${label}</span></button>`).join('');
+    nav.className = 'alpha-nav public-alpha-nav';
+    nav.innerHTML = ROUTES.map(([key, icon, label]) => {
+      const adventureHook = key === 'adventure' ? ' data-alpha-adventure=""' : '';
+      return `<button type="button" data-public-route="${key}"${adventureHook} class="${current === key ? 'active' : ''}"><b>${icon}</b><span>${label}</span></button>`;
+    }).join('');
     nav.querySelectorAll('[data-public-route]').forEach(button => {
       button.addEventListener('click', () => navigate(button.dataset.publicRoute));
     });
