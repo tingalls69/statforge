@@ -5,10 +5,12 @@
   if (!base) return;
 
   function bodyOnlySvg() {
-    return base.renderSvg().replace(
-      /<image href="[^"]*" x="112" y="24" width="136" height="136" preserveAspectRatio="xMidYMid meet"\/>/,
-      ''
-    );
+    const source = base.renderSvg();
+    const start = source.indexOf('<image href=');
+    if (start < 0) return source;
+    const end = source.indexOf('/>', start);
+    if (end < 0) return source;
+    return source.slice(0, start) + source.slice(end + 2);
   }
 
   function bodyOnlyDataUri() {
@@ -16,7 +18,7 @@
   }
 
   globalThis.SFAvatarFigure = Object.freeze({
-    version: 2,
+    version: 3,
     figureKey: base.figureKey,
     currentVisual: base.currentVisual,
     currentIdentity: base.currentIdentity,
