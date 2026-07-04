@@ -1,13 +1,14 @@
 (() => {
   'use strict';
-  const version = globalThis.SF_VERSION || '0.4.1';
+  const version = globalThis.SF_VERSION || '0.4.2';
   const v = `?v=${encodeURIComponent(version)}`;
   const workoutModules = [
     `js/alpha-exercises.js${v}`,
     `js/alpha-onboarding-tools.js${v}`,
     `js/alpha-generator.js${v}`,
     `js/alpha-workout-core.js${v}`,
-    `js/alpha-runner.js${v}`
+    `js/alpha-runner.js${v}`,
+    `js/alpha-workout-interactions.js${v}`
   ];
 
   function loadStyle(href) {
