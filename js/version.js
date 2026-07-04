@@ -1,4 +1,4 @@
 (() => {
   'use strict';
-  globalThis.SF_VERSION = '0.4.4';
+  globalThis.SF_VERSION = '0.4.5';
 })();
