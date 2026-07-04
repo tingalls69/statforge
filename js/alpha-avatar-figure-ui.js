@@ -72,16 +72,42 @@
   function stageFor(box) {
     let stage = box.querySelector('.figure-stage');
     if (stage) return stage;
+
     stage = document.createElement('div');
     stage.className = 'figure-stage';
+
     const body = document.createElement('img');
     body.className = 'figure-body-layer';
     body.alt = '';
     body.setAttribute('aria-hidden', 'true');
+
+    const fallback = document.createElement('div');
+    fallback.className = 'figure-head-fallback';
+    fallback.textContent = '🧑';
+    fallback.setAttribute('aria-hidden', 'true');
+
     const head = document.createElement('img');
     head.className = 'figure-head-layer';
     head.alt = `${figure().currentVisual().name || 'Character'} face`;
-    stage.append(body, head);
+
+    body.addEventListener('load', () => {
+      box.classList.add('figure-body-ready');
+      box.classList.remove('figure-body-error');
+    });
+    body.addEventListener('error', () => {
+      box.classList.remove('figure-body-ready');
+      box.classList.add('figure-body-error');
+    });
+    head.addEventListener('load', () => {
+      box.classList.add('figure-head-ready');
+      box.classList.remove('figure-head-error');
+    });
+    head.addEventListener('error', () => {
+      box.classList.remove('figure-head-ready');
+      box.classList.add('figure-head-error');
+    });
+
+    stage.append(body, fallback, head);
     box.append(stage);
     return stage;
   }
@@ -92,14 +118,25 @@
     box.classList.toggle('figure-crop-bust', box.matches('.home-lorelei-avatar'));
     box.classList.toggle('figure-combat-full', box.matches('.combat-lorelei-avatar'));
     box.classList.toggle('figure-result-full', box.matches('.combat-result-lorelei'));
+
     const stage = stageFor(box);
     const body = stage.querySelector('.figure-body-layer');
     const head = stage.querySelector('.figure-head-layer');
+    const fallback = stage.querySelector('.figure-head-fallback');
+    const visual = figure().currentVisual();
+    fallback.textContent = visual.glasses && visual.glasses !== 'None' ? '🤓' : visual.presentation === 'Feminine' ? '👩' : '🧑';
+
     const nextBody = bodyUri();
     const nextHead = headUri();
-    if (body.getAttribute('src') !== nextBody) body.src = nextBody;
-    if (head.getAttribute('src') !== nextHead) head.src = nextHead;
-    head.alt = `${figure().currentVisual().name || 'Character'} face`;
+    if (body.getAttribute('src') !== nextBody) {
+      box.classList.remove('figure-body-ready', 'figure-body-error');
+      body.src = nextBody;
+    }
+    if (head.getAttribute('src') !== nextHead) {
+      box.classList.remove('figure-head-ready', 'figure-head-error');
+      head.src = nextHead;
+    }
+    head.alt = `${visual.name || 'Character'} face`;
   }
 
   function patchFigures() {
