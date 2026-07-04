@@ -26,12 +26,31 @@
     });
   }
 
-  document.addEventListener('click', event => {
-    const button = event.target.closest?.('.workout-runner [data-expand-exercise]');
-    if (!button) return;
+  function saveAndExit() {
+    const saveButton = document.getElementById('save-exit-workout');
+    if (saveButton) {
+      saveButton.click();
+      return;
+    }
 
+    const root = document.getElementById('modal-root');
+    if (root) root.innerHTML = '';
+    document.body.classList.remove('no-scroll');
+  }
+
+  document.addEventListener('click', event => {
+    const expandButton = event.target.closest?.('.workout-runner [data-expand-exercise]');
+    if (expandButton) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      toggleExercise(expandButton);
+      return;
+    }
+
+    const backButton = event.target.closest?.('.workout-runner #close-workout');
+    if (!backButton) return;
     event.preventDefault();
     event.stopImmediatePropagation();
-    toggleExercise(button);
+    saveAndExit();
   }, true);
 })();
