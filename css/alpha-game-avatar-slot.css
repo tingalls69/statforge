@@ -1,0 +1,6 @@
+.combat-player-card>.combat-player-portrait{display:none}
+.combat-player-card .combat-lorelei-shell{display:block;width:100%;min-height:0;flex:1;margin:0;padding:0;border:0}
+.combat-player-card .combat-lorelei-avatar{width:100%!important;height:100%!important;min-height:0;flex:1 1 auto!important;border:0!important;border-radius:8px!important;box-shadow:none!important}
+.combat-player-card .combat-lorelei-copy{display:none}
+.combat-player-card .combat-lorelei-avatar .asc-figure{inset:0}
+.combat-player-card .combat-lorelei-avatar.asc-figure-frame::after{inset:2px}
