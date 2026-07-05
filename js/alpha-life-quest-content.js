@@ -158,7 +158,8 @@
       title: concrete.title,
       questObjective: concrete.objective,
       contentVersion: CONTENT_VERSION,
-      minimumLabel: items[0]?.name || 'Complete the first step',
+      minimumLabel: 'Low-Energy Version',
+      minimumVersion: track.lowEnergy,
       minimumItemIds: items.length ? [items[0].id] : [],
       items
     };
@@ -282,8 +283,17 @@
       list.insertAdjacentElement('beforebegin', objective);
     });
 
-    document.querySelectorAll('.minimum-panel summary').forEach(summary => {
-      summary.textContent = 'Low-Energy Version';
+    document.querySelectorAll('.minimum-panel').forEach(panel => {
+      const summary = panel.querySelector('summary');
+      if (summary) summary.textContent = 'Low-Energy Version';
+      const body = panel.querySelector('.minimum-body');
+      const button = body?.querySelector('#complete-minimum');
+      if (!body || !button || body.dataset.concreteMinimum === 'true') return;
+      button.remove();
+      body.innerHTML = `<div>${esc(session.minimumVersion || session.questObjective)}</div><div class="list-sub" style="margin-top:8px">Complete this smaller version for reduced XP, 50% stat growth, full streak credit, and 0.5 milestone points.</div>`;
+      button.style.marginTop = '12px';
+      body.append(button);
+      body.dataset.concreteMinimum = 'true';
     });
   }
 
