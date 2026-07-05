@@ -29,7 +29,15 @@
       }
       .combat-action-card {
         -webkit-touch-callout: none;
+        -webkit-user-select: none;
         user-select: none;
+        touch-action: manipulation;
+      }
+      .combat-gesture-lock,
+      .combat-gesture-lock * {
+        -webkit-touch-callout: none !important;
+        -webkit-user-select: none !important;
+        user-select: none !important;
       }
     `;
     document.head.append(style);
@@ -43,6 +51,14 @@
     hint.className = 'combat-action-hint';
     hint.textContent = 'Tap to use · Hold for details';
     tabs.insertAdjacentElement('afterend', hint);
+  }
+
+  function clearSelection() {
+    try {
+      document.getSelection()?.removeAllRanges();
+    } catch (_) {
+      // Selection APIs are best-effort on older iOS versions.
+    }
   }
 
   function openThenConfirm(openDetail) {
@@ -64,9 +80,15 @@
     let holdTimer = null;
     let held = false;
     let moved = false;
+    let suppressNextClick = false;
     let startX = 0;
     let startY = 0;
 
+    const lockSelection = () => document.documentElement.classList.add('combat-gesture-lock');
+    const unlockSelection = () => {
+      document.documentElement.classList.remove('combat-gesture-lock');
+      clearSelection();
+    };
     const clearHold = () => {
       clearTimeout(holdTimer);
       holdTimer = null;
@@ -77,14 +99,15 @@
       if (event.pointerType === 'mouse' && event.button !== 0) return;
       held = false;
       moved = false;
+      suppressNextClick = false;
       startX = event.clientX;
       startY = event.clientY;
+      lockSelection();
       button.classList.add('gesture-holding');
       holdTimer = setTimeout(() => {
         if (moved) return;
         held = true;
         navigator.vibrate?.(12);
-        openDetail();
       }, HOLD_MS);
     });
 
@@ -92,20 +115,49 @@
       if (Math.hypot(event.clientX - startX, event.clientY - startY) <= MOVE_CANCEL_PX) return;
       moved = true;
       clearHold();
+      unlockSelection();
     });
 
-    button.addEventListener('pointerup', clearHold);
-    button.addEventListener('pointercancel', clearHold);
-    button.addEventListener('pointerleave', event => {
-      if (event.pointerType === 'mouse') clearHold();
+    button.addEventListener('pointerup', event => {
+      const shouldOpenDetails = held && !moved;
+      clearHold();
+      unlockSelection();
+      if (!shouldOpenDetails) return;
+
+      event.preventDefault();
+      suppressNextClick = true;
+      setTimeout(() => {
+        clearSelection();
+        openDetail();
+      }, 0);
     });
+
+    button.addEventListener('pointercancel', () => {
+      moved = true;
+      clearHold();
+      unlockSelection();
+    });
+
+    button.addEventListener('pointerleave', event => {
+      if (event.pointerType !== 'mouse') return;
+      moved = true;
+      clearHold();
+      unlockSelection();
+    });
+
     button.addEventListener('contextmenu', event => event.preventDefault());
 
     button.addEventListener('click', event => {
       event.preventDefault();
       event.stopImmediatePropagation();
       clearHold();
-      if (held || moved) return;
+      unlockSelection();
+
+      if (suppressNextClick || held || moved) {
+        suppressNextClick = false;
+        held = false;
+        return;
+      }
       if (button.getAttribute('aria-disabled') === 'true') return;
       openThenConfirm(openDetail);
     });
