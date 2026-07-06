@@ -1,7 +1,7 @@
 (() => {
   'use strict';
 
-  const VERSION = 'nutrition-plain-v1';
+  const VERSION = 'nutrition-plain-v2';
   const store = window.SFStore;
   const life = window.SF_LIFE_QUESTS;
   if (!store || !life) return;
@@ -106,14 +106,8 @@
   };
 
   const WEEK_LABELS = {
-    baseline: 'Start Here',
-    repeat: 'Do It Again',
-    stabilize: 'Make It Easier',
-    review: 'Check What Works',
-    progress: 'Add One Small Step',
-    apply: 'Use It on a Busy Day',
-    independent: 'Choose for Yourself',
-    capstone: 'Keep the Best Parts'
+    baseline: 'Start Here', repeat: 'Do It Again', stabilize: 'Make It Easier', review: 'Check What Works',
+    progress: 'Add One Small Step', apply: 'Use It on a Busy Day', independent: 'Choose for Yourself', capstone: 'Keep the Best Parts'
   };
 
   const CONTEXT = {
@@ -125,16 +119,63 @@
   };
 
   const TIER = {
-    Foundation: 'Keep it small. The low-energy version counts.',
+    Foundation: 'Keep it small. The Low-Energy Version counts.',
     Developing: 'Do the full task and improve one small thing.',
     Established: 'Do the task during a busier or less convenient part of the week.'
   };
+
+  const EXAMPLE_PHRASES = [
+    ['non-alcoholic drink', 'non-alcoholic-drink'],
+    ['prepared foods', 'useful-food'],
+    ['prepared food', 'useful-food'],
+    ['useful foods', 'useful-food'],
+    ['useful food', 'useful-food'],
+    ['meal or snack', 'meal-or-snack'],
+    ['meals or snacks', 'meal-or-snack'],
+    ['filling side', 'filling-side'],
+    ['backup food', 'backup-food'],
+    ['simple option', 'simple-option'],
+    ['vegetables', 'vegetable'],
+    ['vegetable', 'vegetable'],
+    ['proteins', 'protein'],
+    ['protein', 'protein'],
+    ['fruits', 'fruit'],
+    ['fruit', 'fruit']
+  ].sort((left, right) => right[0].length - left[0].length);
 
   let applying = false;
   let scheduled = false;
 
   function clone(value) {
     return JSON.parse(JSON.stringify(value));
+  }
+
+  function hasBoundaries(text, start, length) {
+    const before = start > 0 ? text[start - 1] : '';
+    const after = start + length < text.length ? text[start + length] : '';
+    return !/[A-Za-z0-9]/.test(before) && !/[A-Za-z0-9]/.test(after);
+  }
+
+  function exampleTerms(text) {
+    const source = String(text || '');
+    const lower = source.toLowerCase();
+    const found = [];
+    const occupied = [];
+
+    EXAMPLE_PHRASES.forEach(([phrase, key]) => {
+      let index = lower.indexOf(phrase);
+      while (index !== -1) {
+        const end = index + phrase.length;
+        const overlaps = occupied.some(range => index < range.end && end > range.start);
+        if (!overlaps && hasBoundaries(source, index, phrase.length)) {
+          found.push({ phrase: source.slice(index, end), key, start: index });
+          occupied.push({ start: index, end });
+        }
+        index = lower.indexOf(phrase, index + 1);
+      }
+    });
+
+    return found.sort((left, right) => left.start - right.start).map(({ phrase, key }) => ({ phrase, key }));
   }
 
   function trackId(plan) {
@@ -181,14 +222,17 @@
       ? 'You completed the final task and wrote down what you will keep using.'
       : `You ${track.donePast} and saved one short note.`;
 
-    const items = [
-      [track.actionName, objective],
-      ['Use an easy option', context],
-      ['Set up next time', track.setupPrompt],
-      ['Save one note', track.notePrompt]
-    ];
-
-    return { title, objective, completeWhen: done, items };
+    return {
+      title,
+      objective,
+      completeWhen: done,
+      items: [
+        [track.actionName, objective],
+        ['Use an easy option', context],
+        ['Set up next time', track.setupPrompt],
+        ['Save one note', track.notePrompt]
+      ]
+    };
   }
 
   function plainSession(plan, session, track) {
@@ -200,7 +244,8 @@
       id: previous[index]?.id || `${session.id}-i${index + 1}`,
       name,
       prescription,
-      kind: 'action'
+      kind: 'action',
+      exampleTerms: exampleTerms(prescription)
     }));
     const tier = session.competencyTier || plan?.coaching?.tier || 'Developing';
     const context = plan?.coaching?.context || session.contextLabel || 'Mixed';
@@ -215,33 +260,45 @@
       ...session,
       title: copyForPhase.title,
       questObjective: copyForPhase.objective,
+      questExampleTerms: exampleTerms(copyForPhase.objective),
       phaseObjective: copyForPhase.objective,
       completeWhen: copyForPhase.completeWhen,
       whyItMatters: track.why,
       evidencePrompt: track.notePrompt,
-      challengeLabel: TIER[tier],
-      challengeInstruction: TIER[tier],
+      challengeLabel: TIER[tier] || TIER.Developing,
+      challengeInstruction: TIER[tier] || TIER.Developing,
       contextLabel: context,
       contextPrompt: CONTEXT[context] || CONTEXT.Mixed,
       guidanceInstruction: 'Follow the steps in order. Use foods that fit your needs, budget, and access.',
       minimumLabel: 'Low-Energy Version',
       minimumVersion: track.lowEnergy,
+      minimumExampleTerms: exampleTerms(track.lowEnergy),
       minimumItemIds: items.length ? [items[0].id] : [],
       coachingBase: base,
       coachingContentVersion: session.contentVersion || session.coachingContentVersion,
       plainLanguageVersion: VERSION,
+      exampleMetadataVersion: 1,
       items
     };
+  }
+
+  function sameTerms(left, right) {
+    return JSON.stringify(left || []) === JSON.stringify(right || []);
   }
 
   function sameSession(left, right) {
     if (!left || !right) return false;
     if (left.title !== right.title || left.questObjective !== right.questObjective || left.completeWhen !== right.completeWhen) return false;
     if (left.minimumVersion !== right.minimumVersion || left.challengeInstruction !== right.challengeInstruction) return false;
+    if (!sameTerms(left.questExampleTerms, right.questExampleTerms) || !sameTerms(left.minimumExampleTerms, right.minimumExampleTerms)) return false;
     const leftItems = left.items || [];
     const rightItems = right.items || [];
     if (leftItems.length !== rightItems.length) return false;
-    return leftItems.every((item, index) => item.name === rightItems[index]?.name && item.prescription === rightItems[index]?.prescription);
+    return leftItems.every((item, index) =>
+      item.name === rightItems[index]?.name &&
+      item.prescription === rightItems[index]?.prescription &&
+      sameTerms(item.exampleTerms, rightItems[index]?.exampleTerms)
+    );
   }
 
   function updateTrackLabels() {
@@ -283,6 +340,7 @@
       weekOnePreview: weeks[0]?.sessions || plan.weekOnePreview,
       week1: current.length ? current : (weeks[0]?.sessions || plan.week1),
       plainLanguageVersion: VERSION,
+      exampleMetadataVersion: 1,
       coaching: plan.coaching ? {
         ...plan.coaching,
         evidence: 'what you did, what made it easy or hard, and what you would repeat'
@@ -293,7 +351,7 @@
   function needsPatch(plan) {
     if (!plan || plan.focus !== 'Nutrition') return false;
     const expected = plainPlan(plan);
-    if (plan.plainLanguageVersion !== VERSION) return true;
+    if (plan.plainLanguageVersion !== VERSION || plan.exampleMetadataVersion !== 1) return true;
     if (plan.track?.name !== expected.track?.name || plan.outcome !== expected.outcome) return true;
     const actualSessions = (plan.weeks || []).flatMap(week => week.sessions || []);
     const expectedSessions = (expected.weeks || []).flatMap(week => week.sessions || []);
@@ -324,7 +382,7 @@
   }
 
   updateTrackLabels();
-  window.SF_NUTRITION_PLAIN_LANGUAGE = { version: VERSION, tracks: TRACKS, plainPlan, sync };
+  window.SF_NUTRITION_PLAIN_LANGUAGE = { version: VERSION, tracks: TRACKS, plainPlan, exampleTerms, sync };
   window.addEventListener('sf-state', scheduleSync);
   window.addEventListener('load', scheduleSync);
   scheduleSync();
