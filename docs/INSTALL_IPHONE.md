@@ -1,25 +1,40 @@
-# Install StatForge on iPhone
+# Install Ascendry on iPhone
 
-A Home Screen web app must be opened from an HTTPS website; an unzipped local file cannot register a service worker on iPhone.
+Ascendry must be served over HTTPS for Home Screen installation, offline caching, and service-worker updates. Opening an unzipped local file is not enough on iPhone.
 
-## Free hosting option: GitHub Pages
+## Install a hosted build
 
-1. Create a free GitHub account and a new repository named `statforge`.
-2. Upload the **contents** of this folder to the repository root.
-3. Open repository **Settings → Pages**.
-4. Under **Build and deployment**, choose **Deploy from a branch**, then select `main` and `/ (root)`.
-5. Open the generated `https://YOUR-NAME.github.io/statforge/` address in Safari.
-6. Tap **Share → Add to Home Screen → Add**.
+1. Open the Ascendry HTTPS address in Safari.
+2. Tap **Share**.
+3. Choose **Add to Home Screen**.
+4. Confirm the name **Ascendry** and tap **Add**.
+5. Open Ascendry from the new Home Screen icon once while online so the current offline cache can finish installing.
 
-## Updating from Working Copy
+## Host your own alpha branch with GitHub Pages
 
-1. In Files, replace the old repository contents with the new StatForge folder contents, keeping `index.html` at the repository root.
-2. Open Working Copy, review the changed files, commit them, and push to GitHub.
-3. Wait for GitHub Pages to finish deploying.
-4. Force-close the Home Screen app and reopen it while online. The v1.2 service worker uses a new cache name. If the old version still appears, open the GitHub Pages address once in Safari, refresh it, then reopen the Home Screen icon.
+1. Open the repository's **Settings → Pages** screen.
+2. Choose **Deploy from a branch**.
+3. Select the `alpha` branch and `/ (root)` folder.
+4. Open the generated Pages address in Safari.
+5. Add it to the Home Screen using the steps above.
 
-App updates do not erase workout logs, nutrition data, character progress, or drafts because those remain in browser storage on the same site. Clearing Safari website data can erase them, so export a save before major updates.
+Use `alpha`, not `main`, for current development builds.
 
-## Moving progress between devices
+## After an update
 
-On the old device, open **Settings → Export Save**. Move the JSON file to the new device, then use **Import Save**. Photos and the character portrait deliberately remain only on the original device.
+1. Open the hosted address in Safari while online.
+2. Refresh once.
+3. Close and reopen the Home Screen app.
+
+Ascendry versions its service-worker cache. A successful update replaces the older Ascendry cache without deleting the local save.
+
+When a build still appears stale, export the save first, then remove the Home Screen icon and clear only that site's Safari website data before reinstalling. Clearing site data removes local progress.
+
+## Move progress to another device or host
+
+1. On the old installation, open **Settings → Export Save**.
+2. Transfer the JSON file to the new device.
+3. Install/open Ascendry on the new host.
+4. Use **Settings → Import Save**.
+
+Browser storage is tied to the exact site origin, so moving from one host to another requires an export/import even on the same phone.
