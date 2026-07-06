@@ -1,53 +1,60 @@
-# StatForge
+# Ascendry
 
 **Forge Your Character in Real Life.**
 
-StatForge is a local-first, mobile-first progressive web app combining:
+Ascendry is a mobile-first, local-first life-progression RPG. Real-life Primary Quests grow a five-stat Real-Life Avatar and a fantasy character used in a lightweight adventure and combat layer.
 
-- a choice of three-session home or gym fitness baselines;
-- adaptive Monday–Friday planned workouts;
-- set-by-set logging, rest timers, vibration alerts, and Wake Lock support;
-- meal-by-meal nutrition logging, saved meals, barcode scanning, and seven-day baseline suggestions;
-- daily weight trends, biweekly waist measurements, CPAP and lifestyle tracking;
-- objective XP, official 5.5e level thresholds, character creation, and real-life affinity tracks;
-- a fixed, fully playable solo encounter ladder using free SRD monsters;
-- named real-life milestone rewards with spending caps;
-- local-only portraits, proof photos, and progress photos;
-- JSON backup/import and private rules-content import;
-- local draft autosave that restores unfinished form inputs.
+The project began under the name **StatForge**. Some internal identifiers—most importantly the `statforge_state_v2` local-storage key—keep the original name so existing saves remain compatible.
 
-## Start
+## Current alpha
 
-Opening `index.html` directly works for most core features on desktop. For installation, offline caching, camera access, Wake Lock, and iPhone Home Screen mode, serve the folder over HTTPS. See `docs/INSTALL_IPHONE.md`.
+- Version: **0.9.6**
+- Development branch: **`alpha`**
+- Static vanilla HTML, CSS, and JavaScript
+- No backend or account required
+- Save data remains in the current browser through `localStorage`
+- Installable portrait-first PWA with offline asset caching
 
-## Privacy
+Implemented product areas include:
 
-All progress is stored in the browser on the current device. No cloud sync is included. Photos are stored locally in IndexedDB and are intentionally excluded from save exports.
+- onboarding and immediate character creation;
+- eight Primary Quest categories with eight-week plans;
+- Foundation, Developing, and Established challenge tiers;
+- Low-Energy completion with same-day Full completion upgrades;
+- Week 4 plan review and adjustment;
+- plain-language quest instructions;
+- structured Nutrition example metadata with accessible example dialogs;
+- five-stat character growth and a lightweight RPG/combat layer;
+- JSON save export and import.
 
-## Safety
+Side Quests, long-term XP rebalancing, exact-day scheduling, and public-alpha hardening remain planned work.
 
-StatForge is not medical care. Stop exercise for sharp or unusual pain, chest discomfort, faintness, or other concerning symptoms, and follow your clinician’s instructions.
+## Run locally
 
+Serve the repository root through HTTP rather than opening `index.html` directly when testing the service worker or installed-PWA behavior.
 
-## v1.1 simulation safeguards
+```bash
+python -m http.server 8080
+```
 
-- Planned workout XP is capped at 50 per rewarded session and one rewarded run per plan/date.
-- Meal logging XP is capped at 6 per day.
-- Lifestyle XP is capped at 30 per day, with per-activity diminishing returns.
-- CPAP can award XP only once per night; correcting an entry only awards the positive difference.
-- Nutrition targets require seven days explicitly marked fully logged. Partial days are excluded.
-- Weight-driven calorie changes require fourteen distinct morning weights and occur in 100-kcal steps no more than every 14 days.
-- The planned week contains 50 work sets, with three primary strength days, one assessment-conditioning day, and one recovery-conditioning day.
-- Encounter recommendations were recalibrated from Monte Carlo solo simulations. Higher tiers use a clearly labeled Solo Trial Ward while retaining displayed SRD monster AC and HP.
+Then open `http://localhost:8080/`.
 
-## v1.2 additions
+## Checks
 
-- Choose a Home Prologue or Gym Prologue before beginning the baseline.
-- The Home Prologue requires only floor space, a wall, a sturdy chair, and a timer.
-- Completing the Home Prologue unlocks character creation; the 2K row becomes an optional later calibration.
-- Form entries autosave locally while being typed and restore when reopened. The actual log is created only after the user taps the final save/submit button.
-- Existing v1.1 data remains compatible.
+Ascendry uses Node's built-in test runner and has no runtime package dependencies.
 
-## v1.2.2 Prologue route fix
+```bash
+npm run check
+```
 
-If an unfinished Prologue session carried over from an earlier version, open **Workout** and tap **Choose Home or Gym Prologue**. A duplicate recovery control is also available under **Settings → Prologue**. This clears only the unfinished active session and reveals the Home/Gym route selector.
+The check command runs JavaScript syntax checks, quest/state tests, and service-worker asset validation.
+
+## Save compatibility
+
+Do not rename the local-storage key or remove saved fields without a schema migration. Schema 7 formally includes coaching calibration, track selections, archived questlines, avoided exercise IDs, and queued quest preferences.
+
+Export a save before clearing browser website data or moving to a different host, because browser storage is scoped to the site origin.
+
+## Privacy and scope
+
+Ascendry currently sends no progress data to a server. Mental-wellness and nutrition quests are general self-management tools, not medical diagnosis, emergency support, or individualized treatment.
