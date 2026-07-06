@@ -1,0 +1,15 @@
+{
+  "name": "ascendry-alpha",
+  "version": "0.9.6",
+  "private": true,
+  "description": "Local-first life progression RPG alpha",
+  "scripts": {
+    "test": "node --test",
+    "check:syntax": "node scripts/check-js.js",
+    "check:assets": "node scripts/check-sw-assets.js",
+    "check": "npm run check:syntax && npm test && npm run check:assets"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
