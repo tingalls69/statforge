@@ -40,6 +40,33 @@ test('clarity patch is idempotent', () => {
   assert.equal(syncCalls, 0);
 });
 
+test('clarity copy is applied synchronously before the app first renders', () => {
+  const grounding = {
+    easier: 'Old copy',
+    setup: 'Old copy',
+    note: 'Old copy'
+  };
+  let syncCalls = 0;
+  const documentRef = {
+    readyState: 'loading',
+    body: null,
+    addEventListener() {},
+    querySelectorAll() { return []; }
+  };
+  const windowRef = {
+    document: documentRef,
+    SF_PRIMARY_PLAIN_LANGUAGE: {
+      tracks: { 'Mental Wellness': { grounding } },
+      sync() { syncCalls += 1; }
+    },
+    addEventListener() {}
+  };
+
+  clarity.start(windowRef);
+  assert.equal(syncCalls, 1);
+  assert.equal(grounding.setup, clarity.trackPatches['Mental Wellness'].grounding.setup);
+});
+
 test('generic task labels are easier to understand', () => {
   assert.equal(clarity.simplifyTaskLabel('Set up next time'), 'Make next time easier');
   assert.equal(clarity.simplifyTaskLabel('Save one short note'), 'Write down what happened');
