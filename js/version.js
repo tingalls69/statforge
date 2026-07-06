@@ -1,1 +1,1 @@
-self.SF_VERSION = "0.8.1";
+self.SF_VERSION = "0.8.2";
