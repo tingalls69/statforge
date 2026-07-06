@@ -1,8 +1,10 @@
 window.SFStore = (() => {
   'use strict';
 
+  // The key intentionally keeps the original project name so existing local
+  // saves continue to load after the Ascendry rename.
   const KEY = 'statforge_state_v2';
-  const SCHEMA_VERSION = 6;
+  const SCHEMA_VERSION = 7;
   const STAT_KEYS = ['strength', 'vitality', 'discipline', 'focus', 'insight'];
   const OBSOLETE_ROOT_KEYS = [
     'gold', 'tracks', 'baseline', 'workouts', 'logs', 'nutrition', 'encounters',
@@ -13,6 +15,15 @@ window.SFStore = (() => {
   const defaultRlaStats = () => Object.fromEntries(
     STAT_KEYS.map(key => [key, { score: 5, growth: 0, source: 'default' }])
   );
+
+  const defaultCoachingProfile = () => ({
+    recentFrequency: 'None',
+    confidence: 5,
+    selfRating: 2,
+    meaningfulWin: '',
+    lifeRhythm: 'Variable',
+    contexts: {}
+  });
 
   const defaultState = () => ({
     version: SCHEMA_VERSION,
@@ -33,6 +44,8 @@ window.SFStore = (() => {
       assessmentAnswers: {},
       uncertainAnswers: 0,
       statsAdjusted: false,
+      coachingProfile: defaultCoachingProfile(),
+      lifeTrackSelections: {},
       characterDraft: {
         name: '',
         pronouns: 'They/Them',
@@ -64,6 +77,7 @@ window.SFStore = (() => {
         mainGoal: 'Build general strength',
         preferences: 'No preference',
         avoidedExercises: '',
+        avoidedExerciseIds: [],
         calibration: 'Movement-by-movement calibration'
       },
       selectedClass: 'Fighter',
@@ -72,6 +86,7 @@ window.SFStore = (() => {
     },
     rlaStats: defaultRlaStats(),
     primaryQuestline: null,
+    questlineArchive: [],
     questHistory: [],
     activeQuest: null,
     notificationState: {
@@ -84,11 +99,12 @@ window.SFStore = (() => {
     level: 1,
     character: null,
     settings: {
-      accent: '#25d9c7',
+      accent: '#4f7a5b',
       vibration: true,
       keepAwake: true,
       units: 'imperial',
-      theme: 'dark'
+      theme: 'dark',
+      pendingQuestPreferences: null
     }
   });
 
@@ -105,6 +121,38 @@ window.SFStore = (() => {
     return output;
   }
 
+  function clone(value) {
+    return value == null ? value : JSON.parse(JSON.stringify(value));
+  }
+
+  function migrateToSchema7(saved) {
+    if (!saved || typeof saved !== 'object') return saved;
+    const migrated = clone(saved);
+    const priorVersion = Number(migrated.version || 0);
+
+    if (priorVersion < 7) {
+      migrated.onboarding ||= {};
+      migrated.onboarding.coachingProfile = {
+        ...defaultCoachingProfile(),
+        ...(migrated.onboarding.coachingProfile || {}),
+        contexts: { ...(migrated.onboarding.coachingProfile?.contexts || {}) }
+      };
+      migrated.onboarding.lifeTrackSelections = { ...(migrated.onboarding.lifeTrackSelections || {}) };
+      migrated.onboarding.questlineSetup ||= {};
+      migrated.onboarding.questlineSetup.avoidedExerciseIds = Array.isArray(migrated.onboarding.questlineSetup.avoidedExerciseIds)
+        ? migrated.onboarding.questlineSetup.avoidedExerciseIds
+        : [];
+      migrated.questlineArchive = Array.isArray(migrated.questlineArchive) ? migrated.questlineArchive : [];
+      migrated.settings ||= {};
+      if (!Object.prototype.hasOwnProperty.call(migrated.settings, 'pendingQuestPreferences')) {
+        migrated.settings.pendingQuestPreferences = null;
+      }
+    }
+
+    migrated.version = SCHEMA_VERSION;
+    return migrated;
+  }
+
   function cleanVisual(visual) {
     if (!visual || typeof visual !== 'object') return visual;
     delete visual.figure;
@@ -112,8 +160,26 @@ window.SFStore = (() => {
     return visual;
   }
 
+  function normalizeCoaching(onboarding) {
+    onboarding.coachingProfile = {
+      ...defaultCoachingProfile(),
+      ...(onboarding.coachingProfile || {}),
+      contexts: { ...(onboarding.coachingProfile?.contexts || {}) }
+    };
+    onboarding.coachingProfile.confidence = Math.max(0, Math.min(10, Number(onboarding.coachingProfile.confidence) || 0));
+    onboarding.coachingProfile.selfRating = Math.max(1, Math.min(5, Number(onboarding.coachingProfile.selfRating) || 1));
+    onboarding.coachingProfile.meaningfulWin = String(onboarding.coachingProfile.meaningfulWin || '');
+    onboarding.lifeTrackSelections = onboarding.lifeTrackSelections && typeof onboarding.lifeTrackSelections === 'object'
+      ? { ...onboarding.lifeTrackSelections }
+      : {};
+    onboarding.questlineSetup.avoidedExerciseIds = Array.isArray(onboarding.questlineSetup.avoidedExerciseIds)
+      ? [...new Set(onboarding.questlineSetup.avoidedExerciseIds.map(String))]
+      : [];
+  }
+
   function mergeDefaults(saved) {
-    const merged = saved ? deepMerge(defaultState(), saved) : defaultState();
+    const migrated = migrateToSchema7(saved);
+    const merged = migrated ? deepMerge(defaultState(), migrated) : defaultState();
     OBSOLETE_ROOT_KEYS.forEach(key => delete merged[key]);
     merged.version = SCHEMA_VERSION;
     merged.profile = {
@@ -121,25 +187,42 @@ window.SFStore = (() => {
       baselineComplete: Boolean(merged.profile?.baselineComplete),
       programStartDate: merged.profile?.programStartDate || null
     };
+    merged.onboarding ||= defaultState().onboarding;
+    merged.onboarding.questlineSetup ||= defaultState().onboarding.questlineSetup;
+    normalizeCoaching(merged.onboarding);
     cleanVisual(merged.onboarding?.characterDraft);
     cleanVisual(merged.character?.visual);
 
+    merged.rlaStats ||= defaultRlaStats();
     STAT_KEYS.forEach(key => {
       const current = merged.rlaStats[key];
       if (typeof current === 'number') {
         merged.rlaStats[key] = { score: current, growth: 0, source: 'migrated' };
+      }
+      if (!merged.rlaStats[key] || typeof merged.rlaStats[key] !== 'object') {
+        merged.rlaStats[key] = { score: 5, growth: 0, source: 'default' };
       }
       merged.rlaStats[key].score = Math.max(3, Math.min(10, Number(merged.rlaStats[key].score) || 5));
       merged.rlaStats[key].growth = Math.max(0, Number(merged.rlaStats[key].growth) || 0);
     });
 
     merged.questHistory = Array.isArray(merged.questHistory) ? merged.questHistory : [];
+    merged.questlineArchive = Array.isArray(merged.questlineArchive) ? merged.questlineArchive : [];
+    merged.settings ||= defaultState().settings;
+    merged.settings.pendingQuestPreferences = merged.settings.pendingQuestPreferences && typeof merged.settings.pendingQuestPreferences === 'object'
+      ? merged.settings.pendingQuestPreferences
+      : null;
     return merged;
   }
 
   function load() {
     try {
-      state = mergeDefaults(JSON.parse(localStorage.getItem(KEY)));
+      const raw = localStorage.getItem(KEY);
+      const parsed = raw ? JSON.parse(raw) : null;
+      state = mergeDefaults(parsed);
+      if (parsed && Number(parsed.version || 0) !== SCHEMA_VERSION) {
+        localStorage.setItem(KEY, JSON.stringify(state));
+      }
     } catch (error) {
       console.warn('Save load failed; using defaults.', error);
       state = defaultState();
@@ -164,7 +247,7 @@ window.SFStore = (() => {
 
   function update(fn) {
     const next = fn(state || load()) || state;
-    state = next;
+    state = mergeDefaults(next);
     save();
     return state;
   }
@@ -242,6 +325,9 @@ window.SFStore = (() => {
     exportSave,
     importSave,
     defaultState,
-    STAT_KEYS
+    mergeDefaults,
+    migrateToSchema7,
+    STAT_KEYS,
+    SCHEMA_VERSION
   };
 })();
