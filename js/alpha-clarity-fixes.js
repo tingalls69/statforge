@@ -81,6 +81,9 @@
       else Promise.resolve().then(run);
     }
 
+    // The copy model must be patched synchronously because alpha.js renders in the next script tag.
+    run();
+
     if (documentRef.readyState === 'loading') documentRef.addEventListener('DOMContentLoaded', schedule, { once: true });
     else schedule();
 
