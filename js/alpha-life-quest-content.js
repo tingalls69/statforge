@@ -285,7 +285,9 @@
 
     document.querySelectorAll('.minimum-panel').forEach(panel => {
       const summary = panel.querySelector('summary');
-      if (summary) summary.textContent = 'Low-Energy Version';
+      if (summary && summary.textContent.trim() !== 'Low-Energy Version') {
+        summary.textContent = 'Low-Energy Version';
+      }
       const body = panel.querySelector('.minimum-body');
       const button = body?.querySelector('#complete-minimum');
       if (!body || !button || body.dataset.concreteMinimum === 'true') return;
