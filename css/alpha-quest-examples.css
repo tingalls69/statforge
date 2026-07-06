@@ -1,3 +1,42 @@
+.quest-item-shell {
+  display: grid;
+  gap: 0;
+}
+
+.quest-item-shell > .quest-item {
+  margin: 0;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.quest-item-shell > .quest-example-links {
+  margin: 0;
+  padding: 8px 12px 10px 45px;
+  border: 1px solid var(--fantasy-line, var(--line));
+  border-top: 0;
+  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  background: color-mix(in srgb, var(--panel, #111c28) 88%, #000);
+}
+
+.quest-example-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 5px 9px;
+  margin-top: 7px;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.35;
+}
+
+.quest-example-links-label {
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+
 .quest-example-term,
 .quest-example-fallback {
   display: inline;
@@ -30,9 +69,7 @@
 }
 
 .quest-example-fallback {
-  margin-left: 3px;
   white-space: nowrap;
-  font-size: .92em;
 }
 
 .quest-example-hint {
