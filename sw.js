@@ -1,7 +1,7 @@
-// Ascendry alpha cache manifest — quest foundation 0.9.6
+// Ascendry alpha cache manifest — clarity and mobile UI fixes 0.9.7
 importScripts('./js/version.js');
 
-const VERSION = '0.9.6';
+const VERSION = '0.9.7';
 const CACHE = `ascendry-alpha-v${VERSION}`;
 const v = `?v=${encodeURIComponent(VERSION)}`;
 const ASSETS = [
@@ -16,6 +16,7 @@ const ASSETS = [
   `./css/alpha-public-polish.css${v}`,
   `./css/alpha-coaching.css${v}`,
   `./css/alpha-quest-examples.css${v}`,
+  `./css/alpha-clarity-fixes.css${v}`,
   `./css/alpha-quest-compact.css${v}`,
   `./css/alpha-workout.css${v}`,
   `./css/alpha-workout-fantasy.css${v}`,
@@ -36,6 +37,7 @@ const ASSETS = [
   `./js/alpha-coaching-stability.js${v}`,
   `./js/alpha-nutrition-plain-language.js${v}`,
   `./js/alpha-primary-plain-language.js${v}`,
+  `./js/alpha-clarity-fixes.js${v}`,
   `./js/alpha.js${v}`,
   `./js/alpha-coaching-ui.js${v}`,
   `./js/alpha-quest-examples.js${v}`,
